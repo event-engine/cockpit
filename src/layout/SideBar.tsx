@@ -1,6 +1,7 @@
 import {Drawer, makeStyles, useMediaQuery} from "@material-ui/core";
-import React, {useState} from "react";
+import React from "react";
 import theme from "../material-ui/theme";
+import SideBarContent from "./SideBarContent";
 
 const useStyles = makeStyles(theme => ({
     drawer: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: 'white',
         display: 'flex',
         flexDirection: 'column',
-        height: '100%',
+        height: 'calc(100% - 32px)',
         padding: theme.spacing(2)
     },
     divider: {
@@ -30,7 +31,7 @@ interface SideBarProps {
     onClose: () => void;
 }
 
-const Sidebar = (props: SideBarProps) => {
+const SideBar = (props: SideBarProps) => {
 
     const classes = useStyles();
 
@@ -40,18 +41,17 @@ const Sidebar = (props: SideBarProps) => {
 
     return (
         <Drawer
-            open={props.open}
+            open={props.open || sideBarPersistent}
             onClose={props.onClose}
-            style={{ width: '250px' }}
             classes={{ paper: classes.drawer }}
             variant={sideBarPersistent ? 'persistent' : 'temporary'}
             children={(
                 <div className={classes.root}>
-                    ...
+                    <SideBarContent />
                 </div>
             )}
         />
     );
 };
 
-export default Sidebar;
+export default SideBar;

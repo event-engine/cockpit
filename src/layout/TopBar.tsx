@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppBar, Toolbar as MuiToolbar, IconButton, Hidden, makeStyles} from '@material-ui/core';
+import {AppBar, Toolbar as MuiToolbar, IconButton, Hidden, makeStyles, Typography} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles(theme => ({
@@ -13,6 +13,9 @@ const useStyles = makeStyles(theme => ({
     },
     flexGrow: {
         flexGrow: 1
+    },
+    headerText: {
+        color: theme.palette.primary.main
     }
 }));
 
@@ -26,7 +29,7 @@ const TopBar = (props: TopBarProps) => {
     return (
         <AppBar position={'fixed'} color={'default'} className={classes.root}>
             <MuiToolbar>
-                <img src={undefined} />
+                <Typography variant={'h1'} className={classes.headerText}>Event Engine UI</Typography>
                 <div className={classes.flexGrow} />
                 <Hidden lgUp>
                     <IconButton onClick={props.onOpenSideBar} className={classes.icon}>
