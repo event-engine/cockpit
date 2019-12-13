@@ -1,0 +1,6 @@
+FROM alpine:3.10
+
+RUN apk add --update nodejs nodejs-npm
+RUN npm install -g yarn
+
+WORKDIR /app

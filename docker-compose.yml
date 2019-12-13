@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  yarn:
+    build:
+      context: ./env/docker/yarn
+      dockerfile: yarn
+    command: "/bin/true"
+    volumes:
+    - .:/app
+
+  event-engine-ui:
+    build:
+      context: .
+      dockerfile: env/docker/nginx/event-engine-ui
