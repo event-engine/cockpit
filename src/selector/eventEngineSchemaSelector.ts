@@ -3,9 +3,9 @@ import {ReduxState} from "../reducer";
 
 const stateKey = 'eventEngineSchema';
 
-export const rawSchemaSelector = (state: ReduxState) => state[stateKey].rawSchema;
-
 export const normalizeAggregateType = (aggregateType: string) => aggregateType.toLowerCase();
+
+export const rawSchemaSelector = (state: ReduxState) => state[stateKey].rawSchema;
 
 export const makeAggregateTypeListSelector = () => {
     return createSelector([rawSchemaSelector], (rawSchema) => {
@@ -22,5 +22,18 @@ export const makeAggregateEventsSelector = (aggregateType: string) => {
         return rawSchema.aggregates.find(
             aggregate => normalizeAggregateType(aggregate.aggregateType) === normalizeAggregateType(aggregateType)
         )!['events'];
+    });
+};
+
+export const makeAggregateCreationCommandsSelector = (aggregateType: string) => {
+    return createSelector([rawSchemaSelector], (rawSchema) => {
+        if (!rawSchema) {
+            return null;
+        }
+
+        return rawSchema.aggregates.find(
+            aggregate => normalizeAggregateType(aggregate.aggregateType) === normalizeAggregateType(aggregateType)
+        )!['commands']
+            .filter(command => command.createAggregate);
     });
 };
