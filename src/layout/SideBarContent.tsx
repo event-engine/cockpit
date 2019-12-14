@@ -1,7 +1,7 @@
 import {List, ListItem, Button, Collapse, makeStyles} from "@material-ui/core";
 import React, {useState} from "react";
 import {useSelector} from "react-redux";
-import {makeAggregateTypeListSelector} from "../selector/eventEngineSchemaSelector";
+import {makeAggregateTypeListSelector, normalizeAggregateType} from "../selector/eventEngineSchemaSelector";
 import {NavLink} from 'react-router-dom';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import MemoryIcon from '@material-ui/icons/Memory';
@@ -96,7 +96,7 @@ const SideBarContent = (props: DashboardSideBarProps) => {
                                             activeClassName={classes.active}
                                             className={classes.button}
                                             component={NavLink}
-                                            to={makeAggregateUrl(type.toLowerCase())}
+                                            to={makeAggregateUrl(normalizeAggregateType(type))}
                                         >
                                             {type}
                                         </Button>
