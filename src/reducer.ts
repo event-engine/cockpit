@@ -4,15 +4,23 @@ import {
     initialState as eventEngineSchemaInitialState,
     EventEngineSchemaState
 } from './reducer/eventEngineSchemaReducer';
+import {
+    reducer as aggregateDataReducer,
+    initialState as aggregateDataInitialState,
+    AggregateDataState
+} from "./reducer/aggregateDataReducer";
 
 export interface ReduxState {
-    eventEngineSchema: EventEngineSchemaState
+    eventEngineSchema: EventEngineSchemaState,
+    aggregateData: AggregateDataState
 }
 
 export const initialState = {
-    eventEngineSchema: eventEngineSchemaInitialState
+    eventEngineSchema: eventEngineSchemaInitialState,
+    aggregateData: aggregateDataInitialState
 };
 
 export const reducer = combineReducers({
-    eventEngineSchema: eventEngineSchemaReducer
+    eventEngineSchema: eventEngineSchemaReducer,
+    aggregateData: aggregateDataReducer
 });

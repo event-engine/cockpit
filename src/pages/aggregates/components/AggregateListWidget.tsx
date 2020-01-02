@@ -1,8 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Card, CardHeader, CardContent, Divider, Button } from '@material-ui/core';
-import {useSelector} from "react-redux";
-import {makeAggregateCreationCommandsSelector} from "../../../selector/eventEngineSchemaSelector";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    makeAggregateCreationCommandsSelector,
+    makeAggregateIdentifierSelector, makeRawAggregateTypeSelector
+} from "../../../selector/eventEngineSchemaSelector";
 import AddIcon from '@material-ui/icons/Add';
+import {loadAggregatesForType} from "../../../api";
+import {updateAggregateList} from "../../../reducer/aggregateDataReducer";
+import {makeAggregateListSelector} from "../../../selector/aggregateDataSelector";
+import AggregateExpansionPanel from "./AggregateExpansionPanel";
 
 interface AggregateListProps {
     aggregateType: string;
@@ -11,21 +18,39 @@ interface AggregateListProps {
 const AggregateListWidget = (props: AggregateListProps) => {
 
     const commands = useSelector(makeAggregateCreationCommandsSelector(props.aggregateType));
+    const aggregateList = useSelector(makeAggregateListSelector(props.aggregateType));
+    const aggregateIdentifier = useSelector(makeAggregateIdentifierSelector(props.aggregateType));
+    const rawAggregateType = useSelector(makeRawAggregateTypeSelector(props.aggregateType));
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!rawAggregateType) {
+            return;
+        }
+
+        loadAggregatesForType(rawAggregateType).then(aggregateList => {
+            dispatch(updateAggregateList({ aggregateType: props.aggregateType, aggregateList }));
+        });
+    }, [props.aggregateType, rawAggregateType]);
 
     return (
         <Card>
             <CardHeader title={'Aggregates'} />
             <Divider />
             <CardContent>
-                {commands && commands.length > 0 && (
+                {aggregateList && aggregateIdentifier && aggregateList.map((aggregate: any) => (
+                    <AggregateExpansionPanel aggregate={aggregate} aggregateIdentifier={aggregateIdentifier} />
+                ))}
+
+                {commands && commands.length > 0 && commands.map(command => (
                     <Button
                         variant={'contained'}
                         color={'primary'}
                         startIcon={<AddIcon />}
-                        children={commands[0].commandName}
-                        style={{ textTransform: 'none' }}
+                        children={command.commandName}
+                        style={{ textTransform: 'none', margin: '5px' }}
                     />
-                )}
+                ))}
             </CardContent>
         </Card>
     );

@@ -20,3 +20,11 @@ export const getEventEngineSchema = async (): Promise<EventEngineSchema> => {
     const response: AxiosResponse = await sendApiRequest({ url: process.env.REACT_APP_EE_SCHEMA_URL });
     return response.data as EventEngineSchema;
 };
+
+export const loadAggregatesForType = async (rawAggregateType: string): Promise<any[]> => {
+    const response: AxiosResponse = await sendApiRequest({
+        url: process.env.REACT_APP_EE_SCHEMA_URL + '/load-aggregates?aggregateType=' + rawAggregateType
+    });
+
+    return response.data as any[];
+};

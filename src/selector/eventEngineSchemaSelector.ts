@@ -37,3 +37,27 @@ export const makeAggregateCreationCommandsSelector = (aggregateType: string) => 
             .filter(command => command.createAggregate);
     });
 };
+
+export const makeAggregateIdentifierSelector = (aggregateType: string) => {
+    return createSelector([rawSchemaSelector], (rawSchema) => {
+        if (!rawSchema) {
+            return null;
+        }
+
+        return rawSchema.aggregates.find(
+            aggregate => normalizeAggregateType(aggregate.aggregateType) === normalizeAggregateType(aggregateType)
+        )!['aggregateIdentifier'];
+    });
+};
+
+export const makeRawAggregateTypeSelector = (aggregateType: string) => {
+    return createSelector([rawSchemaSelector], (rawSchema) => {
+        if (!rawSchema) {
+            return null;
+        }
+
+        return rawSchema.aggregates.find(
+            aggregate => normalizeAggregateType(aggregate.aggregateType) === normalizeAggregateType(aggregateType)
+        )!['aggregateType'];
+    });
+};
