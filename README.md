@@ -1,6 +1,6 @@
 # event-engine-ui
 
-[![Actions Status](https://github.com/martin-schilling/event-engine-ui/workflows/Coding%Style/badge.svg)](https://github.com/martin-schilling/event-engine-ui/actions)
+[![Actions Status](https://github.com/martin-schilling/event-engine-ui/workflows/Coding%20Style/badge.svg)](https://github.com/martin-schilling/event-engine-ui/actions)
 
 ## Installation
 ```
