@@ -1,15 +1,18 @@
-import React, {useEffect} from 'react';
-import { Card, CardHeader, CardContent, Divider, Button } from '@material-ui/core';
+import React, {useEffect, useState} from 'react';
+import {Card, CardHeader, CardContent, Divider, Button, Dialog, DialogTitle, DialogActions, DialogContent} from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import {
     makeAggregateCreationCommandsSelector,
     makeAggregateIdentifierSelector, makeRawAggregateTypeSelector,
 } from '../../../selector/eventEngineSchemaSelector';
 import AddIcon from '@material-ui/icons/Add';
+import SendIcon from '@material-ui/icons/Send';
 import {loadAggregatesForType} from '../../../api';
 import {updateAggregateList} from '../../../reducer/aggregateDataReducer';
 import {makeAggregateListSelector} from '../../../selector/aggregateDataSelector';
 import AggregateExpansionPanel from './AggregateExpansionPanel';
+import {Command} from '../../../api/types';
+import CommandForm from '../../common/components/CommandForm';
 
 interface AggregateListProps {
     aggregateType: string;
@@ -22,6 +25,8 @@ const AggregateListWidget = (props: AggregateListProps) => {
     const aggregateIdentifier = useSelector(makeAggregateIdentifierSelector(props.aggregateType));
     const rawAggregateType = useSelector(makeRawAggregateTypeSelector(props.aggregateType));
     const dispatch = useDispatch();
+    const [commandDialogOpen, setCommandDialogOpen] = useState<boolean>(false);
+    const [commandDialogCommand, setCommandDialogCommand] = useState<Command|null>(null);
 
     useEffect(() => {
         if (!rawAggregateType) {
@@ -32,6 +37,11 @@ const AggregateListWidget = (props: AggregateListProps) => {
             dispatch(updateAggregateList({ aggregateType: props.aggregateType, aggregateList: newAggregateList }));
         });
     }, [props.aggregateType, rawAggregateType]);
+
+    const openDialogForCommand = (command: Command) => {
+        setCommandDialogCommand(command);
+        setCommandDialogOpen(true);
+    };
 
     return (
         <Card>
@@ -50,8 +60,29 @@ const AggregateListWidget = (props: AggregateListProps) => {
                         startIcon={<AddIcon />}
                         children={command.commandName}
                         style={{ textTransform: 'none', margin: '5px' }}
+                        onClick={() => openDialogForCommand(command)}
                     />
                 ))}
+
+                {commandDialogCommand !== null && (
+                    <Dialog open={commandDialogOpen} onClose={() => setCommandDialogOpen(false)} fullWidth={true}>
+                        <DialogTitle>{commandDialogCommand.commandName}</DialogTitle>
+                        <Divider />
+                        <DialogContent>
+                            <CommandForm command={commandDialogCommand} />
+                        </DialogContent>
+                        <Divider />
+                        <DialogActions>
+                            <Button
+                                variant={'contained'}
+                                color={'primary'}
+                                startIcon={<SendIcon />}
+                                children={'Execute ' + commandDialogCommand.commandName}
+                                style={{ textTransform: 'none', margin: '5px' }}
+                            />
+                        </DialogActions>
+                    </Dialog>
+                )}
             </CardContent>
         </Card>
     );
