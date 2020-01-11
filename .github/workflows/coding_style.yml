@@ -1,0 +1,21 @@
+on:
+  - pull_request
+  - push
+
+name: "Coding Style"
+
+jobs:
+  static-code-analysis:
+    name: "Static Code Analysis"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@master
+
+      - name: "Install dependencies"
+        run: docker-compose run --rm yarn yarn install
+
+      - name: "Run tslint"
+        run: docker-compose run --rm yarn yarn lint
