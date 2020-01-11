@@ -1,7 +1,7 @@
-import {ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary} from "@material-ui/core";
-import React from "react";
-import {Event} from "../../../api/types";
-import JsonTree from "./JsonTree";
+import {ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary} from '@material-ui/core';
+import React from 'react';
+import {Event} from '../../../api/types';
+import JsonTree from './JsonTree';
 
 interface AggregateEventExpansionPanelProps {
     event: Event;

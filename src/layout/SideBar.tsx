@@ -1,29 +1,29 @@
-import {Drawer, makeStyles, useMediaQuery} from "@material-ui/core";
-import React from "react";
-import theme from "../material-ui/theme";
-import SideBarContent from "./SideBarContent";
+import {Drawer, makeStyles, useMediaQuery} from '@material-ui/core';
+import React from 'react';
+import theme from '../material-ui/theme';
+import SideBarContent from './SideBarContent';
 
 const useStyles = makeStyles(theme => ({
     drawer: {
         width: 300,
         [theme.breakpoints.up('lg')]: {
             marginTop: 64,
-            height: 'calc(100% - 64px)'
-        }
+            height: 'calc(100% - 64px)',
+        },
     },
     root: {
         backgroundColor: 'white',
         display: 'flex',
         flexDirection: 'column',
         height: 'calc(100% - 32px)',
-        padding: theme.spacing(2)
+        padding: theme.spacing(2),
     },
     divider: {
-        margin: theme.spacing(2, 0)
+        margin: theme.spacing(2, 0),
     },
     nav: {
-        marginBottom: theme.spacing(2)
-    }
+        marginBottom: theme.spacing(2),
+    },
 }));
 
 interface SideBarProps {
@@ -36,7 +36,7 @@ const SideBar = (props: SideBarProps) => {
     const classes = useStyles();
 
     const sideBarPersistent = useMediaQuery(theme.breakpoints.up('lg'), {
-        defaultMatches: true
+        defaultMatches: true,
     });
 
     return (

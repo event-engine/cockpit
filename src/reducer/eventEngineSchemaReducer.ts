@@ -1,5 +1,5 @@
 import {createAction, handleActions} from 'redux-actions';
-import {EventEngineSchema} from "../api/types";
+import {EventEngineSchema} from '../api/types';
 
 export const updateRawSchema = createAction('UPDATE_RAW_SCHEMA');
 
@@ -8,7 +8,7 @@ export interface EventEngineSchemaState {
 }
 
 export const initialState = {
-    rawSchema: null
+    rawSchema: null,
 };
 
 export const reducer = handleActions<EventEngineSchemaState, any>(
@@ -20,9 +20,9 @@ export const reducer = handleActions<EventEngineSchemaState, any>(
 
             return {
                 ...state,
-                rawSchema: action.payload.rawSchema
+                rawSchema: action.payload.rawSchema,
             };
-        }
+        },
     },
-    initialState
+    initialState,
 );

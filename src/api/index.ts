@@ -1,12 +1,12 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
-import {EventEngineSchema} from "./types";
+import {EventEngineSchema} from './types';
 
 const configuredAxios = axios.create({
-    method: 'post'
+    method: 'post',
 });
 
 export const sendApiRequest = async (
-    config: AxiosRequestConfig
+    config: AxiosRequestConfig,
 ) => {
     try {
         return await configuredAxios(config);
@@ -23,7 +23,7 @@ export const getEventEngineSchema = async (): Promise<EventEngineSchema> => {
 
 export const loadAggregatesForType = async (rawAggregateType: string): Promise<any[]> => {
     const response: AxiosResponse = await sendApiRequest({
-        url: process.env.REACT_APP_EE_SCHEMA_URL + '/load-aggregates?aggregateType=' + rawAggregateType
+        url: process.env.REACT_APP_EE_SCHEMA_URL + '/load-aggregates?aggregateType=' + rawAggregateType,
     });
 
     return response.data as any[];

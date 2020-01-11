@@ -1,15 +1,15 @@
 import React, {useEffect} from 'react';
 import { Card, CardHeader, CardContent, Divider, Button } from '@material-ui/core';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from 'react-redux';
 import {
     makeAggregateCreationCommandsSelector,
-    makeAggregateIdentifierSelector, makeRawAggregateTypeSelector
-} from "../../../selector/eventEngineSchemaSelector";
+    makeAggregateIdentifierSelector, makeRawAggregateTypeSelector,
+} from '../../../selector/eventEngineSchemaSelector';
 import AddIcon from '@material-ui/icons/Add';
-import {loadAggregatesForType} from "../../../api";
-import {updateAggregateList} from "../../../reducer/aggregateDataReducer";
-import {makeAggregateListSelector} from "../../../selector/aggregateDataSelector";
-import AggregateExpansionPanel from "./AggregateExpansionPanel";
+import {loadAggregatesForType} from '../../../api';
+import {updateAggregateList} from '../../../reducer/aggregateDataReducer';
+import {makeAggregateListSelector} from '../../../selector/aggregateDataSelector';
+import AggregateExpansionPanel from './AggregateExpansionPanel';
 
 interface AggregateListProps {
     aggregateType: string;

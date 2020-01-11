@@ -2,30 +2,30 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import {createStore} from "redux";
-import {reducer, initialState} from "./reducer";
+import {createStore} from 'redux';
+import {reducer, initialState} from './reducer';
 import {createHashHistory} from 'history';
 import {Provider} from 'react-redux';
 import {ThemeProvider} from '@material-ui/styles';
 import {SnackbarProvider} from 'notistack';
 import {Router, Redirect, Route, Switch} from 'react-router';
 import theme from './material-ui/theme';
-import {getEventEngineSchema} from "./api";
-import {updateRawSchema} from "./reducer/eventEngineSchemaReducer";
-import DashboardPage from "./DashboardPage";
-import AggregatesPage from "./AggregatesPage";
-import {aggregatePath, dashboardPath} from "./routes";
-import MainLayout from "./layout/MainLayout";
+import {getEventEngineSchema} from './api';
+import {updateRawSchema} from './reducer/eventEngineSchemaReducer';
+import DashboardPage from './DashboardPage';
+import AggregatesPage from './AggregatesPage';
+import {aggregatePath, dashboardPath} from './routes';
+import MainLayout from './layout/MainLayout';
 
 const store = createStore(
     reducer,
     initialState,
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
 );
 
 getEventEngineSchema()
     .then(eventEngineSchema =>
-        store.dispatch(updateRawSchema({ rawSchema: eventEngineSchema }))
+        store.dispatch(updateRawSchema({ rawSchema: eventEngineSchema })),
     );
 
 const history = createHashHistory();

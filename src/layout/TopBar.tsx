@@ -6,17 +6,17 @@ const useStyles = makeStyles(theme => ({
     root: {
         boxShadow: 'none',
         backgroundColor: '#42423B',
-        height: '64px'
+        height: '64px',
     },
     icon: {
-        color: 'white'
+        color: 'white',
     },
     flexGrow: {
-        flexGrow: 1
+        flexGrow: 1,
     },
     headerText: {
-        color: theme.palette.primary.main
-    }
+        color: theme.palette.primary.main,
+    },
 }));
 
 interface TopBarProps {
@@ -31,7 +31,7 @@ const TopBar = (props: TopBarProps) => {
             <MuiToolbar>
                 <Typography variant={'h1'} className={classes.headerText}>Event Engine UI</Typography>
                 <div className={classes.flexGrow} />
-                <Hidden lgUp>
+                <Hidden lgUp={true}>
                     <IconButton onClick={props.onOpenSideBar} className={classes.icon}>
                         <MenuIcon />
                     </IconButton>

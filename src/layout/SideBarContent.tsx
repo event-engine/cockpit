@@ -1,23 +1,23 @@
-import {List, ListItem, Button, Collapse, makeStyles} from "@material-ui/core";
-import React, {useState} from "react";
-import {useSelector} from "react-redux";
-import {makeAggregateTypeListSelector, normalizeAggregateType} from "../selector/eventEngineSchemaSelector";
+import {List, ListItem, Button, Collapse, makeStyles} from '@material-ui/core';
+import React, {useState} from 'react';
+import {useSelector} from 'react-redux';
+import {makeAggregateTypeListSelector, normalizeAggregateType} from '../selector/eventEngineSchemaSelector';
 import {NavLink} from 'react-router-dom';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import MemoryIcon from '@material-ui/icons/Memory';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {makeAggregateUrl} from "../routes";
+import {makeAggregateUrl} from '../routes';
 
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
-        flex: 1
+        flex: 1,
     },
     item: {
         display: 'flex',
         paddingTop: 0,
-        paddingBottom: 0
+        paddingBottom: 0,
     },
     button: {
         color: theme.palette.secondary.main,
@@ -26,19 +26,19 @@ const useStyles = makeStyles(theme => ({
         textTransform: 'none',
         letterSpacing: 0,
         width: '100%',
-        fontWeight: theme.typography.fontWeightMedium
+        fontWeight: theme.typography.fontWeightMedium,
     },
     icon: {
         width: 24,
         height: 24,
         display: 'flex',
         alignItems: 'center',
-        marginRight: theme.spacing(1)
+        marginRight: theme.spacing(1),
     },
     active: {
         color: theme.palette.primary.main,
-        fontWeight: theme.typography.fontWeightMedium
-    }
+        fontWeight: theme.typography.fontWeightMedium,
+    },
 }));
 
 interface DashboardSideBarProps {
@@ -77,7 +77,7 @@ const SideBarContent = (props: DashboardSideBarProps) => {
                         onClick={(event: React.MouseEvent) => {
                             event.stopPropagation();
                             event.preventDefault();
-                            setAggregatesOpen(!aggregatesOpen)
+                            setAggregatesOpen(!aggregatesOpen);
                         }}
                         children={(
                             <>
@@ -101,7 +101,7 @@ const SideBarContent = (props: DashboardSideBarProps) => {
                                             {type}
                                         </Button>
                                     </ListItem>
-                                )
+                                ),
                             )}
                         </List>
                     </Collapse>

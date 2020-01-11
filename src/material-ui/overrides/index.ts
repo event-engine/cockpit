@@ -17,5 +17,5 @@ export default {
     MuiTypography,
     MuiExpansionPanel,
     MuiExpansionPanelSummary,
-    MuiExpansionPanelDetails
+    MuiExpansionPanelDetails,
 };

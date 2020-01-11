@@ -7,7 +7,7 @@ export interface AggregateDataState {
 }
 
 export const initialState = {
-    aggregateLists: {}
+    aggregateLists: {},
 };
 
 export const reducer = handleActions<AggregateDataState, any>(
@@ -21,10 +21,10 @@ export const reducer = handleActions<AggregateDataState, any>(
                 ...state,
                 aggregateLists: {
                     ...state.aggregateLists,
-                    [action.payload.aggregateType]: action.payload.aggregateList
-                }
+                    [action.payload.aggregateType]: action.payload.aggregateList,
+                },
             };
-        }
+        },
     },
-    initialState
+    initialState,
 );

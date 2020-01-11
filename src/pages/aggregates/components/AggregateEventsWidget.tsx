@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card, CardHeader, CardContent, Divider } from '@material-ui/core';
-import {useSelector} from "react-redux";
-import {makeAggregateEventsSelector} from "../../../selector/eventEngineSchemaSelector";
-import AggregateEventExpansionPanel from "./AggregateEventExpansionPanel";
+import {useSelector} from 'react-redux';
+import {makeAggregateEventsSelector} from '../../../selector/eventEngineSchemaSelector';
+import AggregateEventExpansionPanel from './AggregateEventExpansionPanel';
 
 interface AggregateEventsWidgetProps {
     aggregateType: string;
