@@ -28,8 +28,8 @@ const AggregateListWidget = (props: AggregateListProps) => {
             return;
         }
 
-        loadAggregatesForType(rawAggregateType).then(aggregateList => {
-            dispatch(updateAggregateList({ aggregateType: props.aggregateType, aggregateList }));
+        loadAggregatesForType(rawAggregateType).then(newAggregateList => {
+            dispatch(updateAggregateList({ aggregateType: props.aggregateType, aggregateList: newAggregateList }));
         });
     }, [props.aggregateType, rawAggregateType]);
 
@@ -38,12 +38,13 @@ const AggregateListWidget = (props: AggregateListProps) => {
             <CardHeader title={'Aggregates'} />
             <Divider />
             <CardContent>
-                {aggregateList && aggregateIdentifier && aggregateList.map((aggregate: any) => (
-                    <AggregateExpansionPanel aggregate={aggregate} aggregateIdentifier={aggregateIdentifier} />
+                {aggregateList && aggregateIdentifier && aggregateList.map((aggregate: any, index: number) => (
+                    <AggregateExpansionPanel key={index} aggregate={aggregate} aggregateIdentifier={aggregateIdentifier} />
                 ))}
 
                 {commands && commands.length > 0 && commands.map(command => (
                     <Button
+                        key={command.commandName}
                         variant={'contained'}
                         color={'primary'}
                         startIcon={<AddIcon />}

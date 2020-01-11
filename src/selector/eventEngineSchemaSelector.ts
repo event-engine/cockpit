@@ -8,13 +8,13 @@ export const normalizeAggregateType = (aggregateType: string) => aggregateType.t
 export const rawSchemaSelector = (state: ReduxState) => state[stateKey].rawSchema;
 
 export const makeAggregateTypeListSelector = () => {
-    return createSelector([rawSchemaSelector],rawSchema => {
+    return createSelector([rawSchemaSelector], rawSchema => {
         return !rawSchema ? null : rawSchema.aggregates.map(aggregate => aggregate.aggregateType);
     });
 };
 
 export const makeAggregateEventsSelector = (aggregateType: string) => {
-    return createSelector([rawSchemaSelector],rawSchema => {
+    return createSelector([rawSchemaSelector], rawSchema => {
         if (!rawSchema) {
             return null;
         }
@@ -26,7 +26,7 @@ export const makeAggregateEventsSelector = (aggregateType: string) => {
 };
 
 export const makeAggregateCreationCommandsSelector = (aggregateType: string) => {
-    return createSelector([rawSchemaSelector],rawSchema => {
+    return createSelector([rawSchemaSelector], rawSchema => {
         if (!rawSchema) {
             return null;
         }
@@ -39,7 +39,7 @@ export const makeAggregateCreationCommandsSelector = (aggregateType: string) => 
 };
 
 export const makeAggregateIdentifierSelector = (aggregateType: string) => {
-    return createSelector([rawSchemaSelector],rawSchema => {
+    return createSelector([rawSchemaSelector], rawSchema => {
         if (!rawSchema) {
             return null;
         }
@@ -51,7 +51,7 @@ export const makeAggregateIdentifierSelector = (aggregateType: string) => {
 };
 
 export const makeRawAggregateTypeSelector = (aggregateType: string) => {
-    return createSelector([rawSchemaSelector],rawSchema => {
+    return createSelector([rawSchemaSelector], rawSchema => {
         if (!rawSchema) {
             return null;
         }

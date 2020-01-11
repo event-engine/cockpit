@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import SideBar from './SideBar';
 import TopBar from './TopBar';
-import theme from '../material-ui/theme';
+import muiTheme from '../material-ui/theme';
 import {makeStyles, useMediaQuery} from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
@@ -30,7 +30,7 @@ const MainLayout = (props: MainLayoutProps) => {
     const classes = useStyles();
     const [sideBarOpen, setSideBarOpen] = useState<boolean>(true);
 
-    const pushContent = useMediaQuery(theme.breakpoints.up('lg'), {
+    const pushContent = useMediaQuery(muiTheme.breakpoints.up('lg'), {
         defaultMatches: true,
     });
 

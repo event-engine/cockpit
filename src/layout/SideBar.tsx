@@ -1,6 +1,6 @@
 import {Drawer, makeStyles, useMediaQuery} from '@material-ui/core';
 import React from 'react';
-import theme from '../material-ui/theme';
+import muiTheme from '../material-ui/theme';
 import SideBarContent from './SideBarContent';
 
 const useStyles = makeStyles(theme => ({
@@ -35,7 +35,7 @@ const SideBar = (props: SideBarProps) => {
 
     const classes = useStyles();
 
-    const sideBarPersistent = useMediaQuery(theme.breakpoints.up('lg'), {
+    const sideBarPersistent = useMediaQuery(muiTheme.breakpoints.up('lg'), {
         defaultMatches: true,
     });
 

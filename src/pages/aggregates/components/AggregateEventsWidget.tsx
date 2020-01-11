@@ -21,7 +21,7 @@ const AggregateEventsWidget = (props: AggregateEventsWidgetProps) => {
             <CardHeader title={'Aggregate Events'} />
             <Divider />
             <CardContent>
-                {events.map(event => <AggregateEventExpansionPanel event={event} />)}
+                {events.map(event => <AggregateEventExpansionPanel key={event.eventName} event={event} />)}
             </CardContent>
         </Card>
     );
