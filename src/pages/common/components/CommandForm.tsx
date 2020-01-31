@@ -1,6 +1,7 @@
 import React from 'react';
 import {Command} from '../../../api/types';
 import StringProperty from './CommandForm/StringProperty';
+import Editor from '@monaco-editor/react';
 
 interface CommandFormProps {
     command: Command;
@@ -16,6 +17,7 @@ const CommandForm = (props: CommandFormProps) => {
 
     return (
         <div>
+            <Editor height={'200px'} language={'json'} value={JSON.stringify(propertySchema, null, 2)} />
             {properties
                 .map((propertyName: string) => {
                     switch (propertySchema[propertyName].type) {
