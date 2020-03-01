@@ -7,7 +7,7 @@ import {
 } from '../../../selector/eventEngineSchemaSelector';
 import AddIcon from '@material-ui/icons/Add';
 import SendIcon from '@material-ui/icons/Send';
-import {loadAggregatesForType} from '../../../api';
+import {executeCommand, loadAggregatesForType} from '../../../api';
 import {updateAggregateList} from '../../../reducer/aggregateDataReducer';
 import {makeAggregateListSelector} from '../../../selector/aggregateDataSelector';
 import AggregateExpansionPanel from './AggregateExpansionPanel';
@@ -27,6 +27,7 @@ const AggregateListWidget = (props: AggregateListProps) => {
     const dispatch = useDispatch();
     const [commandDialogOpen, setCommandDialogOpen] = useState<boolean>(false);
     const [commandDialogCommand, setCommandDialogCommand] = useState<Command|null>(null);
+    const [commandPayload, setCommandPayload] = useState<any>({});
 
     useEffect(() => {
         if (!rawAggregateType) {
@@ -41,6 +42,14 @@ const AggregateListWidget = (props: AggregateListProps) => {
     const openDialogForCommand = (command: Command) => {
         setCommandDialogCommand(command);
         setCommandDialogOpen(true);
+    };
+
+    const handleExecuteCommand = () => {
+        if (!commandDialogCommand) {
+            return;
+        }
+
+        executeCommand(commandDialogCommand.commandName, commandPayload);
     };
 
     return (
@@ -69,7 +78,11 @@ const AggregateListWidget = (props: AggregateListProps) => {
                         <DialogTitle>{commandDialogCommand.commandName}</DialogTitle>
                         <Divider />
                         <DialogContent style={{ padding: '24px 24px' }}>
-                            <CommandForm command={commandDialogCommand} />
+                            <CommandForm
+                                command={commandDialogCommand}
+                                payload={commandPayload}
+                                onChangePayload={payload => setCommandPayload(payload)}
+                            />
                         </DialogContent>
                         <Divider />
                         <DialogActions>
@@ -79,6 +92,7 @@ const AggregateListWidget = (props: AggregateListProps) => {
                                 startIcon={<SendIcon />}
                                 children={'Execute ' + commandDialogCommand.commandName}
                                 style={{ textTransform: 'none', margin: '5px' }}
+                                onClick={handleExecuteCommand}
                             />
                         </DialogActions>
                     </Dialog>

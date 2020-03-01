@@ -4,6 +4,8 @@ import {TextField} from '@material-ui/core';
 interface StringPropertyProps {
     name: string;
     required: boolean;
+    value: string;
+    onChange: (value: string) => void;
     pattern?: string;
     minLength?: number;
     maxLength?: number;
@@ -36,6 +38,8 @@ const StringProperty = (props: StringPropertyProps) => {
     return (
         <TextField
             label={props.name}
+            value={props.value || ''}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => props.onChange(event.target.value)}
             placeholder={buildPlaceholder(props.pattern, props.minLength, props.maxLength, props.enum)}
             fullWidth={true}
             required={props.required}
