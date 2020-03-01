@@ -13,12 +13,23 @@ const CommandForm = (props: CommandFormProps) => {
     const properties = Object.keys(propertySchema);
     const requiredProperties: string[] = props.command.schema.required;
 
-    console.log(props.command.schema);
+    const editorValue: Record<string, string> = {};
+    properties.forEach((propertyName: string) => {
+        editorValue[propertyName] = propertySchema[propertyName].type;
+    });
 
     return (
         <div>
-            <Editor height={'200px'} language={'json'} value={JSON.stringify(propertySchema, null, 2)} />
-            {properties
+            <Editor
+                height={'500px'}
+                language={'json'}
+                value={JSON.stringify(editorValue, null, 2)}
+                editorDidMount={(getEditorValue: any, monaco: any) => {
+                    console.log(monaco);
+                    // Possible to use schema here?
+                }}
+            />
+            {/*properties
                 .map((propertyName: string) => {
                     switch (propertySchema[propertyName].type) {
                         case 'string': {
@@ -38,7 +49,7 @@ const CommandForm = (props: CommandFormProps) => {
                 .map((node: React.ReactNode, index: number) => (
                     <div key={index} style={{ marginTop: 15, marginBottom: 15 }}>{node}</div>
                 ))
-            }
+            */}
         </div>
     );
 };

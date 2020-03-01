@@ -65,10 +65,10 @@ const AggregateListWidget = (props: AggregateListProps) => {
                 ))}
 
                 {commandDialogCommand !== null && (
-                    <Dialog open={commandDialogOpen} onClose={() => setCommandDialogOpen(false)} fullWidth={true}>
+                    <Dialog open={commandDialogOpen} onClose={() => setCommandDialogOpen(false)} fullWidth={true} maxWidth={'lg'}>
                         <DialogTitle>{commandDialogCommand.commandName}</DialogTitle>
                         <Divider />
-                        <DialogContent>
+                        <DialogContent style={{ padding: '24px 24px' }}>
                             <CommandForm command={commandDialogCommand} />
                         </DialogContent>
                         <Divider />
