@@ -50,6 +50,18 @@ export const makeAggregateIdentifierSelector = (aggregateType: string) => {
     });
 };
 
+export const makeAggregateMultiStoreModeSelector = (aggregateType: string) => {
+    return createSelector([rawSchemaSelector], rawSchema => {
+        if (!rawSchema) {
+            return null;
+        }
+
+        return rawSchema.aggregates.find(
+            aggregate => normalizeAggregateType(aggregate.aggregateType) === normalizeAggregateType(aggregateType),
+        )!.multiStoreMode;
+    });
+};
+
 export const makeRawAggregateTypeSelector = (aggregateType: string) => {
     return createSelector([rawSchemaSelector], rawSchema => {
         if (!rawSchema) {

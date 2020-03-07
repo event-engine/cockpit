@@ -5,11 +5,18 @@ export interface EventEngineSchema {
 
 export type JSONSchema = any;
 
+export enum MultiStoreMode {
+    EventState = 'mode_e_s',
+    Event = 'mode_e',
+    State = 'mode_s',
+}
+
 export interface Aggregate {
     aggregateType: string;
     aggregateIdentifier: string;
     aggregateStream: string;
     aggregateCollection: string;
+    multiStoreMode: MultiStoreMode;
     commands: Command[];
     events: Event[];
 }

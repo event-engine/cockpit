@@ -2,7 +2,6 @@ import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {EventEngineSchema} from './types';
 
 const configuredAxios = axios.create({
-    method: 'post',
 });
 
 export const sendApiRequest = async (
@@ -27,4 +26,20 @@ export const loadAggregatesForType = async (rawAggregateType: string): Promise<a
     });
 
     return response.data as any[];
+};
+
+export const loadAggregate = async (rawAggregateType: string, aggregateId: string): Promise<any> => {
+    const response: AxiosResponse = await sendApiRequest({
+        url: process.env.REACT_APP_EE_SCHEMA_URL + '/load-aggregate?aggregateType=' + rawAggregateType + '&aggregateId=' + aggregateId,
+    });
+
+    return response.data as any;
+};
+
+export const executeCommand = async (commandName: string, payload: any) => {
+    const response: AxiosResponse = await sendApiRequest({
+        url: process.env.REACT_APP_EE_MESSAGE_BOX_URL + `/${commandName}`,
+        method: 'post',
+        data: payload,
+    });
 };

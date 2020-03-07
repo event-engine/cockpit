@@ -10,7 +10,7 @@ interface AggregatesPageProps extends RouteComponentProps {
 
 const AggregatesPage = (props: AggregatesPageProps) => {
 
-    const type = (props.match.params as any).aggregate;
+    const type = (props.match.params as any).aggregateType;
 
     useEffect(() => {
         console.log('effect!');
