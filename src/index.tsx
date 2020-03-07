@@ -14,8 +14,10 @@ import {getEventEngineSchema} from './api';
 import {updateRawSchema} from './reducer/eventEngineSchemaReducer';
 import DashboardPage from './DashboardPage';
 import AggregatesPage from './AggregatesPage';
-import {aggregatePath, dashboardPath} from './routes';
+import {aggregateDetailsPath, aggregatePath, dashboardPath} from './routes';
 import MainLayout from './layout/MainLayout';
+import { monaco } from '@monaco-editor/react';
+import AggregateDetailsPage from './AggregateDetailsPage';
 
 const store = createStore(
     reducer,
@@ -30,10 +32,32 @@ getEventEngineSchema()
 
 const history = createHashHistory();
 
+/*monaco
+    .init()
+    .then(monaco => {
+        monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+            validate: true,
+            schemas: [{
+                fileMatch: ['foo.json'], // associate with our model
+                schema: {
+                    type: "object",
+                    properties: {
+                        p1: {
+                            enum: ["v1", "v2"]
+                        }
+                    },
+                    additionalProperties: false
+                }
+            }],
+        });
+    })
+    .catch(error => console.error('An error occurred during initialization of Monaco: ', error));*/
+
 const Main = () => (
     <Switch>
         <Route path={dashboardPath} exact={true} component={DashboardPage} />
-        <Route path={aggregatePath} component={AggregatesPage} />
+        <Route path={aggregatePath} exact={true} component={AggregatesPage} />
+        <Route path={aggregateDetailsPath} exact={true} component={AggregateDetailsPage} />
         <Redirect from={'/'} to={dashboardPath} />
     </Switch>
 );

@@ -14,7 +14,7 @@ const CommandForm = (props: CommandFormProps) => {
 
     const propertySchema = props.command.schema.properties;
     const properties = Object.keys(propertySchema);
-    const requiredProperties: string[] = props.command.schema.required;console.log(propertySchema);
+    const requiredProperties: string[] = props.command.schema.required; console.log(propertySchema);
 
     useEffect(() => {
         const defaultEditorValue: Record<string, any> = {};

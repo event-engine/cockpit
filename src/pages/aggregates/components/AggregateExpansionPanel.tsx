@@ -1,6 +1,14 @@
 import React from 'react';
-import {ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, makeStyles, Typography} from '@material-ui/core';
+import {
+    ExpansionPanel,
+    ExpansionPanelDetails,
+    ExpansionPanelSummary,
+    makeStyles,
+    Typography,
+} from '@material-ui/core';
 import JsonTree from './JsonTree';
+import {makeAggregateDetailsUrl} from '../../../routes';
+import Link from '../../common/components/Link';
 
 const useStyles = makeStyles(theme => ({
     expansionPanelSummaryContent: {
@@ -20,6 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 interface AggregateExpansionPanelProps {
     aggregate: any;
+    aggregateType: string;
     aggregateIdentifier: string;
 }
 
@@ -31,7 +40,13 @@ const AggregateExpansionPanel = (props: AggregateExpansionPanelProps) => {
         <ExpansionPanel TransitionProps={{ mountOnEnter: true }} >
             <ExpansionPanelSummary classes={{ content: classes.expansionPanelSummaryContent }}>
                 <div className={classes.summaryWrapper}>
-                    <div>{props.aggregateIdentifier}: {props.aggregate.state[props.aggregateIdentifier]}</div>
+                    <div>
+                        {props.aggregateIdentifier}:
+                        <Link
+                            to={makeAggregateDetailsUrl(props.aggregateType, props.aggregate.state[props.aggregateIdentifier])}
+                            children={' ' + props.aggregate.state[props.aggregateIdentifier]}
+                        />
+                    </div>
                     <Typography variant={'body1'} className={classes.summary}>
                         {JSON.stringify(props.aggregate)}
                     </Typography>
