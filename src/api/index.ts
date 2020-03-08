@@ -1,5 +1,5 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
-import {EventEngineSchema} from './types';
+import {AggregateEvent, EventEngineSchema} from './types';
 
 const configuredAxios = axios.create({
 });
@@ -34,6 +34,15 @@ export const loadAggregate = async (rawAggregateType: string, aggregateId: strin
     });
 
     return response.data as any;
+};
+
+export const loadAggregateEvents = async (rawAggregateType: string, aggregateId: string): Promise<AggregateEvent[]> => {
+    const response: AxiosResponse = await sendApiRequest({
+        url: process.env.REACT_APP_EE_SCHEMA_URL + '/load-aggregate-events?aggregateType='
+            + rawAggregateType + '&aggregateId=' + aggregateId,
+    });
+
+    return response.data as AggregateEvent[];
 };
 
 export const executeCommand = async (commandName: string, payload: any) => {

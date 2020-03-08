@@ -12,14 +12,16 @@ const AggregateDetailsPage = (props: AggregateDetailsPageProps) => {
 
     const aggregateType = (props.match.params as any).aggregateType;
     const aggregateId = (props.match.params as any).aggregateId;
+    const version = (props.match.params as any).version;
 
     return (
         <Grid container={true} spacing={3}>
             <Grid item={true} md={6}>
+                {version}
                 <AggregateStateView aggregateType={aggregateType} aggregateId={aggregateId} />
             </Grid>
             <Grid item={true} md={6}>
-                <AggregateDetailsEventsWidget/>
+                <AggregateDetailsEventsWidget aggregateType={aggregateType} aggregateId={aggregateId} />
             </Grid>
         </Grid>
     );

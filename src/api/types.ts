@@ -31,3 +31,11 @@ export interface Event {
     eventName: string;
     schema: JSONSchema;
 }
+
+export interface AggregateEvent {
+    eventName: string;
+    aggregateVersion: number;
+    createdAt: string;
+    metadata: any;
+    payload: any;
+}
