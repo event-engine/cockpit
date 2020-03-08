@@ -3,7 +3,7 @@ import {
     Card, CardContent, CardHeader, Divider,
     makeStyles,
 } from '@material-ui/core';
-import {loadAggregate} from '../../../api';
+import {loadAggregateState} from '../../../api';
 import {updateAggregateState} from '../../../reducer/aggregateDataReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {makeRawAggregateTypeSelector} from '../../../selector/eventEngineSchemaSelector';
@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
 interface AggregateStateViewProps {
     aggregateType: string;
     aggregateId: string;
+    version?: number|undefined;
 }
 
 const AggregateStateView = (props: AggregateStateViewProps) => {
@@ -27,11 +28,11 @@ const AggregateStateView = (props: AggregateStateViewProps) => {
 
     useEffect(() => {
         if (rawAggregateType) {
-            loadAggregate(rawAggregateType, props.aggregateId).then(aggregateState => {
+            loadAggregateState(rawAggregateType, props.aggregateId, props.version).then(aggregateState => {
                 dispatch(updateAggregateState({ aggregateId: props.aggregateId, aggregateState }));
             });
         }
-    }, [rawAggregateType, props.aggregateId]);
+    }, [rawAggregateType, props.aggregateId, props.version]);
 
     return (
         <Card>

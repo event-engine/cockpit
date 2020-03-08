@@ -28,9 +28,10 @@ export const loadAggregatesForType = async (rawAggregateType: string): Promise<a
     return response.data as any[];
 };
 
-export const loadAggregate = async (rawAggregateType: string, aggregateId: string): Promise<any> => {
+export const loadAggregateState = async (rawAggregateType: string, aggregateId: string, version?: number): Promise<any> => {
     const response: AxiosResponse = await sendApiRequest({
-        url: process.env.REACT_APP_EE_SCHEMA_URL + '/load-aggregate?aggregateType=' + rawAggregateType + '&aggregateId=' + aggregateId,
+        url: process.env.REACT_APP_EE_SCHEMA_URL + '/load-aggregate?aggregateType='
+            + rawAggregateType + '&aggregateId=' + aggregateId + (version ? `&version=${version}` : ''),
     });
 
     return response.data as any;
