@@ -34,9 +34,11 @@ const AggregateStateView = (props: AggregateStateViewProps) => {
         }
     }, [rawAggregateType, props.aggregateId, props.version]);
 
+    const subheader = props.version ? `Aggregate state at version ${props.version}` : 'Latest aggregate state';
+
     return (
         <Card>
-            <CardHeader title={'Aggregate State'} />
+            <CardHeader title={'Aggregate State'} subheader={subheader} />
             <Divider />
             <CardContent>
                 <JsonTree data={aggregate} />

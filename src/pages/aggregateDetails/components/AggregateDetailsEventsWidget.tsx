@@ -1,10 +1,14 @@
 import React, {useEffect} from 'react';
 import {Card, CardContent, CardHeader, Divider} from '@material-ui/core';
+import {Alert, AlertTitle} from '@material-ui/lab';
 import {useDispatch, useSelector} from 'react-redux';
-import {makeRawAggregateTypeSelector} from '../../../selector/eventEngineSchemaSelector';
+import {
+    makeAggregateMultiStoreModeSelector,
+    makeRawAggregateTypeSelector
+} from '../../../selector/eventEngineSchemaSelector';
 import {loadAggregateEvents} from '../../../api';
 import {updateAggregateEvents} from '../../../reducer/aggregateDataReducer';
-import {AggregateEvent} from '../../../api/types';
+import {AggregateEvent, MultiStoreMode} from '../../../api/types';
 import {makeAggregateEventsSelector} from '../../../selector/aggregateDataSelector';
 import AggregateEventExpansionPanel from './AggregateEventExpansionPanel';
 
@@ -18,6 +22,7 @@ const AggregateDetailsEventsWidget = (props: AggregateDetailsEventsWidgetProps) 
     const dispatch = useDispatch();
     const rawAggregateType = useSelector(makeRawAggregateTypeSelector(props.aggregateType));
     const events = useSelector(makeAggregateEventsSelector(props.aggregateId));
+    const multiStoreMode = useSelector(makeAggregateMultiStoreModeSelector(props.aggregateType));
 
     useEffect(() => {
         if (rawAggregateType) {
@@ -33,9 +38,20 @@ const AggregateDetailsEventsWidget = (props: AggregateDetailsEventsWidgetProps) 
 
     return (
         <Card>
-            <CardHeader title={'Events'} />
+            <CardHeader
+                title={'Aggregate Events'}
+                subheader={'Click on an event to view the aggregate state at a previous point in time'}
+            />
             <Divider />
             <CardContent>
+                {multiStoreMode === MultiStoreMode.State && (
+                    <Alert severity={'info'}>
+                        <AlertTitle>Info</AlertTitle>
+                        Event-Engine is operating in state-only mode for this type of aggregate, meaning that events
+                        are not persisted and can therefore not be loaded for this aggregate.
+                    </Alert>
+                )}
+
                 {events.map((event, index) => (
                     <AggregateEventExpansionPanel
                         key={index}

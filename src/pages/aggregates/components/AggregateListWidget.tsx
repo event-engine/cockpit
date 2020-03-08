@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Card, CardHeader, CardContent, Divider, Button, Dialog, DialogTitle, DialogActions, DialogContent, Typography} from '@material-ui/core';
+import {Card, CardHeader, CardContent, Divider, Button, Dialog, DialogTitle, DialogActions, DialogContent} from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import {
     makeAggregateCreationCommandsSelector,
@@ -13,6 +13,7 @@ import {makeAggregateListSelector} from '../../../selector/aggregateDataSelector
 import AggregateExpansionPanel from './AggregateExpansionPanel';
 import {Command, MultiStoreMode} from '../../../api/types';
 import CommandForm from '../../common/components/CommandForm';
+import {Alert, AlertTitle} from '@material-ui/lab';
 
 interface AggregateListProps {
     aggregateType: string;
@@ -68,9 +69,11 @@ const AggregateListWidget = (props: AggregateListProps) => {
                 ))}
 
                 {multiStoreMode === MultiStoreMode.Event && (
-                    <Typography variant={'body1'}>
-                         There is no aggregate state available since your Multi-Model-Store is operating in events only mode.
-                    </Typography>
+                    <Alert severity={'info'}>
+                        <AlertTitle>Info</AlertTitle>
+                        Event-Engine is operating in events-only mode for this type of aggregate, meaning that the
+                        aggregate state is not persisted and therefore not available without replaying the events.
+                    </Alert>
                 )}
 
                 {commands && commands.length > 0 && commands.map(command => (
