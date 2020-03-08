@@ -4,7 +4,7 @@ import {Alert, AlertTitle} from '@material-ui/lab';
 import {useDispatch, useSelector} from 'react-redux';
 import {
     makeAggregateMultiStoreModeSelector,
-    makeRawAggregateTypeSelector
+    makeRawAggregateTypeSelector,
 } from '../../../selector/eventEngineSchemaSelector';
 import {loadAggregateEvents} from '../../../api';
 import {updateAggregateEvents} from '../../../reducer/aggregateDataReducer';
