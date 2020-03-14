@@ -3,6 +3,7 @@ import {Grid} from '@material-ui/core';
 import AggregateDetailsEventsWidget from './pages/aggregateDetails/components/AggregateDetailsEventsWidget';
 import {RouteComponentProps} from 'react-router';
 import AggregateStateView from './pages/aggregateDetails/components/AggregateStateView';
+import AggregateCommandsWidget from './pages/aggregateDetails/components/AggregateCommandsWidget';
 
 interface AggregateDetailsPageProps extends RouteComponentProps {
 
@@ -17,7 +18,14 @@ const AggregateDetailsPage = (props: AggregateDetailsPageProps) => {
     return (
         <Grid container={true} spacing={3}>
             <Grid item={true} md={6}>
-                <AggregateStateView aggregateType={aggregateType} aggregateId={aggregateId} version={version} />
+                <Grid container={true} spacing={3}>
+                    <Grid item={true} md={12}>
+                        <AggregateStateView aggregateType={aggregateType} aggregateId={aggregateId} version={version} />
+                    </Grid>
+                    <Grid item={true} md={12}>
+                        <AggregateCommandsWidget aggregateType={aggregateType} />
+                    </Grid>
+                </Grid>
             </Grid>
             <Grid item={true} md={6}>
                 <AggregateDetailsEventsWidget aggregateType={aggregateType} aggregateId={aggregateId} />

@@ -25,7 +25,7 @@ export const makeAggregateEventsSelector = (aggregateType: string) => {
     });
 };
 
-export const makeAggregateCreationCommandsSelector = (aggregateType: string) => {
+export const makeAggregateCommandsSelector = (aggregateType: string) => {
     return createSelector([rawSchemaSelector], rawSchema => {
         if (!rawSchema) {
             return null;
@@ -33,8 +33,27 @@ export const makeAggregateCreationCommandsSelector = (aggregateType: string) => 
 
         return rawSchema.aggregates.find(
             aggregate => normalizeAggregateType(aggregate.aggregateType) === normalizeAggregateType(aggregateType),
-        )!.commands
-            .filter(command => command.createAggregate);
+        )!.commands;
+    });
+};
+
+export const makeAggregateCreationCommandsSelector = (aggregateType: string) => {
+    return createSelector([makeAggregateCommandsSelector(aggregateType)], commands => {
+        if (!commands) {
+            return null;
+        }
+
+        return commands.filter(command => command.createAggregate);
+    });
+};
+
+export const makeAggregateNonCreationCommandsSelector = (aggregateType: string) => {
+    return createSelector([makeAggregateCommandsSelector(aggregateType)], commands => {
+        if (!commands) {
+            return null;
+        }
+
+        return commands.filter(command => !command.createAggregate);
     });
 };
 

@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Card, CardHeader, CardContent, Divider, Button, Dialog, DialogTitle, DialogActions, DialogContent} from '@material-ui/core';
+import {Card, CardHeader, CardContent, CardActions, Divider, Button, Dialog, DialogTitle, DialogActions, DialogContent} from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import {
     makeAggregateCreationCommandsSelector,
     makeAggregateIdentifierSelector, makeAggregateMultiStoreModeSelector, makeRawAggregateTypeSelector,
 } from '../../../selector/eventEngineSchemaSelector';
-import AddIcon from '@material-ui/icons/Add';
 import SendIcon from '@material-ui/icons/Send';
 import {executeCommand, loadAggregatesForType} from '../../../api';
 import {updateAggregateList} from '../../../reducer/aggregateDataReducer';
@@ -14,6 +13,7 @@ import AggregateExpansionPanel from './AggregateExpansionPanel';
 import {Command, MultiStoreMode} from '../../../api/types';
 import CommandForm from '../../common/components/CommandForm';
 import {Alert, AlertTitle} from '@material-ui/lab';
+import CommandButton from '../../common/components/CommandButton';
 
 interface AggregateListProps {
     aggregateType: string;
@@ -75,44 +75,41 @@ const AggregateListWidget = (props: AggregateListProps) => {
                         aggregate state is not persisted and therefore not available without replaying the events.
                     </Alert>
                 )}
-
+            </CardContent>
+            <Divider />
+            <CardActions>
                 {commands && commands.length > 0 && commands.map(command => (
-                    <Button
+                    <CommandButton
                         key={command.commandName}
-                        variant={'contained'}
-                        color={'primary'}
-                        startIcon={<AddIcon />}
-                        children={command.commandName}
-                        style={{ textTransform: 'none', margin: '5px' }}
+                        command={command}
                         onClick={() => openDialogForCommand(command)}
                     />
                 ))}
-
-                {commandDialogCommand !== null && (
-                    <Dialog open={commandDialogOpen} onClose={() => setCommandDialogOpen(false)} fullWidth={true} maxWidth={'lg'}>
-                        <DialogTitle>{commandDialogCommand.commandName}</DialogTitle>
-                        <Divider />
-                        <DialogContent style={{ padding: '24px 24px' }}>
-                            <CommandForm
-                                command={commandDialogCommand}
-                                payload={commandPayload}
-                                onChangePayload={payload => setCommandPayload(payload)}
-                            />
-                        </DialogContent>
-                        <Divider />
-                        <DialogActions>
-                            <Button
-                                variant={'contained'}
-                                color={'primary'}
-                                startIcon={<SendIcon />}
-                                children={'Execute ' + commandDialogCommand.commandName}
-                                style={{ textTransform: 'none', margin: '5px' }}
-                                onClick={handleExecuteCommand}
-                            />
-                        </DialogActions>
-                    </Dialog>
-                )}
-            </CardContent>
+            </CardActions>
+            {commandDialogCommand !== null && (
+                <Dialog open={commandDialogOpen} onClose={() => setCommandDialogOpen(false)} fullWidth={true} maxWidth={'lg'}>
+                    <DialogTitle>{commandDialogCommand.commandName}</DialogTitle>
+                    <Divider />
+                    <DialogContent style={{ padding: '24px 24px' }}>
+                        <CommandForm
+                            command={commandDialogCommand}
+                            payload={commandPayload}
+                            onChangePayload={payload => setCommandPayload(payload)}
+                        />
+                    </DialogContent>
+                    <Divider />
+                    <DialogActions>
+                        <Button
+                            variant={'contained'}
+                            color={'primary'}
+                            startIcon={<SendIcon />}
+                            children={'Execute ' + commandDialogCommand.commandName}
+                            style={{ textTransform: 'none', margin: '5px' }}
+                            onClick={handleExecuteCommand}
+                        />
+                    </DialogActions>
+                </Dialog>
+            )}
         </Card>
     );
 };
