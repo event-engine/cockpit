@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import {createStore} from 'redux';
+import {applyMiddleware, createStore, compose} from 'redux';
 import {reducer, initialState} from './reducer';
 import {createHashHistory} from 'history';
 import {Provider} from 'react-redux';
@@ -18,12 +18,19 @@ import {aggregateDetailsPath, aggregatePath, dashboardPath} from './routes';
 import MainLayout from './layout/MainLayout';
 import { monaco } from '@monaco-editor/react';
 import AggregateDetailsPage from './AggregateDetailsPage';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './saga/rootSaga';
+
+const sagaMiddleware = createSagaMiddleware();
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
     reducer,
     initialState,
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
+    composeEnhancers(applyMiddleware(sagaMiddleware)),
 );
+
+sagaMiddleware.run(rootSaga);
 
 getEventEngineSchema()
     .then(eventEngineSchema =>
