@@ -1,5 +1,5 @@
 
-export interface EventEngineSchema {
+export interface SystemSchema {
     aggregates: Aggregate[];
 }
 

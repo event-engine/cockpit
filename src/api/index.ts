@@ -1,5 +1,6 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
-import {AggregateEvent, EventEngineSchema} from './types';
+import {AggregateEvent, SystemSchema} from './types';
+import {Logger} from '../util/Logger';
 
 const configuredAxios = axios.create({
 });
@@ -10,14 +11,14 @@ export const sendApiRequest = async (
     try {
         return await configuredAxios(config);
     } catch (error) {
-        console.log(error);
+        Logger.error(error);
         throw error;
     }
 };
 
-export const getEventEngineSchema = async (): Promise<EventEngineSchema> => {
+export const getSystemSchema = async (): Promise<SystemSchema> => {
     const response: AxiosResponse = await sendApiRequest({ url: process.env.REACT_APP_EE_SCHEMA_URL });
-    return response.data as EventEngineSchema;
+    return response.data as SystemSchema;
 };
 
 export const loadAggregatesForType = async (rawAggregateType: string): Promise<any[]> => {

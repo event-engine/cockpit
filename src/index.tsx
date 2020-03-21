@@ -7,22 +7,20 @@ import {reducer, initialState} from './reducer';
 import {createHashHistory} from 'history';
 import {Provider} from 'react-redux';
 import {ThemeProvider} from '@material-ui/styles';
-import {SnackbarProvider} from 'notistack';
 import {Router, Redirect, Route, Switch} from 'react-router';
 import theme from './material-ui/theme';
-import {getEventEngineSchema} from './api';
-import {updateRawSchema} from './reducer/eventEngineSchemaReducer';
 import DashboardPage from './DashboardPage';
 import AggregatesPage from './AggregatesPage';
 import {aggregateDetailsPath, aggregatePath, dashboardPath} from './routes';
 import MainLayout from './layout/MainLayout';
-import { monaco } from '@monaco-editor/react';
 import AggregateDetailsPage from './AggregateDetailsPage';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './saga/rootSaga';
+import {fetchSystemSchema} from './action/systemSchemaCommands';
+import SnackbarStack from './SnackbarStack';
 
 const sagaMiddleware = createSagaMiddleware();
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
     reducer,
@@ -31,34 +29,9 @@ const store = createStore(
 );
 
 sagaMiddleware.run(rootSaga);
-
-getEventEngineSchema()
-    .then(eventEngineSchema =>
-        store.dispatch(updateRawSchema({ rawSchema: eventEngineSchema })),
-    );
+store.dispatch(fetchSystemSchema({ }));
 
 const history = createHashHistory();
-
-/*monaco
-    .init()
-    .then(monaco => {
-        monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-            validate: true,
-            schemas: [{
-                fileMatch: ['foo.json'], // associate with our model
-                schema: {
-                    type: "object",
-                    properties: {
-                        p1: {
-                            enum: ["v1", "v2"]
-                        }
-                    },
-                    additionalProperties: false
-                }
-            }],
-        });
-    })
-    .catch(error => console.error('An error occurred during initialization of Monaco: ', error));*/
 
 const Main = () => (
     <Switch>
@@ -72,13 +45,12 @@ const Main = () => (
 ReactDOM.render((
     <Provider store={store}>
         <ThemeProvider theme={theme}>
-            <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} autoHideDuration={3500}>
-                <Router history={history}>
-                    <MainLayout>
-                        <Main/>
-                    </MainLayout>
-                </Router>
-            </SnackbarProvider>
+            <Router history={history}>
+                <MainLayout>
+                    <Main/>
+                </MainLayout>
+            </Router>
+            <SnackbarStack />
         </ThemeProvider>
     </Provider>
 ), document.getElementById('root'));

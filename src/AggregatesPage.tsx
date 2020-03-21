@@ -12,10 +12,6 @@ const AggregatesPage = (props: AggregatesPageProps) => {
 
     const type = (props.match.params as any).aggregateType;
 
-    useEffect(() => {
-        console.log('effect!');
-    }, [type]);
-
     return (
         <Grid container={true} spacing={3}>
             <Grid item={true} md={8}>

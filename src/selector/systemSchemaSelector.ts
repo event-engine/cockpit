@@ -1,20 +1,20 @@
 import { createSelector } from 'reselect';
 import {ReduxState} from '../reducer';
 
-const stateKey = 'eventEngineSchema';
+const stateKey = 'systemSchema';
 
 export const normalizeAggregateType = (aggregateType: string) => aggregateType.toLowerCase();
 
-export const rawSchemaSelector = (state: ReduxState) => state[stateKey].rawSchema;
+export const systemSchemaSelector = (state: ReduxState) => state[stateKey].systemSchema;
 
 export const makeAggregateTypeListSelector = () => {
-    return createSelector([rawSchemaSelector], rawSchema => {
+    return createSelector([systemSchemaSelector], rawSchema => {
         return !rawSchema ? null : rawSchema.aggregates.map(aggregate => aggregate.aggregateType);
     });
 };
 
 export const makeAggregateEventsSelector = (aggregateType: string) => {
-    return createSelector([rawSchemaSelector], rawSchema => {
+    return createSelector([systemSchemaSelector], rawSchema => {
         if (!rawSchema) {
             return null;
         }
@@ -26,7 +26,7 @@ export const makeAggregateEventsSelector = (aggregateType: string) => {
 };
 
 export const makeAggregateCommandsSelector = (aggregateType: string) => {
-    return createSelector([rawSchemaSelector], rawSchema => {
+    return createSelector([systemSchemaSelector], rawSchema => {
         if (!rawSchema) {
             return null;
         }
@@ -58,7 +58,7 @@ export const makeAggregateNonCreationCommandsSelector = (aggregateType: string) 
 };
 
 export const makeAggregateIdentifierSelector = (aggregateType: string) => {
-    return createSelector([rawSchemaSelector], rawSchema => {
+    return createSelector([systemSchemaSelector], rawSchema => {
         if (!rawSchema) {
             return null;
         }
@@ -70,7 +70,7 @@ export const makeAggregateIdentifierSelector = (aggregateType: string) => {
 };
 
 export const makeAggregateMultiStoreModeSelector = (aggregateType: string) => {
-    return createSelector([rawSchemaSelector], rawSchema => {
+    return createSelector([systemSchemaSelector], rawSchema => {
         if (!rawSchema) {
             return null;
         }
@@ -82,7 +82,7 @@ export const makeAggregateMultiStoreModeSelector = (aggregateType: string) => {
 };
 
 export const makeRawAggregateTypeSelector = (aggregateType: string) => {
-    return createSelector([rawSchemaSelector], rawSchema => {
+    return createSelector([systemSchemaSelector], rawSchema => {
         if (!rawSchema) {
             return null;
         }

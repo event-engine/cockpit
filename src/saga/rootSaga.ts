@@ -1,4 +1,7 @@
 import { all, call, delay, spawn } from 'redux-saga/effects';
+import {fetchSystemSchemaFlow} from './fetchSystemSchemaFlow';
+import {enqueueSnackbarFlow} from './enqueueSnackbarFlow';
+import {Logger} from '../util/Logger';
 
 /**
  * Prevents the root saga from terminating entirely due to some error in another saga
@@ -11,9 +14,9 @@ const makeRestartable = (saga: any) => {
             while (true) {
                 try {
                     yield call(saga);
-                    console.error('unexpected root saga termination. The root sagas are supposed to be sagas that live during the whole app lifetime!', saga);
+                    Logger.error('unexpected root saga termination. The root sagas are supposed to be sagas that live during the whole app lifetime!', saga);
                 } catch (e) {
-                    console.error('Saga error, the saga will be restarted', e);
+                    Logger.error('Saga error, the saga will be restarted', e);
                 }
                 yield delay(1000); // Workaround to avoid infinite error loops
             }
@@ -22,9 +25,11 @@ const makeRestartable = (saga: any) => {
 };
 
 const rootSagas: any = [
+    enqueueSnackbarFlow,
+    fetchSystemSchemaFlow,
 ].map(makeRestartable);
 
 export default function* rootSaga() {
-    console.log('root saga started');
+    Logger.log('root saga started');
     yield all(rootSagas.map((saga: any) => call(saga)));
 }

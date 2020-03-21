@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
     makeAggregateMultiStoreModeSelector,
     makeRawAggregateTypeSelector,
-} from '../../../selector/eventEngineSchemaSelector';
+} from '../../../selector/systemSchemaSelector';
 import {loadAggregateEvents} from '../../../api';
 import {updateAggregateEvents} from '../../../reducer/aggregateDataReducer';
 import {AggregateEvent, MultiStoreMode} from '../../../api/types';

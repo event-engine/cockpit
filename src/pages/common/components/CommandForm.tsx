@@ -12,6 +12,8 @@ interface CommandFormProps {
 
 const CommandForm = (props: CommandFormProps) => {
 
+    // tslint:disable:no-console
+
     const propertySchema = props.command.schema.properties;
     const properties = Object.keys(propertySchema);
     const requiredProperties: string[] = props.command.schema.required; console.log(propertySchema);

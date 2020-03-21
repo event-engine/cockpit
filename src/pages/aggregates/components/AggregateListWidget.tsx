@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
     makeAggregateCreationCommandsSelector,
     makeAggregateIdentifierSelector, makeAggregateMultiStoreModeSelector, makeRawAggregateTypeSelector,
-} from '../../../selector/eventEngineSchemaSelector';
+} from '../../../selector/systemSchemaSelector';
 import SendIcon from '@material-ui/icons/Send';
 import {executeCommand, loadAggregatesForType} from '../../../api';
 import {updateAggregateList} from '../../../reducer/aggregateDataReducer';

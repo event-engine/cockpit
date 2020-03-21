@@ -6,7 +6,7 @@ import {
 import {loadAggregateState} from '../../../api';
 import {updateAggregateState} from '../../../reducer/aggregateDataReducer';
 import {useDispatch, useSelector} from 'react-redux';
-import {makeRawAggregateTypeSelector} from '../../../selector/eventEngineSchemaSelector';
+import {makeRawAggregateTypeSelector} from '../../../selector/systemSchemaSelector';
 import {makeAggregateStateSelector} from '../../../selector/aggregateDataSelector';
 import JsonTree from '../../aggregates/components/JsonTree';
 

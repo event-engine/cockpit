@@ -1,7 +1,7 @@
 import {Card, CardContent, CardHeader, Divider} from '@material-ui/core';
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {makeAggregateNonCreationCommandsSelector} from '../../../selector/eventEngineSchemaSelector';
+import {makeAggregateNonCreationCommandsSelector} from '../../../selector/systemSchemaSelector';
 import CommandButton from '../../common/components/CommandButton';
 import {Alert, AlertTitle} from '@material-ui/lab';
 
