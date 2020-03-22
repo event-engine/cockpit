@@ -32,6 +32,11 @@ export interface Event {
     schema: JSONSchema;
 }
 
+export interface PersistedAggregateState {
+    version: number;
+    state: object;
+}
+
 export interface AggregateEvent {
     eventName: string;
     aggregateVersion: number;
@@ -39,3 +44,5 @@ export interface AggregateEvent {
     metadata: any;
     payload: any;
 }
+
+export type AggregateState = object;

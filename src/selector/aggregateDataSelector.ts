@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import {ReduxState} from '../reducer';
-import {AggregateEvent} from '../api/types';
+import {AggregateEvent, AggregateState} from '../api/types';
 
 const stateKey = 'aggregateData';
 
@@ -15,7 +15,7 @@ export const makeAggregateListSelector = (aggregateType: string) => {
 };
 
 export const makeAggregateStateSelector = (aggregateId: string) => {
-    return createSelector([aggregateStatesSelector], aggregateStates => {
+    return createSelector([aggregateStatesSelector], (aggregateStates): AggregateState|null => {
         return aggregateStates[aggregateId] || null;
     });
 };

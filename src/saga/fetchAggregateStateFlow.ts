@@ -3,11 +3,14 @@ import {Action} from 'redux-actions';
 import {loadAggregateState} from '../api';
 import {onEnqueueErrorSnackbar} from './enqueueSnackbarFlow';
 import {fetchAggregateState, FetchAggregateStatePayload} from '../action/aggregateDataCommands';
-import {aggregateStateFetched} from '../action/aggregateDataEvents';
+import {aggregateStateCleared, aggregateStateFetched} from '../action/aggregateDataEvents';
+import {AggregateState} from '../api/types';
 
 export const onFetchAggregateState = function*(rawAggregateType: string, aggregateId: string, version?: number) {
+    yield put(aggregateStateCleared({ aggregateId }));
+
     try {
-        const aggregateState = yield call(loadAggregateState, rawAggregateType, aggregateId, version);
+        const aggregateState: AggregateState = yield call(loadAggregateState, rawAggregateType, aggregateId, version);
         yield put(aggregateStateFetched({aggregateId, aggregateState}));
     } catch (e) {
         yield call(onEnqueueErrorSnackbar, `Loading aggregate state of aggregate ${aggregateId} failed`);

@@ -4,6 +4,7 @@ import AggregateDetailsEventsWidget from './pages/aggregateDetails/components/Ag
 import {RouteComponentProps} from 'react-router';
 import AggregateStateView from './pages/aggregateDetails/components/AggregateStateView';
 import AggregateCommandsWidget from './pages/aggregateDetails/components/AggregateCommandsWidget';
+import AggregateSearchBar from './pages/common/components/AggregateSearchBar';
 
 interface AggregateDetailsPageProps extends RouteComponentProps {
 
@@ -17,6 +18,9 @@ const AggregateDetailsPage = (props: AggregateDetailsPageProps) => {
 
     return (
         <Grid container={true} spacing={3}>
+            <Grid item={true} md={8}>
+                <AggregateSearchBar aggregateType={aggregateType} aggregateId={aggregateId} />
+            </Grid>
             <Grid item={true} md={6}>
                 <Grid container={true} spacing={3}>
                     <Grid item={true} md={12}>

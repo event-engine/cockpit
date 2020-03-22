@@ -5,10 +5,11 @@ import {onEnqueueErrorSnackbar} from './enqueueSnackbarFlow';
 import {fetchAggregateList, FetchAggregateListPayload} from '../action/aggregateDataCommands';
 import {aggregateListFetched} from '../action/aggregateDataEvents';
 import {normalizeAggregateType} from '../selector/systemSchemaSelector';
+import {PersistedAggregateState} from '../api/types';
 
 export const onFetchAggregateList = function*(rawAggregateType: string) {
     try {
-        const aggregateList = yield call(loadAggregatesForType, rawAggregateType);
+        const aggregateList: PersistedAggregateState[] = yield call(loadAggregatesForType, rawAggregateType);
 
         yield put(aggregateListFetched({
             aggregateList,

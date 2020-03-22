@@ -23,7 +23,7 @@ const theme = {
 };
 
 interface JsonTreeProps {
-    data: any;
+    data: object;
 }
 
 const JsonTree = (props: JsonTreeProps) => {

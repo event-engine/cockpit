@@ -8,6 +8,7 @@ import {makeRawAggregateTypeSelector} from '../../../selector/systemSchemaSelect
 import {makeAggregateStateSelector} from '../../../selector/aggregateDataSelector';
 import JsonTree from '../../aggregates/components/JsonTree';
 import {fetchAggregateState} from '../../../action/aggregateDataCommands';
+import LoadingCard from '../../common/components/LoadingCard';
 
 const useStyles = makeStyles(theme => ({
 }));
@@ -34,13 +35,13 @@ const AggregateStateView = (props: AggregateStateViewProps) => {
     const subheader = props.version ? `Aggregate state at version ${props.version}` : 'Latest aggregate state';
 
     return (
-        <Card>
+        <LoadingCard loading={!aggregate}>
             <CardHeader title={'Aggregate State'} subheader={subheader} />
             <Divider />
             <CardContent>
-                <JsonTree data={aggregate} />
+                <JsonTree data={aggregate || {}} />
             </CardContent>
-        </Card>
+        </LoadingCard>
     );
 };
 

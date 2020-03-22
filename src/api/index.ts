@@ -1,5 +1,5 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
-import {AggregateEvent, SystemSchema} from './types';
+import {AggregateEvent, AggregateState, PersistedAggregateState, SystemSchema} from './types';
 import {Logger} from '../util/Logger';
 
 const configuredAxios = axios.create({
@@ -21,21 +21,21 @@ export const getSystemSchema = async (): Promise<SystemSchema> => {
     return response.data as SystemSchema;
 };
 
-export const loadAggregatesForType = async (rawAggregateType: string): Promise<any[]> => {
+export const loadAggregatesForType = async (rawAggregateType: string): Promise<PersistedAggregateState[]> => {
     const response: AxiosResponse = await sendApiRequest({
         url: process.env.REACT_APP_EE_SCHEMA_URL + '/load-aggregates?aggregateType=' + rawAggregateType,
     });
 
-    return response.data as any[];
+    return response.data as PersistedAggregateState[];
 };
 
-export const loadAggregateState = async (rawAggregateType: string, aggregateId: string, version?: number): Promise<any> => {
+export const loadAggregateState = async (rawAggregateType: string, aggregateId: string, version?: number): Promise<AggregateState> => {
     const response: AxiosResponse = await sendApiRequest({
         url: process.env.REACT_APP_EE_SCHEMA_URL + '/load-aggregate?aggregateType='
             + rawAggregateType + '&aggregateId=' + aggregateId + (version ? `&version=${version}` : ''),
     });
 
-    return response.data as any;
+    return response.data as AggregateState;
 };
 
 export const loadAggregateEvents = async (rawAggregateType: string, aggregateId: string): Promise<AggregateEvent[]> => {

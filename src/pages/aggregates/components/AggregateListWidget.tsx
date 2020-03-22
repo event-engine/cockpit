@@ -1,5 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {Card, CardHeader, CardContent, CardActions, Divider, Button, Dialog, DialogTitle, DialogActions, DialogContent} from '@material-ui/core';
+import {
+    Card,
+    CardHeader,
+    CardContent,
+    CardActions,
+    Divider,
+    Button,
+    Dialog,
+    DialogTitle,
+    DialogActions,
+    DialogContent,
+    makeStyles,
+} from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import {
     makeAggregateCreationCommandsSelector,
@@ -14,6 +26,7 @@ import CommandForm from '../../common/components/CommandForm';
 import {Alert, AlertTitle} from '@material-ui/lab';
 import CommandButton from '../../common/components/CommandButton';
 import {fetchAggregateList} from '../../../action/aggregateDataCommands';
+import AggregateSearchBar from '../../common/components/AggregateSearchBar';
 
 interface AggregateListProps {
     aggregateType: string;
@@ -57,6 +70,7 @@ const AggregateListWidget = (props: AggregateListProps) => {
             <CardHeader title={'Aggregates'} />
             <Divider />
             <CardContent>
+
                 {aggregateList && aggregateIdentifier && aggregateList.map((aggregate: any, index: number) => (
                     <AggregateExpansionPanel
                         key={index}

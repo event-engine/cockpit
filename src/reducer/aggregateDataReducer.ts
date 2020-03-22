@@ -1,9 +1,9 @@
-import {Action, createAction, handleActions} from 'redux-actions';
+import {Action, handleActions} from 'redux-actions';
 import {AggregateEvent} from '../api/types';
 import {
     aggregateEventsFetched, AggregateEventsFetchedPayload,
     aggregateListFetched,
-    AggregateListFetchedPayload,
+    AggregateListFetchedPayload, aggregateStateCleared, AggregateStateClearedPayload,
     aggregateStateFetched,
     AggregateStateFetchedPayload,
 } from '../action/aggregateDataEvents';
@@ -46,6 +46,18 @@ export const reducer = handleActions<AggregateDataState, any>(
                     ...state.aggregateStates,
                     [action.payload.aggregateId]: action.payload.aggregateState,
                 },
+            };
+        },
+        [aggregateStateCleared.toString()]: (state = initialState, action: Action<AggregateStateClearedPayload>) => {
+            if (!state) {
+                return state;
+            }
+
+            const { [action.payload.aggregateId]: removedState, ...remainingAggregateStates } = state.aggregateStates;
+
+            return {
+                ...state,
+                aggregateStates: remainingAggregateStates,
             };
         },
         [aggregateEventsFetched.toString()]: (state = initialState, action: Action<AggregateEventsFetchedPayload>) => {
