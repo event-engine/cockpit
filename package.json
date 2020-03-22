@@ -25,7 +25,6 @@
     "axios": "^0.19.0",
     "history": "^4.10.1",
     "lodash": "^4.17.15",
-    "notistack": "^0.9.7",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-json-tree": "^0.11.2",

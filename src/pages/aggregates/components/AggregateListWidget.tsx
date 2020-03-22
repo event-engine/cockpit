@@ -6,14 +6,14 @@ import {
     makeAggregateIdentifierSelector, makeAggregateMultiStoreModeSelector, makeRawAggregateTypeSelector,
 } from '../../../selector/systemSchemaSelector';
 import SendIcon from '@material-ui/icons/Send';
-import {executeCommand, loadAggregatesForType} from '../../../api';
-import {updateAggregateList} from '../../../reducer/aggregateDataReducer';
+import {executeCommand} from '../../../api';
 import {makeAggregateListSelector} from '../../../selector/aggregateDataSelector';
 import AggregateExpansionPanel from './AggregateExpansionPanel';
 import {Command, MultiStoreMode} from '../../../api/types';
 import CommandForm from '../../common/components/CommandForm';
 import {Alert, AlertTitle} from '@material-ui/lab';
 import CommandButton from '../../common/components/CommandButton';
+import {fetchAggregateList} from '../../../action/aggregateDataCommands';
 
 interface AggregateListProps {
     aggregateType: string;
@@ -36,9 +36,7 @@ const AggregateListWidget = (props: AggregateListProps) => {
             return;
         }
 
-        loadAggregatesForType(rawAggregateType).then(newAggregateList => {
-            dispatch(updateAggregateList({ aggregateType: props.aggregateType, aggregateList: newAggregateList }));
-        });
+        dispatch(fetchAggregateList({ rawAggregateType }));
     }, [props.aggregateType, rawAggregateType]);
 
     const openDialogForCommand = (command: Command) => {

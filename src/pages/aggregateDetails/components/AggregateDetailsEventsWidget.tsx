@@ -6,11 +6,10 @@ import {
     makeAggregateMultiStoreModeSelector,
     makeRawAggregateTypeSelector,
 } from '../../../selector/systemSchemaSelector';
-import {loadAggregateEvents} from '../../../api';
-import {updateAggregateEvents} from '../../../reducer/aggregateDataReducer';
-import {AggregateEvent, MultiStoreMode} from '../../../api/types';
+import {MultiStoreMode} from '../../../api/types';
 import {makeAggregateEventsSelector} from '../../../selector/aggregateDataSelector';
 import AggregateEventExpansionPanel from './AggregateEventExpansionPanel';
+import {fetchAggregateEvents} from '../../../action/aggregateDataCommands';
 
 interface AggregateDetailsEventsWidgetProps {
     aggregateType: string;
@@ -26,9 +25,7 @@ const AggregateDetailsEventsWidget = (props: AggregateDetailsEventsWidgetProps) 
 
     useEffect(() => {
         if (rawAggregateType) {
-            loadAggregateEvents(rawAggregateType, props.aggregateId).then((aggregateEvents: AggregateEvent[]) => {
-                dispatch(updateAggregateEvents({ aggregateId: props.aggregateId, aggregateEvents }));
-            });
+            dispatch(fetchAggregateEvents({ rawAggregateType, aggregateId: props.aggregateId }));
         }
     }, [rawAggregateType, props.aggregateId]);
 

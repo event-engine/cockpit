@@ -2,6 +2,9 @@ import { all, call, delay, spawn } from 'redux-saga/effects';
 import {fetchSystemSchemaFlow} from './fetchSystemSchemaFlow';
 import {enqueueSnackbarFlow} from './enqueueSnackbarFlow';
 import {Logger} from '../util/Logger';
+import {fetchAggregateListFlow} from './fetchAggregateListFlow';
+import {fetchAggregateStateFlow} from './fetchAggregateStateFlow';
+import {fetchAggregateEventsFlow} from './fetchAggregateEventsFlow';
 
 /**
  * Prevents the root saga from terminating entirely due to some error in another saga
@@ -27,6 +30,9 @@ const makeRestartable = (saga: any) => {
 const rootSagas: any = [
     enqueueSnackbarFlow,
     fetchSystemSchemaFlow,
+    fetchAggregateListFlow,
+    fetchAggregateStateFlow,
+    fetchAggregateEventsFlow,
 ].map(makeRestartable);
 
 export default function* rootSaga() {

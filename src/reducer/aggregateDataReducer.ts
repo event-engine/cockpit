@@ -1,9 +1,12 @@
 import {Action, createAction, handleActions} from 'redux-actions';
 import {AggregateEvent} from '../api/types';
-
-export const updateAggregateList = createAction('UPDATE_AGGREGATE_LIST');
-export const updateAggregateState = createAction('UPDATE_AGGREGATE_STATE');
-export const updateAggregateEvents = createAction('UPDATE_AGGREGATE_EVENTS');
+import {
+    aggregateEventsFetched, AggregateEventsFetchedPayload,
+    aggregateListFetched,
+    AggregateListFetchedPayload,
+    aggregateStateFetched,
+    AggregateStateFetchedPayload,
+} from '../action/aggregateDataEvents';
 
 export interface AggregateDataState {
     aggregateLists: Record<string, any[]>;
@@ -11,7 +14,7 @@ export interface AggregateDataState {
     aggregateEvents: Record<string, AggregateEvent[]>;
 }
 
-export const initialState = {
+export const initialState: AggregateDataState = {
     aggregateLists: {},
     aggregateStates: {},
     aggregateEvents: {},
@@ -19,7 +22,7 @@ export const initialState = {
 
 export const reducer = handleActions<AggregateDataState, any>(
     {
-        [updateAggregateList.toString()]: (state = initialState, action: Action<{ aggregateList: any[], aggregateType: string }>) => {
+        [aggregateListFetched.toString()]: (state = initialState, action: Action<AggregateListFetchedPayload>) => {
             if (!state) {
                 return state;
             }
@@ -32,7 +35,7 @@ export const reducer = handleActions<AggregateDataState, any>(
                 },
             };
         },
-        [updateAggregateState.toString()]: (state = initialState, action: Action<{ aggregateId: string, aggregateState: any }>) => {
+        [aggregateStateFetched.toString()]: (state = initialState, action: Action<AggregateStateFetchedPayload>) => {
             if (!state) {
                 return state;
             }
@@ -45,10 +48,7 @@ export const reducer = handleActions<AggregateDataState, any>(
                 },
             };
         },
-        [updateAggregateEvents.toString()]: (
-            state = initialState,
-            action: Action<{ aggregateId: string, aggregateEvents: AggregateEvent[] }>,
-        ) => {
+        [aggregateEventsFetched.toString()]: (state = initialState, action: Action<AggregateEventsFetchedPayload>) => {
             if (!state) {
                 return state;
             }
