@@ -63,6 +63,8 @@ const AggregateSearchBar = (props: AggregateSearchBarProps) => {
             dispatch(enqueueWarningSnackbar({
                 message: 'Please specify aggregate type and aggregate id',
             }));
+
+            return;
         }
 
         history.push(makeAggregateDetailsUrl(normalizeAggregateType(aggregateType!), aggregateId));
