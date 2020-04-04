@@ -105,8 +105,6 @@ const AggregateListWidget = (props: AggregateListProps) => {
                     <DialogContent style={{ padding: '24px 24px' }}>
                         <CommandForm
                             command={commandDialogCommand}
-                            payload={commandPayload}
-                            onChangePayload={payload => setCommandPayload(payload)}
                         />
                     </DialogContent>
                     <Divider />

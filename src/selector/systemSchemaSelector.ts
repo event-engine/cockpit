@@ -13,6 +13,12 @@ export const makeAggregateTypeListSelector = () => {
     });
 };
 
+export const makeJsonSchemaDefinitionsSelector = () => {
+    return createSelector([systemSchemaSelector], rawSchema => {
+        return !rawSchema ? null : rawSchema.definitions;
+    });
+};
+
 export const makeAggregateEventsSelector = (aggregateType: string) => {
     return createSelector([systemSchemaSelector], rawSchema => {
         if (!rawSchema) {

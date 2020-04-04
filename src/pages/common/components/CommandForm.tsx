@@ -1,79 +1,76 @@
-import React, {useEffect, useState} from 'react';
+import React, {useRef} from 'react';
 import {Command} from '../../../api/types';
-import StringProperty from './CommandForm/StringProperty';
-import {ControlledEditor} from '@monaco-editor/react';
+import Editor, {monaco} from '@monaco-editor/react';
 import {Grid} from '@material-ui/core';
+import {useSelector} from 'react-redux';
+import {makeJsonSchemaDefinitionsSelector} from '../../../selector/systemSchemaSelector';
 
 interface CommandFormProps {
     command: Command;
-    payload: any;
-    onChangePayload: (value: any) => void;
 }
+
+let monacoInstance: any = null;
+monaco.init().then(instance => monacoInstance = instance);
 
 const CommandForm = (props: CommandFormProps) => {
 
-    // tslint:disable:no-console
-
     const propertySchema = props.command.schema.properties;
-    const properties = Object.keys(propertySchema);
-    const requiredProperties: string[] = props.command.schema.required; console.log(propertySchema);
 
-    useEffect(() => {
-        const defaultEditorValue: Record<string, any> = {};
-        properties.forEach((propertyName: string) => {
-            if (Array.isArray(propertySchema[propertyName].type)) {
-                defaultEditorValue[propertyName] = propertySchema[propertyName].type.join('|');
-            } else {
-                switch (propertySchema[propertyName].type) {
-                    case 'object': defaultEditorValue[propertyName] = {}; break;
-                    default: defaultEditorValue[propertyName] = propertySchema[propertyName].type;
-                }
+    const defaultEditorValue: Record<string, any> = {};
+    Object.keys(propertySchema).forEach((propertyName: string) => {
+        if (Array.isArray(propertySchema[propertyName].type)) {
+            defaultEditorValue[propertyName] = propertySchema[propertyName].type.join('|');
+        } else {
+            switch (propertySchema[propertyName].type) {
+                case 'object': defaultEditorValue[propertyName] = {}; break;
+                default: defaultEditorValue[propertyName] = propertySchema[propertyName].type;
             }
+        }
+    });
+
+    const jsonSchemaDefinitions = useSelector(makeJsonSchemaDefinitionsSelector());
+    const editorRef = useRef();
+    const valueGetterRef = useRef();
+
+    const handleEditorDidMount = (valueGetter: any, editor: any) => {
+        valueGetterRef.current = valueGetter;
+        editorRef.current = editor;
+
+        const jsonCode = JSON.stringify(defaultEditorValue, null, 2);
+        const modelUri = monacoInstance.Uri.parse(`${props.command.commandName}.json`);
+        let model = monacoInstance.editor.getModel(modelUri);
+
+        if (null === model) {
+            model = monacoInstance.editor.createModel(jsonCode, 'json', modelUri);
+        } else  {
+            model.setValue(jsonCode);
+        }
+
+        monacoInstance.languages.json.jsonDefaults.setDiagnosticsOptions({
+            validate: true,
+            schemas: [{
+                fileMatch: [modelUri.toString()],
+                schema: { ...props.command.schema, definitions: jsonSchemaDefinitions },
+            }],
         });
-        props.onChangePayload(defaultEditorValue);
-    }, []);
+        editor.setModel(model);
+    };
 
     return (
         <div>
             <Grid container={true} spacing={3}>
-                <Grid item={true} md={6}>
-                    <ControlledEditor
+                <Grid item={true} md={12}>
+                    <Editor
                         height={'500px'}
                         language={'json'}
-                        value={JSON.stringify(props.payload, null, 2)}
-                        editorDidMount={(getEditorValue: any, monaco: any) => {
-                            console.log(monaco);
-                            // Possible to use schema here?
-                        }}
-                        onChange={(ev: any, value: string|undefined) => {
-                            props.onChangePayload(JSON.parse(value || '{}'));
+                        editorDidMount={handleEditorDidMount}
+                        options={{
+                            minimap: {
+                                enabled: false,
+                            },
+                            formatOnPaste: true,
                         }}
                     />
-                </Grid>
-                <Grid item={true} md={6}>
-                    {properties
-                        .map((propertyName: string) => {
-                            switch (propertySchema[propertyName].type) {
-                                case 'string': {
-                                    return (
-                                        <StringProperty
-                                            name={propertyName}
-                                            required={requiredProperties.includes(propertyName)}
-                                            value={props.payload[propertyName]}
-                                            onChange={(value: string) => props.onChangePayload({...props.payload, [propertyName]: value})}
-                                            {...propertySchema[propertyName]}
-                                        />
-                                    );
-                                }
-                                default: {
-                                    return 'Unsupported property type';
-                                }
-                            }
-                        })
-                        .map((node: React.ReactNode, index: number) => (
-                            <div key={index} style={{ marginTop: 15, marginBottom: 15 }}>{node}</div>
-                        ))
-                    }
                 </Grid>
             </Grid>
         </div>

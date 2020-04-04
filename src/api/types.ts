@@ -1,6 +1,7 @@
 
 export interface SystemSchema {
     aggregates: Aggregate[];
+    definitions: Record<string, any>;
 }
 
 export type JSONSchema = any;
