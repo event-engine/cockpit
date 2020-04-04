@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
     Card,
     CardHeader,
@@ -10,6 +10,7 @@ import {
     DialogTitle,
     DialogActions,
     DialogContent,
+    IconButton,
     makeStyles,
 } from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
@@ -18,6 +19,7 @@ import {
     makeAggregateIdentifierSelector, makeAggregateMultiStoreModeSelector, makeRawAggregateTypeSelector,
 } from '../../../selector/systemSchemaSelector';
 import SendIcon from '@material-ui/icons/Send';
+import CloseIcon from '@material-ui/icons/Close';
 import {executeCommand} from '../../../api';
 import {makeAggregateListSelector} from '../../../selector/aggregateDataSelector';
 import AggregateExpansionPanel from './AggregateExpansionPanel';
@@ -26,14 +28,23 @@ import CommandForm from '../../common/components/CommandForm';
 import {Alert, AlertTitle} from '@material-ui/lab';
 import CommandButton from '../../common/components/CommandButton';
 import {fetchAggregateList} from '../../../action/aggregateDataCommands';
-import AggregateSearchBar from '../../common/components/AggregateSearchBar';
 
 interface AggregateListProps {
     aggregateType: string;
 }
 
+const useStyles = makeStyles(theme => ({
+    closeButton: {
+        position: 'absolute',
+        right: theme.spacing(1),
+        top: theme.spacing(1),
+        color: theme.palette.grey[500],
+    },
+}));
+
 const AggregateListWidget = (props: AggregateListProps) => {
 
+    const classes = useStyles();
     const commands = useSelector(makeAggregateCreationCommandsSelector(props.aggregateType));
     const aggregateList = useSelector(makeAggregateListSelector(props.aggregateType));
     const aggregateIdentifier = useSelector(makeAggregateIdentifierSelector(props.aggregateType));
@@ -42,7 +53,7 @@ const AggregateListWidget = (props: AggregateListProps) => {
     const dispatch = useDispatch();
     const [commandDialogOpen, setCommandDialogOpen] = useState<boolean>(false);
     const [commandDialogCommand, setCommandDialogCommand] = useState<Command|null>(null);
-    const [commandPayload, setCommandPayload] = useState<any>({});
+    const commandFormRef = useRef();
 
     useEffect(() => {
         if (!rawAggregateType || multiStoreMode === MultiStoreMode.Event) {
@@ -62,7 +73,8 @@ const AggregateListWidget = (props: AggregateListProps) => {
             return;
         }
 
-        executeCommand(commandDialogCommand.commandName, commandPayload);
+        const payload = (commandFormRef.current as any).retrievePayload();
+        executeCommand(commandDialogCommand.commandName, payload);
     };
 
     return (
@@ -99,16 +111,27 @@ const AggregateListWidget = (props: AggregateListProps) => {
                 ))}
             </CardActions>
             {commandDialogCommand !== null && (
-                <Dialog open={commandDialogOpen} onClose={() => setCommandDialogOpen(false)} fullWidth={true} maxWidth={'lg'}>
-                    <DialogTitle>{commandDialogCommand.commandName}</DialogTitle>
+                <Dialog open={commandDialogOpen} fullWidth={true} maxWidth={'lg'}>
+                    <DialogTitle>
+                        {commandDialogCommand.commandName}
+                        <IconButton className={classes.closeButton} onClick={() => setCommandDialogOpen(false)}>
+                            <CloseIcon />
+                        </IconButton>
+                    </DialogTitle>
                     <Divider />
                     <DialogContent style={{ padding: '24px 24px' }}>
                         <CommandForm
                             command={commandDialogCommand}
+                            ref={commandFormRef}
                         />
                     </DialogContent>
                     <Divider />
                     <DialogActions>
+                        <Button
+                            children={'Cancel'}
+                            onClick={() => setCommandDialogOpen(false)}
+                            color={'secondary'}
+                        />
                         <Button
                             variant={'contained'}
                             color={'primary'}

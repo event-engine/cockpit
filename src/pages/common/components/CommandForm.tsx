@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useImperativeHandle, useRef} from 'react';
 import {Command} from '../../../api/types';
 import Editor, {monaco} from '@monaco-editor/react';
 import {Grid} from '@material-ui/core';
@@ -12,7 +12,17 @@ interface CommandFormProps {
 let monacoInstance: any = null;
 monaco.init().then(instance => monacoInstance = instance);
 
-const CommandForm = (props: CommandFormProps) => {
+const CommandForm = React.forwardRef((props: CommandFormProps, ref: any) => { // @todo
+
+    const jsonSchemaDefinitions = useSelector(makeJsonSchemaDefinitionsSelector());
+    const editorRef = useRef();
+    const valueGetterRef = useRef();
+
+    useImperativeHandle(ref, () => ({
+        retrievePayload: (): string => {
+            return (valueGetterRef as any).current();
+        },
+    }));
 
     const propertySchema = props.command.schema.properties;
 
@@ -27,10 +37,6 @@ const CommandForm = (props: CommandFormProps) => {
             }
         }
     });
-
-    const jsonSchemaDefinitions = useSelector(makeJsonSchemaDefinitionsSelector());
-    const editorRef = useRef();
-    const valueGetterRef = useRef();
 
     const handleEditorDidMount = (valueGetter: any, editor: any) => {
         valueGetterRef.current = valueGetter;
@@ -75,6 +81,6 @@ const CommandForm = (props: CommandFormProps) => {
             </Grid>
         </div>
     );
-};
+});
 
 export default CommandForm;
