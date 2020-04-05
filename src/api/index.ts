@@ -1,6 +1,10 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {AggregateEvent, AggregateState, PersistedAggregateState, SystemSchema} from './types';
 import {Logger} from '../util/Logger';
+import {store} from '../store';
+
+const schemaUrl = () => store.getState().settings.schemaUrl;
+const messageBoxUrl = () => store.getState().settings.messageBoxUrl;
 
 const configuredAxios = axios.create({
 });
@@ -17,13 +21,13 @@ export const sendApiRequest = async (
 };
 
 export const getSystemSchema = async (): Promise<SystemSchema> => {
-    const response: AxiosResponse = await sendApiRequest({ url: process.env.REACT_APP_EE_SCHEMA_URL });
+    const response: AxiosResponse = await sendApiRequest({ url: schemaUrl() });
     return response.data as SystemSchema;
 };
 
 export const loadAggregatesForType = async (rawAggregateType: string): Promise<PersistedAggregateState[]> => {
     const response: AxiosResponse = await sendApiRequest({
-        url: process.env.REACT_APP_EE_SCHEMA_URL + '/load-aggregates?aggregateType=' + rawAggregateType,
+        url: schemaUrl() + '/load-aggregates?aggregateType=' + rawAggregateType,
     });
 
     return response.data as PersistedAggregateState[];
@@ -31,7 +35,7 @@ export const loadAggregatesForType = async (rawAggregateType: string): Promise<P
 
 export const loadAggregateState = async (rawAggregateType: string, aggregateId: string, version?: number): Promise<AggregateState> => {
     const response: AxiosResponse = await sendApiRequest({
-        url: process.env.REACT_APP_EE_SCHEMA_URL + '/load-aggregate?aggregateType='
+        url: schemaUrl() + '/load-aggregate?aggregateType='
             + rawAggregateType + '&aggregateId=' + aggregateId + (version ? `&version=${version}` : ''),
     });
 
@@ -40,7 +44,7 @@ export const loadAggregateState = async (rawAggregateType: string, aggregateId: 
 
 export const loadAggregateEvents = async (rawAggregateType: string, aggregateId: string): Promise<AggregateEvent[]> => {
     const response: AxiosResponse = await sendApiRequest({
-        url: process.env.REACT_APP_EE_SCHEMA_URL + '/load-aggregate-events?aggregateType='
+        url: schemaUrl() + '/load-aggregate-events?aggregateType='
             + rawAggregateType + '&aggregateId=' + aggregateId,
     });
 
@@ -49,7 +53,7 @@ export const loadAggregateEvents = async (rawAggregateType: string, aggregateId:
 
 export const executeCommand = async (commandName: string, payload: any) => {
     const response: AxiosResponse = await sendApiRequest({
-        url: process.env.REACT_APP_EE_MESSAGE_BOX_URL + `/${commandName}`,
+        url: messageBoxUrl() + `/${commandName}`,
         method: 'post',
         data: payload,
     });

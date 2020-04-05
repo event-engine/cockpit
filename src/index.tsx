@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import {applyMiddleware, createStore, compose} from 'redux';
-import {reducer, initialState} from './reducer';
 import {createHashHistory} from 'history';
 import {Provider} from 'react-redux';
 import {ThemeProvider} from '@material-ui/styles';
@@ -14,22 +12,9 @@ import AggregatesPage from './AggregatesPage';
 import {aggregateDetailsPath, aggregatePath, dashboardPath} from './routes';
 import MainLayout from './layout/MainLayout';
 import AggregateDetailsPage from './AggregateDetailsPage';
-import createSagaMiddleware from 'redux-saga';
-import rootSaga from './saga/rootSaga';
-import {fetchSystemSchema} from './action/systemSchemaCommands';
 import SnackbarStack from './SnackbarStack';
-
-const sagaMiddleware = createSagaMiddleware();
-const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(
-    reducer,
-    initialState,
-    composeEnhancers(applyMiddleware(sagaMiddleware)),
-);
-
-sagaMiddleware.run(rootSaga);
-store.dispatch(fetchSystemSchema({ }));
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './store';
 
 const history = createHashHistory();
 
@@ -44,14 +29,16 @@ const Main = () => (
 
 ReactDOM.render((
     <Provider store={store}>
-        <ThemeProvider theme={theme}>
-            <Router history={history}>
-                <MainLayout>
-                    <Main/>
-                </MainLayout>
-            </Router>
-            <SnackbarStack />
-        </ThemeProvider>
+        <PersistGate loading={null} persistor={persistor}>
+            <ThemeProvider theme={theme}>
+                <Router history={history}>
+                    <MainLayout>
+                        <Main/>
+                    </MainLayout>
+                </Router>
+                <SnackbarStack />
+            </ThemeProvider>
+        </PersistGate>
     </Provider>
 ), document.getElementById('root'));
 
