@@ -146,5 +146,7 @@ const AggregateListWidget = (props: AggregateListProps) => {
         </Card>
     );
 };
-
+// uuid generation and copy to clipboard
+// query support
+// authentication support
 export default AggregateListWidget;

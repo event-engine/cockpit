@@ -16,8 +16,12 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {messageBoxUrlUpdated, schemaUrlUpdated} from '../action/settingsEvents';
 import {makeMessageBoxUrlSelector, makeSchemaUrlSelector} from '../selector/settingsSelector';
+import AuthenticationForm from './SettingsDialog/AuthenticationForm';
 
 const useStyles = makeStyles(theme => ({
+    dialogContent: {
+        height: '400px',
+    },
     closeButton: {
         position: 'absolute',
         right: theme.spacing(1),
@@ -64,7 +68,7 @@ const SettingsDialog = (props: SettingsDialogProps) => {
                 </IconButton>
             </DialogTitle>
             <Divider />
-            <DialogContent>
+            <DialogContent className={classes.dialogContent}>
                 <Tabs
                     value={tab}
                     onChange={(_, newTab) => setTab(newTab)}
@@ -75,6 +79,7 @@ const SettingsDialog = (props: SettingsDialogProps) => {
                     <Tab label={'Endpoints'} />
                     <Tab label={'Authentication'} />
                 </Tabs>
+                <Divider />
                 <div>
                     {tab === 0 && (
                         <Grid container={true} spacing={3} style={{ marginTop: '20px' }}>
@@ -101,7 +106,7 @@ const SettingsDialog = (props: SettingsDialogProps) => {
                         </Grid>
                     )}
                     {tab === 1 && (
-                        'tbd'
+                        <AuthenticationForm />
                     )}
                 </div>
             </DialogContent>

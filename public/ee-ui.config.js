@@ -13,8 +13,14 @@
     exports.eeUiConfig = {
         /* All env props defined here can be overridden in the UI including user defined props */
         env: {
-            schemaUrl: "https://ee.local/inspectio-board/api/v1/messagebox-schema2",
-            messageBoxUrl: "https://ee.local/inspectio-board/api/v1/messagebox",
+            schemaUrl: 'https://ee.local/inspectio-board/api/v1/messagebox-schema2',
+            messageBoxUrl: 'https://ee.local/inspectio-board/api/v1/messagebox',
+            authentication: {
+                type: 'oauth2_client_credentials',
+                url: 'https://url/to/auth/endpoint',
+                clientId: 'id',
+                clientSecret: 'secret'
+            }
         },
 
         /* Adjust the hooks below to alter the behavior of the event-engine-ui */

@@ -5,6 +5,7 @@ import rootSaga from './saga/rootSaga';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import {fetchSystemSchema} from './action/systemSchemaCommands';
+import {config} from './config';
 
 const persistConfig = {
     key: 'root',
@@ -26,5 +27,9 @@ export const store = createStore(
 export const persistor = persistStore(store as any, {}, () => {
     store.dispatch(fetchSystemSchema({ }));
 });
-// persistor.purge();
+
+if (config.environment === 'development') {
+    persistor.purge();
+}
+
 sagaMiddleware.run(rootSaga);
