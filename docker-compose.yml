@@ -13,3 +13,5 @@ services:
     build:
       context: .
       dockerfile: env/docker/nginx/event-engine-ui
+    ports:
+      - "3001:443"

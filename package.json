@@ -56,8 +56,11 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
+      "> .5%",
+      "not ios_saf < 13",
       "not dead",
+      "not ie 11",
+      "not ie_mob 11",
       "not op_mini all"
     ],
     "development": [

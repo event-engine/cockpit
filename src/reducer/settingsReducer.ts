@@ -5,6 +5,7 @@ import {
     schemaUrlUpdated,
     SchemaUrlUpdatedPayload,
 } from '../action/settingsEvents';
+import {config} from '../config';
 
 export interface SettingsState {
     schemaUrl: string;
@@ -12,8 +13,8 @@ export interface SettingsState {
 }
 
 export const initialState: SettingsState = {
-    schemaUrl: process.env.REACT_APP_EE_SCHEMA_URL || '',
-    messageBoxUrl: process.env.REACT_APP_EE_MESSAGE_BOX_URL || '',
+    schemaUrl: config.schemaUrl || '',
+    messageBoxUrl: config.messageBoxUrl || '',
 };
 
 export const reducer = handleActions<SettingsState, any>(
