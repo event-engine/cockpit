@@ -2,6 +2,7 @@ import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {AggregateEvent, AggregateState, PersistedAggregateState, SystemSchema} from './types';
 import {Logger} from '../util/Logger';
 import {store} from '../store';
+import {config} from '../config';
 
 const schemaUrl = () => store.getState().settings.schemaUrl;
 const messageBoxUrl = () => store.getState().settings.messageBoxUrl;
@@ -10,10 +11,14 @@ const configuredAxios = axios.create({
 });
 
 export const sendApiRequest = async (
-    config: AxiosRequestConfig,
+    requestConfig: AxiosRequestConfig,
 ) => {
+    const finalizedRequestConfig = config.hooks.preRequestHook
+        ? await config.hooks.preRequestHook(requestConfig, {})
+        : requestConfig;
+
     try {
-        return await configuredAxios(config);
+        return await configuredAxios(finalizedRequestConfig);
     } catch (error) {
         Logger.error(error);
         throw error;
@@ -56,5 +61,8 @@ export const executeCommand = async (commandName: string, payload: any) => {
         url: messageBoxUrl() + `/${commandName}`,
         method: 'post',
         data: payload,
+        headers: {
+            'Content-Type': 'application/json',
+        },
     });
 };

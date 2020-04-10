@@ -1,20 +1,6 @@
-import {AuthenticationTypes} from './layout/SettingsDialog/AuthenticationForm';
+import {AuthOAuth2ClientCredentialsGrant, AuthOAuth2PasswordGrant} from './reducer/settingsReducer';
 
 const eeUiConfig = (window as any).eeUiConfig;
-
-interface AuthOAuth2PasswordGrant {
-    type: AuthenticationTypes.oauth2PasswordGrant;
-    url: string;
-    username: string;
-    password: string;
-}
-
-interface AuthOAuth2ClientCredentialsGrant {
-    type: AuthenticationTypes.oAuth2ClientCredentialsGrant;
-    url: string;
-    clientId: string;
-    clientSecret: string;
-}
 
 export interface Config {
     environment: 'development'|'production';
@@ -32,7 +18,7 @@ export const config: Config = {
     environment: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     schemaUrl: eeUiConfig.env.schemaUrl || null,
     messageBoxUrl: eeUiConfig.env.messageBoxUrl || null,
-    authentication: eeUiConfig.env.authentication || null,
+    authentication: null, // Note: This is currently not in use
     aggregateConfig: eeUiConfig.env.aggregateConfig || null,
     hooks: {
         preRequestHook: eeUiConfig.hooks.preRequestHook || null,

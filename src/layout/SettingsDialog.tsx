@@ -106,7 +106,9 @@ const SettingsDialog = (props: SettingsDialogProps) => {
                         </Grid>
                     )}
                     {tab === 1 && (
-                        <AuthenticationForm />
+                        <div style={{ margin: '10px' }}>There is no direct authentication support as of yet. Take a look
+                            at the preRequestHook to manually configure authentication for your needs.</div>
+                        /*<AuthenticationForm />*/
                     )}
                 </div>
             </DialogContent>

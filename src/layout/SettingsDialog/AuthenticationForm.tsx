@@ -1,6 +1,8 @@
-import {FormControl, Grid, InputLabel, makeStyles, MenuItem, Select} from '@material-ui/core';
-import React, {useState} from 'react';
+import {FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField} from '@material-ui/core';
+import React, {useEffect, useState} from 'react';
 import {config} from '../../config';
+import {useSelector} from 'react-redux';
+import {makeAuthenticationSelector} from '../../selector/settingsSelector';
 
 const useStyles = makeStyles(theme => ({
     authSelect: {
@@ -20,11 +22,29 @@ interface AuthenticationFormProps {
 
 const AuthenticationForm = (props: AuthenticationFormProps) => {
     const classes = useStyles();
+    const currentAuthentication = useSelector(makeAuthenticationSelector());
+
     const [authentication, setAuthentication] = useState<AuthenticationTypes>(
         config.authentication && Object.values(AuthenticationTypes).includes(config.authentication.type)
             ? config.authentication.type as AuthenticationTypes
             : AuthenticationTypes.none,
     );
+    const [url, setUrl] = useState<string>('');
+    const [clientId, setClientId] = useState<string>('');
+    const [clientSecret, setClientSecret] = useState<string>('');
+
+    useEffect(() => {
+        if (!currentAuthentication) {
+            setAuthentication(AuthenticationTypes.none);
+            return;
+        }
+
+        setUrl(currentAuthentication.url);
+        if (currentAuthentication.type === AuthenticationTypes.oAuth2ClientCredentialsGrant) {
+            setClientId(currentAuthentication.clientId);
+            setClientSecret(currentAuthentication.clientSecret);
+        }
+    }, [currentAuthentication]);
 
     return (
         <Grid container={true} spacing={3} style={{ marginTop: '20px' }}>
@@ -47,7 +67,26 @@ const AuthenticationForm = (props: AuthenticationFormProps) => {
                 'tbd password'
             )}
             {authentication === AuthenticationTypes.oAuth2ClientCredentialsGrant && (
-                'tbd client credentials'
+                <Grid item={true} md={12}>
+                    <TextField
+                        label={'Url'}
+                        variant={'outlined'}
+                        value={url}
+                        onChange={e => setUrl(e.target.value)}
+                    />
+                    <TextField
+                        label={'Client Id'}
+                        variant={'outlined'}
+                        value={clientId}
+                        onChange={e => setClientId(e.target.value)}
+                    />
+                    <TextField
+                        label={'Client Secret'}
+                        variant={'outlined'}
+                        value={clientSecret}
+                        onChange={e => setClientSecret(e.target.value)}
+                    />
+                </Grid>
             )}
         </Grid>
     );
