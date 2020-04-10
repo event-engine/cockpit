@@ -21,6 +21,7 @@ export interface Config {
     schemaUrl: string|null;
     messageBoxUrl: string|null;
     authentication: AuthOAuth2PasswordGrant|AuthOAuth2ClientCredentialsGrant|null;
+    aggregateConfig: Record<string, Record<string, string>>|null;
     hooks: {
         preRequestHook: ((request: any, context: any) => any)|null,
     };
@@ -32,6 +33,7 @@ export const config: Config = {
     schemaUrl: eeUiConfig.env.schemaUrl || null,
     messageBoxUrl: eeUiConfig.env.messageBoxUrl || null,
     authentication: eeUiConfig.env.authentication || null,
+    aggregateConfig: eeUiConfig.env.aggregateConfig || null,
     hooks: {
         preRequestHook: eeUiConfig.hooks.preRequestHook || null,
     },

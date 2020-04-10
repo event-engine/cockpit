@@ -20,6 +20,17 @@
                 url: 'https://url/to/auth/endpoint',
                 clientId: 'id',
                 clientSecret: 'secret'
+            },
+            aggregateConfig: {
+                'InspectIO.Board': {
+                    'snapshot': 'InspectIO.BoardSnapshot',
+                    'latestPatch': 'InspectIO.BoardPatch',
+                    'lastSnapshotVersion.userId': 'InspectIO.User',
+                },
+                'InspectIO.User': {
+                    'ownBoards': 'InspectIO.Board',
+                    'sharedBoards': 'InspectIO.Board'
+                }
             }
         },
 

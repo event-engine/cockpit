@@ -24,14 +24,39 @@ const theme = {
 
 interface JsonTreeProps {
     data: object;
+    propertyClickActions?: Record<string, (value: string|number|boolean|null|undefined) => void>;
 }
 
 const JsonTree = (props: JsonTreeProps) => {
+
+    const valueRenderer = props.propertyClickActions
+        ? (displayValue: string|number, rawValue?: string|number|boolean|null, ...keyPath: Array<string|number>) => {
+            if (typeof keyPath[0] !== 'string') {
+                keyPath.shift();
+            }
+
+            const propertyKey = keyPath.reverse().join('.').replace('root.', '');
+
+            if (props.propertyClickActions![propertyKey]) {
+                return (
+                    <span
+                        onClick={() => props.propertyClickActions![propertyKey](rawValue)}
+                        style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                        children={displayValue}
+                    />
+                );
+            }
+
+            return <span>{displayValue}</span>;
+        }
+        : undefined;
+
     return (
         <JSONTree
             data={props.data}
             theme={theme}
             shouldExpandNode={(name: ReactText[], data: object, level: number) => level < 2}
+            valueRenderer={valueRenderer}
         />
     );
 };
