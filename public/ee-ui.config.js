@@ -38,6 +38,10 @@
         env: {
             schemaUrl: 'https://ee.local/inspectio-board/api/v1/messagebox-schema2',
             messageBoxUrl: 'https://ee.local/inspectio-board/api/v1/messagebox',
+            aggregateList: {
+                filterLimit: 500,
+                batchSize: 30,
+            },
             aggregateConfig: {
                 'InspectIO.Board': {
                     'snapshot': 'InspectIO.BoardSnapshot',
@@ -48,7 +52,12 @@
                     'ownBoards': 'InspectIO.Board',
                     'sharedBoards': 'InspectIO.Board'
                 }
-            }
+            },
+            context: {
+                authUrl: 'https://ee.local/auth/realms/demo/protocol/openid-connect/token',
+                authClientId: 'inspectio-boards',
+                authClientSecret: '',
+            },
         },
 
         /* Adjust the hooks below to alter the behavior of the event-engine-ui */
@@ -58,9 +67,9 @@
              */
             preRequestHook: async (request, context) => {
                 const token = await authenticateOAuth2ClientCredentials(
-                    'https://ee.local/auth/realms/demo/protocol/openid-connect/token',
-                    'inspectio-boards',
-                    ''
+                    context.authUrl,
+                    context.authClientId,
+                    context.authClientSecret
                 );
 
                 request.headers = {...request.headers, Authorization: `Bearer ${token}`};

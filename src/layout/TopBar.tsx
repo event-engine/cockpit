@@ -74,7 +74,7 @@ const TopBar = (props: TopBarProps) => {
                         <MenuIcon />
                     </IconButton>
                 </Hidden>
-                <SettingsDialog open={settingsOpen} onClose={closeSettingsDialog}/>
+                {settingsOpen && <SettingsDialog open={settingsOpen} onClose={closeSettingsDialog} />}
             </MuiToolbar>
         </AppBar>
     );

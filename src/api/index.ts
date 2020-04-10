@@ -6,6 +6,7 @@ import {config} from '../config';
 
 const schemaUrl = () => store.getState().settings.schemaUrl;
 const messageBoxUrl = () => store.getState().settings.messageBoxUrl;
+const context = () => store.getState().settings.context;
 
 const configuredAxios = axios.create({
 });
@@ -14,7 +15,7 @@ export const sendApiRequest = async (
     requestConfig: AxiosRequestConfig,
 ) => {
     const finalizedRequestConfig = config.hooks.preRequestHook
-        ? await config.hooks.preRequestHook(requestConfig, {})
+        ? await config.hooks.preRequestHook(requestConfig, context())
         : requestConfig;
 
     try {
@@ -32,7 +33,7 @@ export const getSystemSchema = async (): Promise<SystemSchema> => {
 
 export const loadAggregatesForType = async (rawAggregateType: string): Promise<PersistedAggregateState[]> => {
     const response: AxiosResponse = await sendApiRequest({
-        url: schemaUrl() + '/load-aggregates?aggregateType=' + rawAggregateType,
+        url: schemaUrl() + `/load-aggregates?aggregateType=${rawAggregateType}&limit=${config.aggregateList.filterLimit}`,
     });
 
     return response.data as PersistedAggregateState[];

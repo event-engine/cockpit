@@ -1,4 +1,5 @@
 import {AuthOAuth2ClientCredentialsGrant, AuthOAuth2PasswordGrant} from './reducer/settingsReducer';
+import {AxiosRequestConfig} from 'axios';
 
 const eeUiConfig = (window as any).eeUiConfig;
 
@@ -7,9 +8,14 @@ export interface Config {
     schemaUrl: string|null;
     messageBoxUrl: string|null;
     authentication: AuthOAuth2PasswordGrant|AuthOAuth2ClientCredentialsGrant|null;
+    aggregateList: {
+        filterLimit: number;
+        batchSize: number;
+    };
     aggregateConfig: Record<string, Record<string, string>>|null;
+    context: Record<string, string>|null;
     hooks: {
-        preRequestHook: ((request: any, context: any) => any)|null,
+        preRequestHook: ((request: AxiosRequestConfig, context: Record<string, string>) => AxiosRequestConfig)|null,
     };
 }
 
@@ -19,7 +25,12 @@ export const config: Config = {
     schemaUrl: eeUiConfig.env.schemaUrl || null,
     messageBoxUrl: eeUiConfig.env.messageBoxUrl || null,
     authentication: null, // Note: This is currently not in use
+    aggregateList: {
+        filterLimit: eeUiConfig.env.aggregateList.filterLimit || 500,
+        batchSize: eeUiConfig.env.aggregateList.batchSize || 100,
+    },
     aggregateConfig: eeUiConfig.env.aggregateConfig || null,
+    context: eeUiConfig.env.context || null,
     hooks: {
         preRequestHook: eeUiConfig.hooks.preRequestHook || null,
     },

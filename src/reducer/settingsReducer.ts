@@ -1,5 +1,6 @@
 import {Action, handleActions} from 'redux-actions';
 import {
+    contextUpdated, ContextUpdatedPayload,
     messageBoxUrlUpdated,
     MessageBoxUrlUpdatedPayload,
     schemaUrlUpdated,
@@ -26,12 +27,14 @@ export interface SettingsState {
     schemaUrl: string;
     messageBoxUrl: string;
     authentication: AuthOAuth2PasswordGrant|AuthOAuth2ClientCredentialsGrant|null;
+    context: Record<string, string>;
 }
 
 export const initialState: SettingsState = {
     schemaUrl: config.schemaUrl || '',
     messageBoxUrl: config.messageBoxUrl || '',
     authentication: config.authentication,
+    context: config.context || {},
 };
 
 export const reducer = handleActions<SettingsState, any>(
@@ -54,6 +57,16 @@ export const reducer = handleActions<SettingsState, any>(
             return {
                 ...state,
                 messageBoxUrl: action.payload.url,
+            };
+        },
+        [contextUpdated.toString()]: (state = initialState, action: Action<ContextUpdatedPayload>) => {
+            if (!state) {
+                return state;
+            }
+
+            return {
+                ...state,
+                context: action.payload.context,
             };
         },
     },
