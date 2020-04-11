@@ -4,10 +4,11 @@ import {useSelector} from 'react-redux';
 import {makeAggregateTypeListSelector, normalizeAggregateType} from '../selector/systemSchemaSelector';
 import {NavLink} from 'react-router-dom';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import LocationSearchingIcon from '@material-ui/icons/LocationSearching';
 import MemoryIcon from '@material-ui/icons/Memory';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {makeAggregateUrl} from '../routes';
+import {dashboardPath, makeAggregateUrl, queriesPath} from '../routes';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -58,11 +59,25 @@ const SideBarContent = (props: DashboardSideBarProps) => {
                     activeClassName={classes.active}
                     className={classes.button}
                     component={NavLink}
-                    to={'/dashboard'}
+                    to={dashboardPath}
                     children={(
                         <>
                             <div className={classes.icon}><DashboardIcon /></div>
                             Dashboard
+                        </>
+                    )}
+                />
+            </ListItem>
+            <ListItem className={classes.item} disableGutters={true}>
+                <Button
+                    activeClassName={classes.active}
+                    className={classes.button}
+                    component={NavLink}
+                    to={queriesPath}
+                    children={(
+                        <>
+                            <div className={classes.icon}><LocationSearchingIcon /></div>
+                            Queries
                         </>
                     )}
                 />

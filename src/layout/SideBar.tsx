@@ -48,6 +48,9 @@ const SideBar = (props: SideBarProps) => {
             children={(
                 <div className={classes.root}>
                     <SideBarContent />
+                    <div style={{ margin: '0 auto', fontSize: '13px' }}>
+                        {process.env.REACT_APP_NAME} @ v{process.env.REACT_APP_VERSION}
+                    </div>
                 </div>
             )}
         />

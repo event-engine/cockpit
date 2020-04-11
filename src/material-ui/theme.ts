@@ -1,12 +1,12 @@
 import { createMuiTheme } from '@material-ui/core';
 
-import palette from './palette';
+import {lightPalette} from './palette';
 import typography from './typography';
 import overrides from './overrides/index';
 
 // @ts-ignore
 const theme = createMuiTheme({
-    palette,
+    palette: lightPalette,
     typography,
     overrides,
     zIndex: {

@@ -98,3 +98,9 @@ export const makeRawAggregateTypeSelector = (aggregateType: string) => {
         )!.aggregateType;
     });
 };
+
+export const makeQueryListSelector = () => {
+    return createSelector([systemSchemaSelector], rawSchema => {
+         return rawSchema ? rawSchema.queries : [];
+    });
+};

@@ -1,5 +1,6 @@
 
 export const dashboardPath = '/dashboard';
+export const queriesPath = '/queries';
 export const aggregatePath = '/aggregates/:aggregateType';
 export const aggregateDetailsPath = '/aggregates/:aggregateType/:aggregateId/:version?';
 

@@ -3,7 +3,25 @@ import { colors } from '@material-ui/core';
 const white = '#FFFFFF';
 const black = '#000000';
 
-export default {
+export const darkPalette = {
+  type: 'dark',
+  black,
+  white,
+  primary: {
+      contrastText: white,
+      dark: '#008394',
+      main: '#00bcd4',
+      light: '#33c9dc',
+  },
+  secondary: {
+      contrastText: black,
+      dark: '#90979a',
+      main: '#cfd8dc',
+      light: '#d8dfe3',
+  },
+};
+
+export const lightPalette = {
   black,
   white,
   primary: {
@@ -54,3 +72,5 @@ export default {
   icon: colors.blueGrey[600],
   divider: colors.grey[200],
 };
+
+export default lightPalette;

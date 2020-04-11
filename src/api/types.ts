@@ -1,6 +1,7 @@
 
 export interface SystemSchema {
     aggregates: Aggregate[];
+    queries: Query[];
     definitions: Record<string, any>;
 }
 
@@ -20,6 +21,11 @@ export interface Aggregate {
     multiStoreMode: MultiStoreMode;
     commands: Command[];
     events: Event[];
+}
+
+export interface Query {
+    queryName: string;
+    schema: JSONSchema;
 }
 
 export interface Command {
