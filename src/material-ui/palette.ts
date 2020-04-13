@@ -1,12 +1,11 @@
 import { colors } from '@material-ui/core';
+import {store} from '../store';
 
 const white = '#FFFFFF';
 const black = '#000000';
 
 export const darkPalette = {
   type: 'dark',
-  black,
-  white,
   primary: {
       contrastText: white,
       dark: '#008394',
@@ -14,11 +13,47 @@ export const darkPalette = {
       light: '#33c9dc',
   },
   secondary: {
-      contrastText: black,
+      contrastText: white,
       dark: '#90979a',
       main: '#cfd8dc',
       light: '#d8dfe3',
   },
+  success: {
+    contrastText: white,
+    dark: colors.green[900],
+    main: colors.green[600],
+    light: colors.green[400],
+  },
+  info: {
+    contrastText: white,
+    dark: colors.blue[900],
+    main: colors.blue[600],
+    light: colors.blue[400],
+  },
+  warning: {
+    contrastText: white,
+    dark: colors.orange[900],
+    main: colors.orange[600],
+    light: colors.orange[400],
+  },
+  error: {
+    contrastText: white,
+    dark: colors.red[900],
+    main: colors.red[600],
+    light: colors.red[400],
+  },
+  text: {
+    primary: '#fff',
+    secondary: 'rgba(255, 255, 255, 0.7)',
+    link: colors.blue[600],
+  },
+  background: {
+    default: '#303030',
+    paper: '#424242',
+    topBar: '#606060',
+  },
+  icon: colors.grey[200],
+  divider: 'rgba(255, 255, 255, 0.12)',
 };
 
 export const lightPalette = {
@@ -68,9 +103,10 @@ export const lightPalette = {
   background: {
     default: '#F4F6F8',
     paper: white,
+    topBar: '#42423B',
   },
   icon: colors.blueGrey[600],
   divider: colors.grey[200],
 };
 
-export default lightPalette;
+export default store.getState().settings.theme === 'light' ? lightPalette : darkPalette;

@@ -1,6 +1,6 @@
-import palette from './palette';
+import {darkPalette, lightPalette} from './palette';
 
-export default {
+export const makeTypography = (palette: any) => ({
   h1: {
     color: palette.text.primary,
     fontWeight: 500,
@@ -86,4 +86,7 @@ export default {
     lineHeight: '13px',
     textTransform: 'uppercase',
   },
-};
+});
+
+export const lightTypography = makeTypography(lightPalette);
+export const darkTypography = makeTypography(darkPalette);

@@ -13,16 +13,20 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SettingsIcon from '@material-ui/icons/Settings';
 import UpdateIcon from '@material-ui/icons/Update';
 import CodeIcon from '@material-ui/icons/Code';
-import {useDispatch} from 'react-redux';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+import {useDispatch, useSelector} from 'react-redux';
 import {fetchSystemSchema} from '../action/systemSchemaCommands';
 import SettingsDialog from './SettingsDialog';
 import {copyToClipboard} from '../util/copyToClipboard';
-import uuid from 'uuid/v4';
+import {v4 as uuidv4} from 'uuid';
+import {themeSwitched} from '../action/settingsEvents';
+import {makeThemeSelector} from '../selector/settingsSelector';
 
 const useStyles = makeStyles(theme => ({
     root: {
         boxShadow: 'none',
-        backgroundColor: '#42423B',
+        backgroundColor: (theme.palette.background as any).topBar,
         height: '64px',
     },
     icon: {
@@ -49,6 +53,7 @@ interface TopBarProps {
 const TopBar = (props: TopBarProps) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const theme = useSelector(makeThemeSelector());
     const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
     const [generateAnchorElement, setGenerateAnchorElement] = useState(null);
 
@@ -72,6 +77,10 @@ const TopBar = (props: TopBarProps) => {
         setSettingsOpen(false);
     };
 
+    const toggleTheme = () => {
+        dispatch(themeSwitched({ theme: (theme === 'dark' ? 'light' : 'dark') }));
+    };
+
     return (
         <AppBar position={'fixed'} color={'default'} className={classes.root}>
             <MuiToolbar>
@@ -85,6 +94,9 @@ const TopBar = (props: TopBarProps) => {
                 </IconButton>
                 <IconButton className={classes.icon} title={'Settings'} onClick={openSettingsDialog}>
                     <SettingsIcon />
+                </IconButton>
+                <IconButton className={classes.icon} title={'Toggle Theme'} onClick={toggleTheme}>
+                    {theme === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
                 </IconButton>
                 <Hidden lgUp={true}>
                     <IconButton onClick={props.onOpenSideBar} className={classes.icon}>
@@ -102,7 +114,7 @@ const TopBar = (props: TopBarProps) => {
                 >
                     <MenuItem
                         onClick={() => {
-                            window.setTimeout(() => copyToClipboard(uuid()), 200);
+                            window.setTimeout(() => copyToClipboard(uuidv4()), 200);
                             closeGenerateMenu();
                         }}
                         children={'UUID v4'}

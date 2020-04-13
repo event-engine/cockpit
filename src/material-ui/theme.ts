@@ -1,13 +1,13 @@
 import { createMuiTheme } from '@material-ui/core';
 
-import {lightPalette} from './palette';
-import typography from './typography';
+import {darkPalette, lightPalette} from './palette';
+import {darkTypography, lightTypography} from './typography';
 import overrides from './overrides/index';
 
 // @ts-ignore
-const theme = createMuiTheme({
+export const lightTheme = createMuiTheme({
     palette: lightPalette,
-    typography,
+    typography: lightTypography,
     overrides,
     zIndex: {
         appBar: 1200,
@@ -15,4 +15,13 @@ const theme = createMuiTheme({
     },
 });
 
-export default theme;
+// @ts-ignore
+export const darkTheme = createMuiTheme({
+    palette: darkPalette,
+    typography: darkTypography,
+    overrides,
+    zIndex: {
+        appBar: 1200,
+        drawer: 1100,
+    },
+});

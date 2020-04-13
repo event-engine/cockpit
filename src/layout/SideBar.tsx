@@ -1,6 +1,6 @@
 import {Drawer, makeStyles, useMediaQuery} from '@material-ui/core';
 import React from 'react';
-import muiTheme from '../material-ui/theme';
+import {lightTheme as muiTheme} from '../material-ui/theme';
 import SideBarContent from './SideBarContent';
 
 const useStyles = makeStyles(theme => ({
@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
         },
     },
     root: {
-        backgroundColor: 'white',
+        backgroundColor: theme.palette.background.paper,
         display: 'flex',
         flexDirection: 'column',
         height: 'calc(100% - 32px)',

@@ -1,7 +1,9 @@
 import React, {ReactText} from 'react';
 import JSONTree from 'react-json-tree';
+import {useSelector} from 'react-redux';
+import {makeThemeSelector} from '../../../selector/settingsSelector';
 
-const theme = {
+const jsonTreeTheme = {
     scheme: 'monokai',
     author: 'wimer hazenberg (http://www.monokai.nl)',
     base00: '#272822',
@@ -22,12 +24,18 @@ const theme = {
     base0F: '#cc6633',
 };
 
+const darkThemeOverrides = {
+    base00: '#424242',
+};
+
 interface JsonTreeProps {
     data: object;
     propertyClickActions?: Record<string, (value: string|number|boolean|null|undefined) => void>;
 }
 
 const JsonTree = (props: JsonTreeProps) => {
+
+    const theme = useSelector(makeThemeSelector());
 
     const valueRenderer = props.propertyClickActions
         ? (displayValue: string|number, rawValue?: string|number|boolean|null, ...keyPath: Array<string|number>) => {
@@ -54,7 +62,8 @@ const JsonTree = (props: JsonTreeProps) => {
     return (
         <JSONTree
             data={props.data}
-            theme={theme}
+            theme={{ ...jsonTreeTheme, ...(theme === 'light' ? {} : darkThemeOverrides) }}
+            invertTheme={theme === 'light'}
             shouldExpandNode={(name: ReactText[], data: object, level: number) => level < 2}
             valueRenderer={valueRenderer}
         />

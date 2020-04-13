@@ -4,6 +4,7 @@ import Editor, {monaco} from '@monaco-editor/react';
 import React, {useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
 import {makeJsonSchemaDefinitionsSelector} from '../../selector/systemSchemaSelector';
+import {makeThemeSelector} from '../../selector/settingsSelector';
 
 interface QueryPayloadFormProps {
     query: Query;
@@ -14,6 +15,7 @@ monaco.init().then(instance => monacoInstance = instance);
 
 const QueryPayloadForm = (props: QueryPayloadFormProps) => {
 
+    const theme = useSelector(makeThemeSelector());
     const jsonSchemaDefinitions = useSelector(makeJsonSchemaDefinitionsSelector());
     const valueGetterRef = useRef();
     const editorRef = useRef();
@@ -77,6 +79,7 @@ const QueryPayloadForm = (props: QueryPayloadFormProps) => {
                 <Editor
                     height={'350px'}
                     language={'json'}
+                    theme={theme === 'dark' ? 'dark' : undefined}
                     editorDidMount={handleEditorDidMount}
                     options={{
                         minimap: {

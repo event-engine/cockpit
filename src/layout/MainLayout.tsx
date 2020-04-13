@@ -1,23 +1,27 @@
 import React, {useState} from 'react';
 import SideBar from './SideBar';
 import TopBar from './TopBar';
-import muiTheme from '../material-ui/theme';
+import {lightTheme as muiTheme} from '../material-ui/theme';
 import {makeStyles, useMediaQuery} from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
         paddingTop: 56,
         height: '100%',
+        boxSizing: 'border-box',
         [theme.breakpoints.up('sm')]: {
             paddingTop: 64,
         },
+        backgroundColor: theme.palette.background.default,
     },
     shiftContent: {
         paddingLeft: 300,
     },
     content: {
         padding: 32,
-        height: '100%',
+        minHeight: '100%',
+        boxSizing: 'border-box',
+        backgroundColor: theme.palette.background.default,
     },
 }));
 

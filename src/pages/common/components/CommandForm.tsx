@@ -4,6 +4,7 @@ import Editor, {monaco} from '@monaco-editor/react';
 import {Grid} from '@material-ui/core';
 import {useSelector} from 'react-redux';
 import {makeJsonSchemaDefinitionsSelector} from '../../../selector/systemSchemaSelector';
+import {makeThemeSelector} from '../../../selector/settingsSelector';
 
 interface CommandFormProps {
     command: Command;
@@ -12,9 +13,10 @@ interface CommandFormProps {
 let monacoInstance: any = null;
 monaco.init().then(instance => monacoInstance = instance);
 
-const CommandForm = React.forwardRef((props: CommandFormProps, ref: any) => { // @todo
+const CommandForm = React.forwardRef((props: CommandFormProps, ref: any) => {
 
     const jsonSchemaDefinitions = useSelector(makeJsonSchemaDefinitionsSelector());
+    const theme = useSelector(makeThemeSelector());
     const editorRef = useRef();
     const valueGetterRef = useRef();
 
@@ -69,6 +71,7 @@ const CommandForm = React.forwardRef((props: CommandFormProps, ref: any) => { //
                     <Editor
                         height={'500px'}
                         language={'json'}
+                        theme={theme === 'dark' ? 'dark' : undefined}
                         editorDidMount={handleEditorDidMount}
                         options={{
                             minimap: {

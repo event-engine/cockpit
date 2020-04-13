@@ -4,7 +4,7 @@ import {
     messageBoxUrlUpdated,
     MessageBoxUrlUpdatedPayload,
     schemaUrlUpdated,
-    SchemaUrlUpdatedPayload,
+    SchemaUrlUpdatedPayload, themeSwitched, ThemeSwitchedPayload,
 } from '../action/settingsEvents';
 import {config} from '../config';
 import {AuthenticationTypes} from '../layout/SettingsDialog/AuthenticationForm';
@@ -28,6 +28,7 @@ export interface SettingsState {
     messageBoxUrl: string;
     authentication: AuthOAuth2PasswordGrant|AuthOAuth2ClientCredentialsGrant|null;
     context: Record<string, string>;
+    theme: 'light'|'dark';
 }
 
 export const initialState: SettingsState = {
@@ -35,6 +36,7 @@ export const initialState: SettingsState = {
     messageBoxUrl: config.messageBoxUrl || '',
     authentication: config.authentication,
     context: config.context || {},
+    theme: 'light',
 };
 
 export const reducer = handleActions<SettingsState, any>(
@@ -67,6 +69,16 @@ export const reducer = handleActions<SettingsState, any>(
             return {
                 ...state,
                 context: action.payload.context,
+            };
+        },
+        [themeSwitched.toString()]: (state = initialState, action: Action<ThemeSwitchedPayload>) => {
+            if (!state) {
+                return state;
+            }
+
+            return {
+                ...state,
+                theme: action.payload.theme,
             };
         },
     },

@@ -4,9 +4,7 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import {createHashHistory} from 'history';
 import {Provider} from 'react-redux';
-import {ThemeProvider} from '@material-ui/styles';
 import {Router, Redirect, Route, Switch} from 'react-router';
-import theme from './material-ui/theme';
 import DashboardPage from './DashboardPage';
 import AggregatesPage from './AggregatesPage';
 import {aggregateDetailsPath, aggregatePath, dashboardPath, queriesPath} from './routes';
@@ -16,6 +14,7 @@ import SnackbarStack from './SnackbarStack';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './store';
 import QueriesPage from './QueriesPage';
+import ThemeProvider from './material-ui/ThemeProvider';
 
 const history = createHashHistory();
 
@@ -32,7 +31,7 @@ const Main = () => (
 ReactDOM.render((
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider>
                 <Router history={history}>
                     <MainLayout>
                         <Main/>
