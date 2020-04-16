@@ -67,3 +67,23 @@ export const executeCommand = async (commandName: string, payload: any) => {
         },
     });
 };
+
+const executeQuery = async (queryName: string, payload: any) => {
+    const response: AxiosResponse = await sendApiRequest({
+        url: messageBoxUrl() + `/${queryName}`,
+        method: 'post',
+        data: payload,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+};
+
+export const Api = {
+    getSystemSchema,
+    loadAggregatesForType,
+    loadAggregateState,
+    loadAggregateEvents,
+    executeCommand,
+    executeQuery,
+};

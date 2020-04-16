@@ -19,12 +19,18 @@ import {
     initialState as settingsInitialState,
     SettingsState,
 } from './reducer/settingsReducer';
+import {
+    reducer as queryReducer,
+    initialState as queryInitialState,
+    QueryState,
+} from './reducer/queryReducer';
 
 export interface ReduxState {
     systemSchema: SystemSchemaState;
     aggregateData: AggregateDataState;
     snackbar: SnackbarState;
     settings: SettingsState;
+    query: QueryState;
 }
 
 export const initialState = {
@@ -32,6 +38,7 @@ export const initialState = {
     aggregateData: aggregateDataInitialState,
     snackbar: snackbarInitialState,
     settings: settingsInitialState,
+    query: queryInitialState,
 };
 
 export const reducer = combineReducers({
@@ -39,4 +46,5 @@ export const reducer = combineReducers({
     aggregateData: aggregateDataReducer,
     snackbar: snackbarReducer,
     settings: settingsReducer,
+    query: queryReducer,
 });

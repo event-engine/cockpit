@@ -5,6 +5,7 @@ import {Logger} from '../util/Logger';
 import {fetchAggregateListFlow} from './fetchAggregateListFlow';
 import {fetchAggregateStateFlow} from './fetchAggregateStateFlow';
 import {fetchAggregateEventsFlow} from './fetchAggregateEventsFlow';
+import {executeQueryFlow} from './executeQueryFlow';
 
 /**
  * Prevents the root saga from terminating entirely due to some error in another saga
@@ -33,6 +34,7 @@ const rootSagas: any = [
     fetchAggregateListFlow,
     fetchAggregateStateFlow,
     fetchAggregateEventsFlow,
+    executeQueryFlow,
 ].map(makeRestartable);
 
 export default function* rootSaga() {
