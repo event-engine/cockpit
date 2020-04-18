@@ -1,6 +1,4 @@
-import palette from '../palette';
-
-export default {
+export default (palette: any) => ({
   root: {
     '&$selected': {
       backgroundColor: palette.background.default,
@@ -11,4 +9,4 @@ export default {
       },
     },
   },
-};
+});

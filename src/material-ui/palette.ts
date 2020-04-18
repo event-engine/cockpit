@@ -1,5 +1,4 @@
 import { colors } from '@material-ui/core';
-import {store} from '../store';
 
 const white = '#FFFFFF';
 const black = '#000000';
@@ -108,5 +107,3 @@ export const lightPalette = {
   icon: colors.blueGrey[600],
   divider: colors.grey[200],
 };
-
-export default store.getState().settings.theme === 'light' ? lightPalette : darkPalette;

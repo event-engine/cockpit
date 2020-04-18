@@ -7,13 +7,29 @@ import MuiTypography from './MuiTypography';
 import MuiExpansionPanel from './MuiExpansionPanel';
 import MuiExpansionPanelSummary from './MuiExpansionPanelSummary';
 import MuiExpansionPanelDetails from './MuiExpansionPanelDetails';
+import {lightPalette, darkPalette} from '../palette';
+import MuiTableRow from './MuiTableRow';
 
-export default {
+export const lightOverrides = {
     MuiButton,
-    MuiIconButton,
+    MuiIconButton: MuiIconButton(lightPalette),
     MuiPaper,
-    MuiTableCell,
+    MuiTableCell: MuiTableCell(lightPalette),
     MuiTableHead,
+    MuiTableRow: MuiTableRow(lightPalette),
+    MuiTypography,
+    MuiExpansionPanel,
+    MuiExpansionPanelSummary,
+    MuiExpansionPanelDetails,
+};
+
+export const darkOverrides = {
+    MuiButton,
+    MuiIconButton: MuiIconButton(darkPalette),
+    MuiPaper,
+    MuiTableCell: MuiTableCell(lightPalette),
+    MuiTableHead,
+    MuiTableRow: MuiTableRow(darkPalette),
     MuiTypography,
     MuiExpansionPanel,
     MuiExpansionPanelSummary,
