@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {RouteComponentProps} from 'react-router';
 import {Grid} from '@material-ui/core';
 import AggregateEventsWidget from './pages/aggregates/components/AggregateEventsWidget';

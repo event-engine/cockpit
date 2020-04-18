@@ -1,5 +1,5 @@
 import {Query} from '../../api/types';
-import {Card, CardContent, CardHeader, Divider, Typography, Button} from '@material-ui/core';
+import {Card, CardContent, Divider, Typography, Button} from '@material-ui/core';
 import Editor, {monaco} from '@monaco-editor/react';
 import React, {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -33,6 +33,7 @@ const QueryPayloadForm = (props: QueryPayloadFormProps) => {
         }
 
         updateEditorModel();
+        /* eslint-disable-next-line react-hooks/exhaustive-deps */
     }, [props.query]);
 
     const handleEditorDidMount = (valueGetter: any, editor: any) => {

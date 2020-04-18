@@ -23,6 +23,7 @@ const SnackbarStack = () => {
             },
             snackbar ? 200 : 1,
         );
+        /* eslint-disable-next-line react-hooks/exhaustive-deps */
     }, [currentSnackbar]);
 
     const handleClose = (event: React.SyntheticEvent, reason?: string) => {

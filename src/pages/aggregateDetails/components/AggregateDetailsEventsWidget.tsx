@@ -27,6 +27,7 @@ const AggregateDetailsEventsWidget = (props: AggregateDetailsEventsWidgetProps) 
         if (rawAggregateType) {
             dispatch(fetchAggregateEvents({ rawAggregateType, aggregateId: props.aggregateId }));
         }
+        /* eslint-disable-next-line react-hooks/exhaustive-deps */
     }, [rawAggregateType, props.aggregateId]);
 
     if (null === events) {

@@ -1,4 +1,4 @@
-import { call, fork, put, take } from 'redux-saga/effects';
+import { fork, put, take } from 'redux-saga/effects';
 import {Action} from 'redux-actions';
 import {snackbarEnqueued} from '../action/snackbarEvents';
 import {

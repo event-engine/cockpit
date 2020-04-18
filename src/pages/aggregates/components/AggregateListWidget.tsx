@@ -64,6 +64,7 @@ const AggregateListWidget = (props: AggregateListProps) => {
         }
 
         dispatch(fetchAggregateList({ rawAggregateType }));
+        /* eslint-disable-next-line react-hooks/exhaustive-deps */
     }, [props.aggregateType, rawAggregateType]);
 
     const openDialogForCommand = (command: Command) => {
@@ -160,7 +161,5 @@ const AggregateListWidget = (props: AggregateListProps) => {
         </Card>
     );
 };
-// uuid generation and copy to clipboard
-// query support
-// authentication support
+
 export default AggregateListWidget;

@@ -3,7 +3,6 @@ import {
     ExpansionPanel,
     ExpansionPanelDetails,
     ExpansionPanelSummary,
-    Button,
     makeStyles,
     Typography,
 } from '@material-ui/core';

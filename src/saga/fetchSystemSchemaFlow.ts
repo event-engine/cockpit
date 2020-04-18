@@ -1,6 +1,5 @@
-import { call, fork, put, select, take } from 'redux-saga/effects';
-import {fetchSystemSchema, FetchSystemSchemaPayload} from '../action/systemSchemaCommands';
-import {Action} from 'redux-actions';
+import { call, fork, put, take } from 'redux-saga/effects';
+import {fetchSystemSchema} from '../action/systemSchemaCommands';
 import {SystemSchema} from '../api/types';
 import {systemSchemaFetched} from '../action/systemSchemaEvents';
 import {getSystemSchema} from '../api';
@@ -17,7 +16,7 @@ export const onFetchSystemSchema = function*() {
 
 export function* fetchSystemSchemaFlow() {
     while (true) {
-        const action: Action<FetchSystemSchemaPayload> = yield take(fetchSystemSchema.toString());
+        yield take(fetchSystemSchema.toString());
 
         yield fork(onFetchSystemSchema);
     }

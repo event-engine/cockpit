@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {
-    Card, CardContent, CardHeader, Divider,
-    makeStyles,
+    CardContent, CardHeader, Divider,
 } from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import {makeRawAggregateTypeSelector} from '../../../selector/systemSchemaSelector';
@@ -13,9 +12,6 @@ import {config} from '../../../config';
 import {useHistory} from 'react-router';
 import {makeAggregateDetailsUrl} from '../../../routes';
 
-const useStyles = makeStyles(theme => ({
-}));
-
 interface AggregateStateViewProps {
     aggregateType: string;
     aggregateId: string;
@@ -24,7 +20,6 @@ interface AggregateStateViewProps {
 
 const AggregateStateView = (props: AggregateStateViewProps) => {
 
-    const classes = useStyles();
     const dispatch = useDispatch();
     const rawAggregateType = useSelector(makeRawAggregateTypeSelector(props.aggregateType));
     const aggregate = useSelector(makeAggregateStateSelector(props.aggregateId));
@@ -34,6 +29,7 @@ const AggregateStateView = (props: AggregateStateViewProps) => {
         if (rawAggregateType) {
             dispatch(fetchAggregateState({ rawAggregateType, aggregateId: props.aggregateId, version: props.version}));
         }
+        /* eslint-disable-next-line react-hooks/exhaustive-deps */
     }, [rawAggregateType, props.aggregateId, props.version]);
 
     const subheader = props.version ? `Aggregate state at version ${props.version}` : 'Latest aggregate state';
