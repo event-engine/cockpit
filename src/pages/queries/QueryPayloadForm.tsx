@@ -1,5 +1,5 @@
 import {Query} from '../../api/types';
-import {Card, CardContent, Divider, Typography, Button} from '@material-ui/core';
+import {Card, CardContent, Divider, Typography, Button, Container} from '@material-ui/core';
 import Editor, {monaco} from '@monaco-editor/react';
 import React, {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -7,6 +7,8 @@ import {makeJsonSchemaDefinitionsSelector} from '../../selector/systemSchemaSele
 import {makeThemeSelector} from '../../selector/settingsSelector';
 import {executeQuery} from '../../action/queryCommands';
 import {makeQueryErrorSelector, makeQueryResultSelector} from '../../selector/querySelector';
+import AxiosResponseViewer from '../common/components/AxiosResponseViewer';
+import {Alert, AlertTitle} from '@material-ui/lab';
 
 interface QueryPayloadFormProps {
     query: Query;
@@ -85,8 +87,6 @@ const QueryPayloadForm = (props: QueryPayloadFormProps) => {
         dispatch(executeQuery({ queryName: props.query.queryName, payload: (valueGetterRef as any).current()}));
     };
 
-    // @todo introduce AxiosResponse view that handles both success and error responses; also handle general errors (like CORS)
-
     return (
         <Card>
             <CardContent>
@@ -110,12 +110,20 @@ const QueryPayloadForm = (props: QueryPayloadFormProps) => {
                             enabled: false,
                         },
                         formatOnPaste: true,
+                        scrollBeyondLastLine: false,
                     }}
                 />
                 <Divider style={{ marginTop: '10px', marginBottom: '10px' }} />
                 <div>
-                    {JSON.stringify(result)}
-                    {error && JSON.stringify((error as any).response)}
+                    {result && <AxiosResponseViewer response={result} />}
+                    {error && (
+                        <Container disableGutters={true}>
+                            <Alert severity={'error'}>
+                                <AlertTitle>{error.name}</AlertTitle>
+                                {error.message}
+                            </Alert>
+                        </Container>
+                    )}
                 </div>
             </CardContent>
         </Card>

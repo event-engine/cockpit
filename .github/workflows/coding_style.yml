@@ -19,3 +19,6 @@ jobs:
 
       - name: "Run tslint"
         run: docker-compose run --rm yarn yarn lint
+
+      - name: "Build project"
+        run: docker-compose run --rm yarn yarn build

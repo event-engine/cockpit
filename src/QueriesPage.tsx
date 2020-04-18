@@ -28,7 +28,7 @@ const QueriesPage = () => {
 
     return (
         <Grid container={true} spacing={3}>
-            <Grid item={true} md={4}>
+            <Grid item={true} md={3}>
                 <Card>
                     <CardHeader title={'Queries'} />
                     <Divider />
@@ -47,7 +47,7 @@ const QueriesPage = () => {
                     </CardContent>
                 </Card>
             </Grid>
-            <Grid item={true} md={8}>
+            <Grid item={true} md={9}>
                 {selectedQuery !== undefined && (
                     <QueryPayloadForm query={queries[selectedQuery]} />
                 )}

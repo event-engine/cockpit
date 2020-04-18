@@ -11,6 +11,28 @@ const context = () => store.getState().settings.context;
 const configuredAxios = axios.create({
 });
 
+configuredAxios.interceptors.request.use((requestConfig: any) => {
+    requestConfig.metadata = { startTime: new Date() };
+    return requestConfig;
+});
+
+configuredAxios.interceptors.response.use(
+    (response: any) => {
+        response.config.metadata.endTime = new Date();
+        response.config.metadata.requestTime = response.config.metadata.endTime - response.config.metadata.startTime;
+        return response;
+    },
+    (error: any) => {
+        if (error.response) {
+            error.response.config.metadata.endTime = new Date();
+            error.response.config.metadata.requestTime =
+                error.response.config.metadata.endTime - error.response.config.metadata.startTime;
+        }
+
+        return Promise.reject(error);
+    },
+);
+
 export const sendApiRequest = async (
     requestConfig: AxiosRequestConfig,
 ) => {
@@ -57,8 +79,8 @@ export const loadAggregateEvents = async (rawAggregateType: string, aggregateId:
     return response.data as AggregateEvent[];
 };
 
-export const executeCommand = async (commandName: string, payload: any) => {
-    const response: AxiosResponse = await sendApiRequest({
+export const executeCommand = async (commandName: string, payload: any): Promise<AxiosResponse> => {
+    return await sendApiRequest({
         url: messageBoxUrl() + `/${commandName}`,
         method: 'post',
         data: payload,
@@ -68,8 +90,8 @@ export const executeCommand = async (commandName: string, payload: any) => {
     });
 };
 
-const executeQuery = async (queryName: string, payload: any) => {
-    const response: AxiosResponse = await sendApiRequest({
+const executeQuery = async (queryName: string, payload: any): Promise<AxiosResponse> => {
+    return await sendApiRequest({
         url: messageBoxUrl() + `/${queryName}`,
         method: 'post',
         data: payload,

@@ -12,8 +12,18 @@ export const onExecuteQuery = function*(queryName: string, payload: any) {
         const result = yield call(Api.executeQuery, queryName, payload);
         yield put(queryExecuted({result}));
     } catch (e) {
+        // If there is a response available we treat it like a successful response
+        if (e.response) {
+            yield put(queryExecuted({result: e.response}));
+            return;
+        }
+
         yield put(queryExecutionFailed({ error: e }));
-        yield call(onEnqueueErrorSnackbar, `Executing query ${queryName} failed`);
+        yield call(
+            onEnqueueErrorSnackbar,
+            `Executing query ${queryName} failed. Take a look at your browser console for details.`,
+            6000,
+        );
     }
 };
 
