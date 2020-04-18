@@ -1,0 +1,41 @@
+on:
+  push:
+    branches:
+    - master
+
+name: "Build And Push Docker"
+
+jobs:
+  build-and-push-docker:
+    name: "Build And Push Docker"
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: "Checkout"
+      uses: actions/checkout@master
+
+    - name: "Install dependencies"
+      run: docker-compose run --rm yarn yarn install
+
+    - name: "Build event-engine-ui"
+      run: docker-compose run --rm yarn yarn build
+
+    - name: "Build image"
+      run: docker-compose build event-engine-ui
+
+    - name: "Login github package registry"
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      run: docker login docker.pkg.github.com -u $DOCKER_USERNAME -p "$DOCKER_TOKEN"
+
+    - name: "Tag image"
+      run: "docker tag $(docker images | grep -E '^event-engine-ui_event-engine-ui.*latest' | awk -e '{print $3}') docker.pkg.github.com/martin-schilling/event-engine-ui/event-engine-ui:$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+
+    - name: "Push image"
+      run: "docker push docker.pkg.github.com/martin-schilling/event-engine-ui/event-engine-ui:$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+
+    - name: "Cleanup"
+      run: rm /home/runner/.docker/config.json
+
