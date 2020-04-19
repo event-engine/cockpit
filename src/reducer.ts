@@ -24,6 +24,20 @@ import {
     initialState as queryInitialState,
     QueryState,
 } from './reducer/queryReducer';
+import storage from 'redux-persist/lib/storage';
+import {persistReducer} from 'redux-persist';
+
+const persistConfig = {
+    key: 'root',
+    storage,
+    whitelist: [],
+};
+
+const settingsPersistConfig = {
+    key: 'settings',
+    storage,
+    whitelist: ['schemaUrl', 'messageBoxUrl', 'context', 'theme'],
+};
 
 export interface ReduxState {
     systemSchema: SystemSchemaState;
@@ -33,7 +47,7 @@ export interface ReduxState {
     query: QueryState;
 }
 
-export const initialState = {
+export const initialState: ReduxState = {
     systemSchema: systemSchemaInitialState,
     aggregateData: aggregateDataInitialState,
     snackbar: snackbarInitialState,
@@ -41,10 +55,15 @@ export const initialState = {
     query: queryInitialState,
 };
 
-export const reducer = combineReducers({
+const rootReducer = combineReducers({
     systemSchema: systemSchemaReducer,
     aggregateData: aggregateDataReducer,
     snackbar: snackbarReducer,
-    settings: settingsReducer,
+    settings: persistReducer(settingsPersistConfig, settingsReducer),
     query: queryReducer,
 });
+
+export const reducer = persistReducer(
+    persistConfig,
+    rootReducer,
+);
