@@ -29,7 +29,7 @@ import CommandForm from '../../common/components/CommandForm';
 import {Alert, AlertTitle} from '@material-ui/lab';
 import CommandButton from '../../common/components/CommandButton';
 import {fetchAggregateList} from '../../../action/aggregateDataCommands';
-import {config} from '../../../config';
+import {defaultEeUiConfig} from '../../../defaultEeUIConfig';
 
 interface AggregateListProps {
     aggregateType: string;
@@ -45,7 +45,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AggregateListWidget = (props: AggregateListProps) => {
-
     const classes = useStyles();
     const dispatch = useDispatch();
     const commands = useSelector(makeAggregateCreationCommandsSelector(props.aggregateType));
@@ -53,7 +52,7 @@ const AggregateListWidget = (props: AggregateListProps) => {
     const aggregateIdentifier = useSelector(makeAggregateIdentifierSelector(props.aggregateType));
     const rawAggregateType = useSelector(makeRawAggregateTypeSelector(props.aggregateType));
     const multiStoreMode = useSelector(makeAggregateMultiStoreModeSelector(props.aggregateType));
-    const [shownAggregateCount, setShownAggregateCount] = useState<number>(config.aggregateList.batchSize);
+    const [shownAggregateCount, setShownAggregateCount] = useState<number>(defaultEeUiConfig.env.aggregateList.batchSize);
     const [commandDialogOpen, setCommandDialogOpen] = useState<boolean>(false);
     const [commandDialogCommand, setCommandDialogCommand] = useState<Command|null>(null);
     const commandFormRef = useRef();
@@ -101,7 +100,7 @@ const AggregateListWidget = (props: AggregateListProps) => {
                 {aggregateList && shownAggregateCount < aggregateList.length && (
                     <IconButton
                         style={{ display: 'block', margin: '0 auto' }}
-                        onClick={() => setShownAggregateCount(shownAggregateCount + config.aggregateList.batchSize)}
+                        onClick={() => setShownAggregateCount(shownAggregateCount + defaultEeUiConfig.env.aggregateList.batchSize)}
                         title={'Show More'}
                         children={<ExpandMoreIcon />}
                     />

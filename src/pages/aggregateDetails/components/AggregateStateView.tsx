@@ -8,7 +8,7 @@ import {makeAggregateStateSelector} from '../../../selector/aggregateDataSelecto
 import JsonTree from '../../aggregates/components/JsonTree';
 import {fetchAggregateState} from '../../../action/aggregateDataCommands';
 import LoadingCard from '../../common/components/LoadingCard';
-import {config} from '../../../config';
+import {eeUiConfig} from '../../../config';
 import {useHistory} from 'react-router';
 import {makeAggregateDetailsUrl} from '../../../routes';
 
@@ -20,6 +20,7 @@ interface AggregateStateViewProps {
 
 const AggregateStateView = (props: AggregateStateViewProps) => {
 
+    const config = eeUiConfig();
     const dispatch = useDispatch();
     const rawAggregateType = useSelector(makeRawAggregateTypeSelector(props.aggregateType));
     const aggregate = useSelector(makeAggregateStateSelector(props.aggregateId));
@@ -35,8 +36,8 @@ const AggregateStateView = (props: AggregateStateViewProps) => {
     const subheader = props.version ? `Aggregate state at version ${props.version}` : 'Latest aggregate state';
 
     let propertyClickActions: Record<string, any>|undefined;
-    if (config.aggregateConfig && rawAggregateType && config.aggregateConfig[rawAggregateType]) {
-        const aggregateTypeConfig = config.aggregateConfig[rawAggregateType];
+    if (rawAggregateType && config.env.aggregateConfig[rawAggregateType]) {
+        const aggregateTypeConfig = config.env.aggregateConfig[rawAggregateType];
         propertyClickActions = {};
 
         Object.keys(aggregateTypeConfig).forEach((propKey: string) => {

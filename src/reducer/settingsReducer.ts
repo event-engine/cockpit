@@ -6,36 +6,15 @@ import {
     schemaUrlUpdated,
     SchemaUrlUpdatedPayload, themeSwitched, ThemeSwitchedPayload,
 } from '../action/settingsEvents';
-import {config} from '../config';
-import {AuthenticationTypes} from '../layout/SettingsDialog/AuthenticationForm';
+import {defaultEeUiConfig} from '../defaultEeUIConfig';
+import {EeUiConfigEnv} from '../config';
 
-export interface AuthOAuth2PasswordGrant {
-    type: AuthenticationTypes.oauth2PasswordGrant;
-    url: string;
-    username: string;
-    password: string;
-}
-
-export interface AuthOAuth2ClientCredentialsGrant {
-    type: AuthenticationTypes.oAuth2ClientCredentialsGrant;
-    url: string;
-    clientId: string;
-    clientSecret: string;
-}
-
-export interface SettingsState {
-    schemaUrl: string;
-    messageBoxUrl: string;
-    authentication: AuthOAuth2PasswordGrant|AuthOAuth2ClientCredentialsGrant|null;
-    context: Record<string, string>;
+export interface SettingsState extends EeUiConfigEnv {
     theme: 'light'|'dark';
 }
 
 export const initialState: SettingsState = {
-    schemaUrl: config.schemaUrl || '',
-    messageBoxUrl: config.messageBoxUrl || '',
-    authentication: config.authentication,
-    context: config.context || {},
+    ...defaultEeUiConfig.env,
     theme: 'light',
 };
 

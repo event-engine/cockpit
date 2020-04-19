@@ -1,12 +1,7 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {AggregateEvent, AggregateState, PersistedAggregateState, SystemSchema} from './types';
 import {Logger} from '../util/Logger';
-import {store} from '../store';
-import {config} from '../config';
-
-const schemaUrl = () => store.getState().settings.schemaUrl;
-const messageBoxUrl = () => store.getState().settings.messageBoxUrl;
-const context = () => store.getState().settings.context;
+import {eeUiConfig} from '../config';
 
 const configuredAxios = axios.create({
 });
@@ -36,8 +31,9 @@ configuredAxios.interceptors.response.use(
 export const sendApiRequest = async (
     requestConfig: AxiosRequestConfig,
 ) => {
+    const config = eeUiConfig();
     const finalizedRequestConfig = config.hooks.preRequestHook
-        ? await config.hooks.preRequestHook(requestConfig, context())
+        ? await config.hooks.preRequestHook(requestConfig, config.env.context)
         : requestConfig;
 
     try {
@@ -49,13 +45,15 @@ export const sendApiRequest = async (
 };
 
 export const getSystemSchema = async (): Promise<SystemSchema> => {
-    const response: AxiosResponse = await sendApiRequest({ url: schemaUrl() });
+    const response: AxiosResponse = await sendApiRequest({ url: eeUiConfig().env.schemaUrl });
     return response.data as SystemSchema;
 };
 
 export const loadAggregatesForType = async (rawAggregateType: string): Promise<PersistedAggregateState[]> => {
+    const config = eeUiConfig();
+
     const response: AxiosResponse = await sendApiRequest({
-        url: schemaUrl() + `/load-aggregates?aggregateType=${rawAggregateType}&limit=${config.aggregateList.filterLimit}`,
+        url: `${config.env.schemaUrl}/load-aggregates?aggregateType=${rawAggregateType}&limit=${config.env.aggregateList.filterLimit}`,
     });
 
     return response.data as PersistedAggregateState[];
@@ -63,7 +61,7 @@ export const loadAggregatesForType = async (rawAggregateType: string): Promise<P
 
 export const loadAggregateState = async (rawAggregateType: string, aggregateId: string, version?: number): Promise<AggregateState> => {
     const response: AxiosResponse = await sendApiRequest({
-        url: schemaUrl() + '/load-aggregate?aggregateType='
+        url: eeUiConfig().env.schemaUrl + '/load-aggregate?aggregateType='
             + rawAggregateType + '&aggregateId=' + aggregateId + (version ? `&version=${version}` : ''),
     });
 
@@ -72,7 +70,7 @@ export const loadAggregateState = async (rawAggregateType: string, aggregateId: 
 
 export const loadAggregateEvents = async (rawAggregateType: string, aggregateId: string): Promise<AggregateEvent[]> => {
     const response: AxiosResponse = await sendApiRequest({
-        url: schemaUrl() + '/load-aggregate-events?aggregateType='
+        url: eeUiConfig().env.schemaUrl + '/load-aggregate-events?aggregateType='
             + rawAggregateType + '&aggregateId=' + aggregateId,
     });
 
@@ -81,7 +79,7 @@ export const loadAggregateEvents = async (rawAggregateType: string, aggregateId:
 
 export const executeCommand = async (commandName: string, payload: any): Promise<AxiosResponse> => {
     return await sendApiRequest({
-        url: messageBoxUrl() + `/${commandName}`,
+        url: `${eeUiConfig().env.messageBoxUrl}/${commandName}`,
         method: 'post',
         data: payload,
         headers: {
@@ -92,7 +90,7 @@ export const executeCommand = async (commandName: string, payload: any): Promise
 
 const executeQuery = async (queryName: string, payload: any): Promise<AxiosResponse> => {
     return await sendApiRequest({
-        url: messageBoxUrl() + `/${queryName}`,
+        url: `${eeUiConfig().env.messageBoxUrl}/${queryName}`,
         method: 'post',
         data: payload,
         headers: {

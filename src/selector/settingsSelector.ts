@@ -5,7 +5,6 @@ const stateKey = 'settings';
 
 export const schemaUrlSelector = (state: ReduxState) => state[stateKey].schemaUrl;
 export const messageBoxUrlSelector = (state: ReduxState) => state[stateKey].messageBoxUrl;
-export const authenticationSelector = (state: ReduxState) => state[stateKey].authentication;
 export const contextSelector = (state: ReduxState) => state[stateKey].context;
 export const themeSelector = (state: ReduxState) => state[stateKey].theme;
 
@@ -18,12 +17,6 @@ export const makeSchemaUrlSelector = () => {
 export const makeMessageBoxUrlSelector = () => {
     return createSelector([messageBoxUrlSelector], messageBoxUrl => {
         return messageBoxUrl;
-    });
-};
-
-export const makeAuthenticationSelector = () => {
-    return createSelector([authenticationSelector], authentication => {
-        return authentication;
     });
 };
 

@@ -1,37 +1,35 @@
-import {AuthOAuth2ClientCredentialsGrant, AuthOAuth2PasswordGrant} from './reducer/settingsReducer';
 import {AxiosRequestConfig} from 'axios';
+import {store} from './store';
+import {defaultEeUiConfig} from './defaultEeUIConfig';
 
-const eeUiConfig = (window as any).eeUiConfig;
-
-export interface Config {
-    environment: 'development'|'production';
-    schemaUrl: string|null;
-    messageBoxUrl: string|null;
-    authentication: AuthOAuth2PasswordGrant|AuthOAuth2ClientCredentialsGrant|null;
+export interface EeUiConfigEnv {
+    schemaUrl: string;
+    messageBoxUrl: string;
     aggregateList: {
         filterLimit: number;
         batchSize: number;
     };
-    aggregateConfig: Record<string, Record<string, string>>|null;
-    context: Record<string, string>|null;
+    aggregateConfig: Record<string, Record<string, string>>;
+    context: Record<string, string>;
+}
+
+export interface EeUiConfig {
+    environment: 'development'|'production';
+    env: EeUiConfigEnv;
     hooks: {
         preRequestHook: ((request: AxiosRequestConfig, context: Record<string, string>) => AxiosRequestConfig)|null,
     };
 }
 
-/* @todo validate config data */
-export const config: Config = {
-    environment: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-    schemaUrl: eeUiConfig.env.schemaUrl || null,
-    messageBoxUrl: eeUiConfig.env.messageBoxUrl || null,
-    authentication: null, // Note: This is currently not in use
-    aggregateList: {
-        filterLimit: eeUiConfig.env.aggregateList.filterLimit || 500,
-        batchSize: eeUiConfig.env.aggregateList.batchSize || 100,
-    },
-    aggregateConfig: eeUiConfig.env.aggregateConfig || null,
-    context: eeUiConfig.env.context || null,
-    hooks: {
-        preRequestHook: eeUiConfig.hooks.preRequestHook || null,
-    },
+/**
+ * This is the final config including any temporary or permanent overrides in the redux store
+ */
+export const eeUiConfig = (): EeUiConfig => {
+    return {
+        ...defaultEeUiConfig,
+        env: {
+            ...defaultEeUiConfig.env,
+            ...store.getState().settings,
+        },
+    };
 };

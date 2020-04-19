@@ -5,7 +5,7 @@ import rootSaga from './saga/rootSaga';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import {fetchSystemSchema} from './action/systemSchemaCommands';
-import {config} from './config';
+import {defaultEeUiConfig} from './defaultEeUIConfig';
 
 const persistConfig = {
     key: 'root',
@@ -28,7 +28,7 @@ export const persistor = persistStore(store as any, {}, () => {
     store.dispatch(fetchSystemSchema({ }));
 });
 
-if (config.environment === 'development') {
+if (defaultEeUiConfig.environment === 'development') {
     persistor.purge();
 }
 

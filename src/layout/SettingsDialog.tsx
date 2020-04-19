@@ -23,7 +23,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {contextUpdated, messageBoxUrlUpdated, schemaUrlUpdated} from '../action/settingsEvents';
 import {makeContextSelector, makeMessageBoxUrlSelector, makeSchemaUrlSelector} from '../selector/settingsSelector';
 import {Alert} from '@material-ui/lab';
-import {config} from '../config';
+import {defaultEeUiConfig} from '../defaultEeUIConfig';
 
 const useStyles = makeStyles(theme => ({
     dialogContent: {
@@ -110,12 +110,12 @@ const SettingsDialog = (props: SettingsDialogProps) => {
     };
 
     const resetSettings = () => {
-        setMessageBoxUrl(config.messageBoxUrl || '');
-        setSchemaUrl(config.schemaUrl || '');
+        setMessageBoxUrl(defaultEeUiConfig.env.messageBoxUrl);
+        setSchemaUrl(defaultEeUiConfig.env.schemaUrl);
 
         const tmpContext: Array<{ key: string, value: string }> = [];
-        Object.keys(config.context || {}).forEach(key => {
-            tmpContext.push({ key, value: config.context![key] });
+        Object.keys(defaultEeUiConfig.env.context).forEach(key => {
+            tmpContext.push({ key, value: defaultEeUiConfig.env.context![key] });
         });
         setContext(tmpContext);
     };
