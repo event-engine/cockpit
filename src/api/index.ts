@@ -1,7 +1,7 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {AggregateEvent, AggregateState, PersistedAggregateState, SystemSchema} from './types';
 import {Logger} from '../util/Logger';
-import {eeUiConfig} from '../config';
+import {eeUiConfig, updateEeUiConfigEnv} from '../config';
 
 const configuredAxios = axios.create({
 });
@@ -32,12 +32,11 @@ export const sendApiRequest = async (
     requestConfig: AxiosRequestConfig,
 ) => {
     const config = eeUiConfig();
-    const finalizedRequestConfig = config.hooks.preRequestHook
-        ? await config.hooks.preRequestHook(requestConfig, config.env.context)
-        : requestConfig;
+    const finalizedRequestConfig = await config.hooks.preRequestHook(requestConfig, config.env, updateEeUiConfigEnv);
 
     try {
-        return await configuredAxios(finalizedRequestConfig);
+        const response = await configuredAxios(finalizedRequestConfig);
+        return await config.hooks.postRequestHook(response, config.env, updateEeUiConfigEnv);
     } catch (error) {
         Logger.error(error);
         throw error;

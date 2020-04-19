@@ -111,12 +111,12 @@
         /* Adjust the hooks below to alter the behavior of the event-engine-ui */
         hooks: {
             /* This hook is called before each request to the event engine backend */
-            preRequestHook: async (request, context) => {
+            preRequestHook: async (request, env) => {
                 const token = await authenticateOAuth2Password(
-                    context.authUrl,
-                    context.authClientId,
-                    context.authUsername,
-                    context.authPassword
+                    env.context.authUrl,
+                    env.context.authClientId,
+                    env.context.authUsername,
+                    env.context.authPassword
                 );
 
                 request.headers = {...request.headers, Authorization: `Bearer ${token}`};

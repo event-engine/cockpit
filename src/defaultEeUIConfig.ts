@@ -21,6 +21,7 @@ export const defaultEeUiConfig: EeUiConfig = {
         context: injectedConfig.env.context || {},
     },
     hooks: {
-        preRequestHook: injectedConfig.hooks.preRequestHook || null,
+        preRequestHook: injectedConfig.hooks.preRequestHook || (request => request),
+        postRequestHook: injectedConfig.hooks.postRequestHook || (response => response),
     },
 };

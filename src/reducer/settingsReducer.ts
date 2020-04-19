@@ -1,6 +1,6 @@
 import {Action, handleActions} from 'redux-actions';
 import {
-    contextUpdated, ContextUpdatedPayload,
+    contextUpdated, ContextUpdatedPayload, envUpdated, EnvUpdatedPayload,
     messageBoxUrlUpdated,
     MessageBoxUrlUpdatedPayload,
     schemaUrlUpdated,
@@ -58,6 +58,16 @@ export const reducer = handleActions<SettingsState, any>(
             return {
                 ...state,
                 theme: action.payload.theme,
+            };
+        },
+        [envUpdated.toString()]: (state = initialState, action: Action<EnvUpdatedPayload>) => {
+            if (!state) {
+                return state;
+            }
+
+            return {
+                ...state,
+                ...action.payload,
             };
         },
     },
