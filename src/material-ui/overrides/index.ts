@@ -7,7 +7,7 @@ import MuiTypography from './MuiTypography';
 import MuiExpansionPanel from './MuiExpansionPanel';
 import MuiExpansionPanelSummary from './MuiExpansionPanelSummary';
 import MuiExpansionPanelDetails from './MuiExpansionPanelDetails';
-import {lightPalette, darkPalette} from '../palette';
+import {darkPalette, lightPalette} from '../palette';
 import MuiTableRow from './MuiTableRow';
 
 export const lightOverrides = {

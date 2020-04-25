@@ -3,8 +3,8 @@ import {
     ExpansionPanel,
     ExpansionPanelDetails,
     ExpansionPanelSummary,
-    makeStyles,
     Typography,
+    makeStyles,
 } from '@material-ui/core';
 import JsonTree from './JsonTree';
 import {makeAggregateDetailsUrl} from '../../../routes';

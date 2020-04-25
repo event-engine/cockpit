@@ -3,8 +3,8 @@ import {Action} from 'redux-actions';
 import {loadAggregateEvents} from '../api';
 import {onEnqueueErrorSnackbar} from './enqueueSnackbarFlow';
 import {
-    fetchAggregateEvents,
     FetchAggregateEventsPayload,
+    fetchAggregateEvents,
 } from '../action/aggregateDataCommands';
 import {aggregateEventsFetched} from '../action/aggregateDataEvents';
 import {AggregateEvent} from '../api/types';

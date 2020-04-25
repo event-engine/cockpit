@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {
     AppBar,
-    Toolbar as MuiToolbar,
-    IconButton,
     Hidden,
-    makeStyles,
-    Typography,
+    IconButton,
     Menu,
     MenuItem,
+    Toolbar as MuiToolbar,
+    Typography,
+    makeStyles,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SettingsIcon from '@material-ui/icons/Settings';

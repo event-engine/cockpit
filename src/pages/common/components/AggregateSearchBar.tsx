@@ -1,4 +1,4 @@
-import {IconButton, InputBase, Paper, Divider, TextField} from '@material-ui/core';
+import {Divider, IconButton, InputBase, Paper, TextField} from '@material-ui/core';
 import {Autocomplete} from '@material-ui/lab';
 import SearchIcon from '@material-ui/icons/Search';
 import React, {useEffect, useState} from 'react';

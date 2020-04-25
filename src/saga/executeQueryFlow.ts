@@ -2,7 +2,7 @@ import { call, fork, put, take } from 'redux-saga/effects';
 import {Action} from 'redux-actions';
 import {Api} from '../api';
 import {onEnqueueErrorSnackbar} from './enqueueSnackbarFlow';
-import {executeQuery, ExecuteQueryPayload} from '../action/queryCommands';
+import {ExecuteQueryPayload, executeQuery} from '../action/queryCommands';
 import {queryExecuted, queryExecutionBegan, queryExecutionFailed} from '../action/queryEvents';
 
 export const onExecuteQuery = function*(queryName: string, payload: any) {

@@ -2,9 +2,9 @@ import { fork, put, take } from 'redux-saga/effects';
 import {Action} from 'redux-actions';
 import {snackbarEnqueued} from '../action/snackbarEvents';
 import {
+    EnqueueSnackbarPayload,
     enqueueErrorSnackbar,
-    enqueueInfoSnackbar,
-    EnqueueSnackbarPayload, enqueueSuccessSnackbar,
+    enqueueInfoSnackbar, enqueueSuccessSnackbar,
     enqueueWarningSnackbar,
 } from '../action/snackbarCommands';
 import { v4 as uuidv4 } from 'uuid';

@@ -1,10 +1,10 @@
 import {Action, handleActions} from 'redux-actions';
 import {
-    contextUpdated, ContextUpdatedPayload, envUpdated, EnvUpdatedPayload,
-    messageBoxUrlUpdated,
-    MessageBoxUrlUpdatedPayload,
-    schemaUrlUpdated,
-    SchemaUrlUpdatedPayload, themeSwitched, ThemeSwitchedPayload,
+    ContextUpdatedPayload, EnvUpdatedPayload, MessageBoxUrlUpdatedPayload, SchemaUrlUpdatedPayload,
+    ThemeSwitchedPayload,
+    contextUpdated,
+    envUpdated,
+    messageBoxUrlUpdated, schemaUrlUpdated, themeSwitched,
 } from '../action/settingsEvents';
 import {defaultEeUiConfig} from '../defaultEeUIConfig';
 import {EeUiConfigEnv} from '../config';

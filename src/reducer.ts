@@ -1,28 +1,28 @@
 import {combineReducers} from 'redux';
 import {
-    reducer as systemSchemaReducer,
-    initialState as systemSchemaInitialState,
     SystemSchemaState,
+    initialState as systemSchemaInitialState,
+    reducer as systemSchemaReducer,
 } from './reducer/systemSchemaReducer';
 import {
-    reducer as aggregateDataReducer,
-    initialState as aggregateDataInitialState,
     AggregateDataState,
+    initialState as aggregateDataInitialState,
+    reducer as aggregateDataReducer,
 } from './reducer/aggregateDataReducer';
 import {
-    reducer as snackbarReducer,
-    initialState as snackbarInitialState,
     SnackbarState,
+    initialState as snackbarInitialState,
+    reducer as snackbarReducer,
 } from './reducer/snackbarReducer';
 import {
-    reducer as settingsReducer,
-    initialState as settingsInitialState,
     SettingsState,
+    initialState as settingsInitialState,
+    reducer as settingsReducer,
 } from './reducer/settingsReducer';
 import {
-    reducer as queryReducer,
-    initialState as queryInitialState,
     QueryState,
+    initialState as queryInitialState,
+    reducer as queryReducer,
 } from './reducer/queryReducer';
 import storage from 'redux-persist/lib/storage';
 import {persistReducer} from 'redux-persist';

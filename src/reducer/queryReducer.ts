@@ -1,9 +1,9 @@
 import {Action, handleActions} from 'redux-actions';
 import {
-    queryExecuted, QueryExecutedPayload,
-    queryExecutionBegan,
-    QueryExecutionBeganPayload,
-    queryExecutionFailed, QueryExecutionFailedPayload,
+    QueryExecutedPayload, QueryExecutionBeganPayload,
+    QueryExecutionFailedPayload,
+    queryExecuted,
+    queryExecutionBegan, queryExecutionFailed,
 } from '../action/queryEvents';
 
 export interface QueryState {

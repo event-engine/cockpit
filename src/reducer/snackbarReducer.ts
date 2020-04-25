@@ -1,9 +1,9 @@
 import {Action, handleActions} from 'redux-actions';
 import {
-    snackbarDequeued,
     SnackbarDequeuedPayload,
-    snackbarEnqueued,
     SnackbarEnqueuedPayload,
+    snackbarDequeued,
+    snackbarEnqueued,
 } from '../action/snackbarEvents';
 
 export interface Snackbar {

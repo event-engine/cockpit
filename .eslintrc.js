@@ -24,13 +24,27 @@ module.exports = {
     },
     "parser": "@typescript-eslint/parser",
     "rules": {
-        "@typescript-eslint/no-non-null-assertion": 0,
-        "@typescript-eslint/no-explicit-any": 0,
-        "@typescript-eslint/explicit-function-return-type": 0,
-        "@typescript-eslint/no-use-before-define": 0,
-        "@typescript-eslint/no-empty-interface": 0,
-        "@typescript-eslint/ban-ts-ignore": 0,
-        "@typescript-eslint/no-unused-vars": 2,
-        "react/no-children-prop": 0
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/ban-ts-ignore": "off",
+        "@typescript-eslint/no-unused-vars": "error",
+        "arrow-parens": ["error", "as-needed"],
+        "comma-dangle": ["error", "always-multiline"],
+        "eol-last": ["error", "always"],
+        "max-len": ["error", {
+            "code": 140,
+            "ignoreStrings": true
+        }],
+        "semi": ["error", "always"],
+        "sort-imports": ["error", {
+            "ignoreDeclarationSort": true
+        }],
+        "quotes": ["error", "single", {
+            "avoidEscape": true
+        }],
+        "react/no-children-prop": "off",
     },
 };

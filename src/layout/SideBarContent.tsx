@@ -1,4 +1,4 @@
-import {List, ListItem, Button, Collapse, makeStyles} from '@material-ui/core';
+import {Button, Collapse, List, ListItem, makeStyles} from '@material-ui/core';
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {makeAggregateTypeListSelector, normalizeAggregateType} from '../selector/systemSchemaSelector';

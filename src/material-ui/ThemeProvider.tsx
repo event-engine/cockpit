@@ -1,6 +1,6 @@
 import React from 'react';
 import {ThemeProvider as MuiThemeProvider} from '@material-ui/styles';
-import {lightTheme, darkTheme} from './theme';
+import {darkTheme, lightTheme} from './theme';
 import {useSelector} from 'react-redux';
 import {makeThemeSelector} from '../selector/settingsSelector';
 

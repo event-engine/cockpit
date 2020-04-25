@@ -3,8 +3,8 @@ import {
     ExpansionPanel,
     ExpansionPanelDetails,
     ExpansionPanelSummary,
-    makeStyles,
     Typography,
+    makeStyles,
 } from '@material-ui/core';
 import {AggregateEvent} from '../../../api/types';
 import JsonTree from '../../aggregates/components/JsonTree';

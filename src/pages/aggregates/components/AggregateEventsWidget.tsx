@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardHeader, CardContent, Divider } from '@material-ui/core';
+import { Card, CardContent, CardHeader, Divider } from '@material-ui/core';
 import {useSelector} from 'react-redux';
 import {makeAggregateEventsSelector} from '../../../selector/systemSchemaSelector';
 import AggregateEventExpansionPanel from './AggregateEventExpansionPanel';

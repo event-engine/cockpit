@@ -4,7 +4,7 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import {createHashHistory} from 'history';
 import {Provider} from 'react-redux';
-import {Router, Redirect, Route, Switch} from 'react-router';
+import {Redirect, Route, Router, Switch} from 'react-router';
 import DashboardPage from './DashboardPage';
 import AggregatesPage from './AggregatesPage';
 import {aggregateDetailsPath, aggregatePath, dashboardPath, queriesPath} from './routes';
@@ -12,7 +12,7 @@ import MainLayout from './layout/MainLayout';
 import AggregateDetailsPage from './AggregateDetailsPage';
 import SnackbarStack from './SnackbarStack';
 import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from './store';
+import { persistor, store } from './store';
 import QueriesPage from './QueriesPage';
 import ThemeProvider from './material-ui/ThemeProvider';
 

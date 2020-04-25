@@ -1,6 +1,6 @@
 import React from 'react';
 import {AxiosResponse} from 'axios';
-import {Container, Box, makeStyles} from '@material-ui/core';
+import {Box, Container, makeStyles} from '@material-ui/core';
 import Editor from '@monaco-editor/react';
 import {useSelector} from 'react-redux';
 import {makeThemeSelector} from '../../../selector/settingsSelector';

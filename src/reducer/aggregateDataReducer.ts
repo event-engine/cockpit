@@ -1,11 +1,11 @@
 import {Action, handleActions} from 'redux-actions';
 import {AggregateEvent} from '../api/types';
 import {
-    aggregateEventsFetched, AggregateEventsFetchedPayload,
-    aggregateListFetched,
-    AggregateListFetchedPayload, aggregateStateCleared, AggregateStateClearedPayload,
+    AggregateEventsFetchedPayload, AggregateListFetchedPayload,
+    AggregateStateClearedPayload,
+    AggregateStateFetchedPayload, aggregateEventsFetched, aggregateListFetched,
+    aggregateStateCleared,
     aggregateStateFetched,
-    AggregateStateFetchedPayload,
 } from '../action/aggregateDataEvents';
 
 export interface AggregateDataState {

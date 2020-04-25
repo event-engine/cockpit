@@ -1,6 +1,6 @@
 import {Action, handleActions} from 'redux-actions';
 import {SystemSchema} from '../api/types';
-import {systemSchemaFetched, SystemSchemaFetchedPayload} from '../action/systemSchemaEvents';
+import {SystemSchemaFetchedPayload, systemSchemaFetched} from '../action/systemSchemaEvents';
 
 export interface SystemSchemaState {
     systemSchema: null|SystemSchema;

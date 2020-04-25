@@ -2,7 +2,7 @@ import { call, fork, put, take } from 'redux-saga/effects';
 import {Action} from 'redux-actions';
 import {loadAggregatesForType} from '../api';
 import {onEnqueueErrorSnackbar} from './enqueueSnackbarFlow';
-import {fetchAggregateList, FetchAggregateListPayload} from '../action/aggregateDataCommands';
+import {FetchAggregateListPayload, fetchAggregateList} from '../action/aggregateDataCommands';
 import {aggregateListFetched} from '../action/aggregateDataEvents';
 import {normalizeAggregateType} from '../selector/systemSchemaSelector';
 import {PersistedAggregateState} from '../api/types';
