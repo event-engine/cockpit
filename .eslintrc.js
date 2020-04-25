@@ -33,6 +33,7 @@ module.exports = {
         "@typescript-eslint/no-unused-vars": "error",
         "arrow-parens": ["error", "as-needed"],
         "comma-dangle": ["error", "always-multiline"],
+        "no-console": "error",
         "eol-last": ["error", "always"],
         "max-len": ["error", {
             "code": 140,
