@@ -78,6 +78,9 @@ const CommandForm = (props: CommandFormProps, ref: any) => {
                                 enabled: false,
                             },
                             formatOnPaste: true,
+                            hover: {
+                                delay: 500,
+                            },
                         }}
                     />
                 </Grid>

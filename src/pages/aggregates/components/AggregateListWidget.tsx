@@ -1,57 +1,32 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-    Button,
     Card,
     CardActions,
     CardContent,
     CardHeader,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
     Divider,
     IconButton,
-    makeStyles,
 } from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import {
     makeAggregateCreationCommandsSelector,
     makeAggregateIdentifierSelector, makeAggregateMultiStoreModeSelector, makeRawAggregateTypeSelector,
 } from '../../../selector/systemSchemaSelector';
-import SendIcon from '@material-ui/icons/Send';
-import CloseIcon from '@material-ui/icons/Close';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {makeAggregateListSelector} from '../../../selector/aggregateDataSelector';
 import AggregateExpansionPanel from './AggregateExpansionPanel';
 import {Command, MultiStoreMode} from '../../../api/types';
-import CommandForm from '../../common/components/CommandForm';
 import {Alert, AlertTitle} from '@material-ui/lab';
 import CommandButton from '../../common/components/CommandButton';
-import {executeCommand, fetchAggregateList} from '../../../action/aggregateDataCommands';
+import {fetchAggregateList} from '../../../action/aggregateDataCommands';
 import {defaultEeUiConfig} from '../../../defaultEeUIConfig';
-import GenerateMenu from '../../common/components/GenerateMenu';
+import CommandDialog from '../../common/components/CommandDialog';
 
 interface AggregateListProps {
     aggregateType: string;
 }
 
-const useStyles = makeStyles(theme => ({
-    closeButton: {
-        position: 'absolute',
-        right: theme.spacing(1),
-        top: theme.spacing(0.5),
-        color: theme.palette.grey[500],
-    },
-    generateButton: {
-        position: 'absolute',
-        right: theme.spacing(6),
-        top: theme.spacing(0.5),
-        color: theme.palette.grey[500],
-    },
-}));
-
 const AggregateListWidget = (props: AggregateListProps) => {
-    const classes = useStyles();
     const dispatch = useDispatch();
     const commands = useSelector(makeAggregateCreationCommandsSelector(props.aggregateType));
     const aggregateList = useSelector(makeAggregateListSelector(props.aggregateType));
@@ -61,7 +36,6 @@ const AggregateListWidget = (props: AggregateListProps) => {
     const [shownAggregateCount, setShownAggregateCount] = useState<number>(defaultEeUiConfig.env.aggregateList.batchSize);
     const [commandDialogOpen, setCommandDialogOpen] = useState<boolean>(false);
     const [commandDialogCommand, setCommandDialogCommand] = useState<Command|null>(null);
-    const commandFormRef = useRef();
 
     useEffect(() => {
         if (!rawAggregateType || multiStoreMode === MultiStoreMode.Event) {
@@ -75,15 +49,6 @@ const AggregateListWidget = (props: AggregateListProps) => {
     const openDialogForCommand = (command: Command) => {
         setCommandDialogCommand(command);
         setCommandDialogOpen(true);
-    };
-
-    const handleExecuteCommand = () => {
-        if (!commandDialogCommand) {
-            return;
-        }
-
-        const payload = (commandFormRef.current as any).retrievePayload();
-        dispatch(executeCommand({ commandName: commandDialogCommand.commandName, payload }));
     };
 
     return (
@@ -131,38 +96,11 @@ const AggregateListWidget = (props: AggregateListProps) => {
                 ))}
             </CardActions>
             {commandDialogCommand !== null && (
-                <Dialog open={commandDialogOpen} fullWidth={true} maxWidth={'lg'}>
-                    <DialogTitle>
-                        {commandDialogCommand.commandName}
-                        <GenerateMenu className={classes.generateButton} />
-                        <IconButton className={classes.closeButton} onClick={() => setCommandDialogOpen(false)}>
-                            <CloseIcon />
-                        </IconButton>
-                    </DialogTitle>
-                    <Divider />
-                    <DialogContent style={{ padding: '24px 24px' }}>
-                        <CommandForm
-                            command={commandDialogCommand}
-                            ref={commandFormRef}
-                        />
-                    </DialogContent>
-                    <Divider />
-                    <DialogActions>
-                        <Button
-                            children={'Cancel'}
-                            onClick={() => setCommandDialogOpen(false)}
-                            color={'secondary'}
-                        />
-                        <Button
-                            variant={'contained'}
-                            color={'primary'}
-                            startIcon={<SendIcon />}
-                            children={'Execute ' + commandDialogCommand.commandName}
-                            style={{ textTransform: 'none', margin: '5px' }}
-                            onClick={handleExecuteCommand}
-                        />
-                    </DialogActions>
-                </Dialog>
+                <CommandDialog
+                    open={commandDialogOpen}
+                    onClose={() => setCommandDialogOpen(false)}
+                    commandDialogCommand={commandDialogCommand}
+                />
             )}
         </Card>
     );

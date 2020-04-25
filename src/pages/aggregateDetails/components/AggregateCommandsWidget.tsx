@@ -1,9 +1,11 @@
 import {Card, CardContent, CardHeader, Divider} from '@material-ui/core';
-import React from 'react';
+import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {makeAggregateNonCreationCommandsSelector} from '../../../selector/systemSchemaSelector';
 import CommandButton from '../../common/components/CommandButton';
 import {Alert, AlertTitle} from '@material-ui/lab';
+import {Command} from '../../../api/types';
+import CommandDialog from '../../common/components/CommandDialog';
 
 interface AggregateCommandsWidgetProps {
     aggregateType: string;
@@ -11,6 +13,7 @@ interface AggregateCommandsWidgetProps {
 
 const AggregateCommandsWidget = (props: AggregateCommandsWidgetProps) => {
     const commands = useSelector(makeAggregateNonCreationCommandsSelector(props.aggregateType));
+    const [commandDialogCommand, setCommandDialogCommand] = useState<Command|null>(null);
 
     if (!commands) {
         return null;
@@ -30,9 +33,21 @@ const AggregateCommandsWidget = (props: AggregateCommandsWidgetProps) => {
                     </Alert>
                 )}
                 {commands.map(command => (
-                    <CommandButton key={command.commandName} command={command} onClick={() => { /* Command form */ }}/>
+                    <CommandButton
+                        key={command.commandName}
+                        command={command}
+                        onClick={() => setCommandDialogCommand(command)}
+                    />
                 ))}
             </CardContent>
+
+            {commandDialogCommand !== null && (
+                <CommandDialog
+                    open={commandDialogCommand !== null}
+                    onClose={() => setCommandDialogCommand(null)}
+                    commandDialogCommand={commandDialogCommand}
+                />
+            )}
         </Card>
     );
 };

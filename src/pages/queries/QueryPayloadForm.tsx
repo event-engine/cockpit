@@ -111,6 +111,9 @@ const QueryPayloadForm = (props: QueryPayloadFormProps) => {
                         },
                         formatOnPaste: true,
                         scrollBeyondLastLine: false,
+                        hover: {
+                            delay: 500,
+                        },
                     }}
                 />
                 <Divider style={{ marginTop: '10px', marginBottom: '10px' }} />
