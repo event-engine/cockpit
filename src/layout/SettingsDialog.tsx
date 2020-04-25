@@ -71,7 +71,7 @@ const SettingsDialog = (props: SettingsDialogProps) => {
     const [tab, setTab] = useState<number>(0);
     const [schemaUrl, setSchemaUrl] = useState<string>('');
     const [messageBoxUrl, setMessageBoxUrl] = useState<string>('');
-    const [context, setContext] = useState<Array<{ key: string, value: string }>>([]);
+    const [context, setContext] = useState<Array<{ key: string; value: string }>>([]);
 
     useEffect(() => {
         setSchemaUrl(currentSchemaUrl);
@@ -82,7 +82,7 @@ const SettingsDialog = (props: SettingsDialogProps) => {
     }, [currentMessageBoxUrl]);
 
     useEffect(() => {
-        const tmpContext: Array<{ key: string, value: string }> = [];
+        const tmpContext: Array<{ key: string; value: string }> = [];
         Object.keys(currentContext).forEach(key => {
             tmpContext.push({ key, value: currentContext[key] });
         });
@@ -113,7 +113,7 @@ const SettingsDialog = (props: SettingsDialogProps) => {
         setMessageBoxUrl(defaultEeUiConfig.env.messageBoxUrl);
         setSchemaUrl(defaultEeUiConfig.env.schemaUrl);
 
-        const tmpContext: Array<{ key: string, value: string }> = [];
+        const tmpContext: Array<{ key: string; value: string }> = [];
         Object.keys(defaultEeUiConfig.env.context).forEach(key => {
             tmpContext.push({ key, value: defaultEeUiConfig.env.context![key] });
         });

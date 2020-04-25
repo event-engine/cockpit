@@ -42,11 +42,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-interface DashboardSideBarProps {
-
-}
-
-const SideBarContent = (props: DashboardSideBarProps) => {
+const SideBarContent = () => {
 
     const classes = useStyles();
     const [aggregatesOpen, setAggregatesOpen] = useState<boolean>(true);

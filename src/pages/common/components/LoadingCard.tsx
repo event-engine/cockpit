@@ -3,7 +3,7 @@ import {CardProps as CardPropsMaterialUi} from '@material-ui/core/Card';
 import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     root: {
         position: 'relative' ,
     },

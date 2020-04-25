@@ -13,7 +13,7 @@ interface CommandFormProps {
 let monacoInstance: any = null;
 monaco.init().then(instance => monacoInstance = instance);
 
-const CommandForm = React.forwardRef((props: CommandFormProps, ref: any) => {
+const CommandForm = (props: CommandFormProps, ref: any) => {
 
     const jsonSchemaDefinitions = useSelector(makeJsonSchemaDefinitionsSelector());
     const theme = useSelector(makeThemeSelector());
@@ -84,6 +84,6 @@ const CommandForm = React.forwardRef((props: CommandFormProps, ref: any) => {
             </Grid>
         </div>
     );
-});
+};
 
-export default CommandForm;
+export default React.forwardRef(CommandForm);

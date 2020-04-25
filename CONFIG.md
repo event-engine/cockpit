@@ -19,7 +19,7 @@ All hooks are optional and support async/await.
 ### preRequestHook
 This hook is called before each request to the event-engine backend. If you need some form of authentication, use this
 hook to implement your authentication logic.
-```
+```typescript
 preRequestHook: (
     request: AxiosRequestConfig,
     env: EeUiConfigEnv,
@@ -29,7 +29,7 @@ preRequestHook: (
 
 ### postRequestHook
 This hook is called after each successful request to the event engine backend
-```
+```typescript
 postRequestHook: (
     response: AxiosResponse,
     env: EeUiConfigEnv,

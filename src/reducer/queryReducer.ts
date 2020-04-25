@@ -16,6 +16,7 @@ export const initialState = {
     error: null,
 };
 
+/* eslint @typescript-eslint/no-unused-vars: 0 */
 export const reducer = handleActions<QueryState, any>(
     {
         [queryExecutionBegan.toString()]: (state = initialState, action: Action<QueryExecutionBeganPayload>) => {

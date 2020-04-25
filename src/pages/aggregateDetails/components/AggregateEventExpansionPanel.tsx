@@ -11,7 +11,7 @@ import JsonTree from '../../aggregates/components/JsonTree';
 import Link from '../../common/components/Link';
 import {makeAggregateDetailsUrl} from '../../../routes';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     eventNameText: {
         flex: 1,
     },

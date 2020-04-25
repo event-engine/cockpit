@@ -121,6 +121,23 @@
 
                 request.headers = {...request.headers, Authorization: `Bearer ${token}`};
                 return request;
+            },
+            /* This hook is called after each successful request to the event engine backend */
+            postRequestHook: (response, env, updateEnv) => {
+                if (response.config.url !== env.schemaUrl) {
+                    return response;
+                }
+
+                const schema = response.data;
+                /*updateEnv({
+                    aggregateConfig: {
+                        'InspectIO.Board': {
+                            'snapshot': 'InspectIO.BoardSnapshot'
+                        }
+                    }
+                });*/
+
+                return response;
             }
         }
     };

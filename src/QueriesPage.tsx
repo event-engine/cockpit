@@ -15,7 +15,7 @@ import {makeQueryListSelector} from './selector/systemSchemaSelector';
 import {Query} from './api/types';
 import QueryPayloadForm from './pages/queries/QueryPayloadForm';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     selectedQuery: {
         backgroundColor: 'rgba(0, 0, 0, 0.1) !important',
     },

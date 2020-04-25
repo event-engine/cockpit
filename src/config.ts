@@ -22,12 +22,12 @@ export interface EeUiConfig {
             request: AxiosRequestConfig,
             env: EeUiConfigEnv,
             updateEnv: (env: Partial<EeUiConfigEnv>) => void,
-        ) => Promise<AxiosRequestConfig>,
+        ) => Promise<AxiosRequestConfig>;
         postRequestHook: (
             response: AxiosResponse,
             env: EeUiConfigEnv,
             updateEnv: (env: Partial<EeUiConfigEnv>) => void,
-        ) => Promise<AxiosResponse>,
+        ) => Promise<AxiosResponse>;
     };
 }
 

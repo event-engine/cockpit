@@ -53,6 +53,7 @@ export const reducer = handleActions<AggregateDataState, any>(
                 return state;
             }
 
+            /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
             const { [action.payload.aggregateId]: removedState, ...remainingAggregateStates } = state.aggregateStates;
 
             return {
