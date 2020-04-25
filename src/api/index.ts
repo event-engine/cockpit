@@ -76,7 +76,7 @@ export const loadAggregateEvents = async (rawAggregateType: string, aggregateId:
     return response.data as AggregateEvent[];
 };
 
-export const executeCommand = async (commandName: string, payload: any): Promise<AxiosResponse> => {
+const executeCommand = async (commandName: string, payload: any): Promise<AxiosResponse> => {
     return await sendApiRequest({
         url: `${eeUiConfig().env.messageBoxUrl}/${commandName}`,
         method: 'post',

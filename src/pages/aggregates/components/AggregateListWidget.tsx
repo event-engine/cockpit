@@ -21,15 +21,15 @@ import {
 import SendIcon from '@material-ui/icons/Send';
 import CloseIcon from '@material-ui/icons/Close';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {executeCommand} from '../../../api';
 import {makeAggregateListSelector} from '../../../selector/aggregateDataSelector';
 import AggregateExpansionPanel from './AggregateExpansionPanel';
 import {Command, MultiStoreMode} from '../../../api/types';
 import CommandForm from '../../common/components/CommandForm';
 import {Alert, AlertTitle} from '@material-ui/lab';
 import CommandButton from '../../common/components/CommandButton';
-import {fetchAggregateList} from '../../../action/aggregateDataCommands';
+import {executeCommand, fetchAggregateList} from '../../../action/aggregateDataCommands';
 import {defaultEeUiConfig} from '../../../defaultEeUIConfig';
+import GenerateMenu from '../../common/components/GenerateMenu';
 
 interface AggregateListProps {
     aggregateType: string;
@@ -39,7 +39,13 @@ const useStyles = makeStyles(theme => ({
     closeButton: {
         position: 'absolute',
         right: theme.spacing(1),
-        top: theme.spacing(1),
+        top: theme.spacing(0.5),
+        color: theme.palette.grey[500],
+    },
+    generateButton: {
+        position: 'absolute',
+        right: theme.spacing(6),
+        top: theme.spacing(0.5),
         color: theme.palette.grey[500],
     },
 }));
@@ -77,7 +83,7 @@ const AggregateListWidget = (props: AggregateListProps) => {
         }
 
         const payload = (commandFormRef.current as any).retrievePayload();
-        executeCommand(commandDialogCommand.commandName, payload);
+        dispatch(executeCommand({ commandName: commandDialogCommand.commandName, payload }));
     };
 
     return (
@@ -128,6 +134,7 @@ const AggregateListWidget = (props: AggregateListProps) => {
                 <Dialog open={commandDialogOpen} fullWidth={true} maxWidth={'lg'}>
                     <DialogTitle>
                         {commandDialogCommand.commandName}
+                        <GenerateMenu className={classes.generateButton} />
                         <IconButton className={classes.closeButton} onClick={() => setCommandDialogOpen(false)}>
                             <CloseIcon />
                         </IconButton>

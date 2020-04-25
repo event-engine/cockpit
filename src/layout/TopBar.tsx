@@ -3,8 +3,6 @@ import {
     AppBar,
     Hidden,
     IconButton,
-    Menu,
-    MenuItem,
     Toolbar as MuiToolbar,
     Typography,
     makeStyles,
@@ -12,16 +10,14 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import SettingsIcon from '@material-ui/icons/Settings';
 import UpdateIcon from '@material-ui/icons/Update';
-import CodeIcon from '@material-ui/icons/Code';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchSystemSchema} from '../action/systemSchemaCommands';
 import SettingsDialog from './SettingsDialog';
-import {copyToClipboard} from '../util/copyToClipboard';
-import {v4 as uuidv4} from 'uuid';
 import {themeSwitched} from '../action/settingsEvents';
 import {makeThemeSelector} from '../selector/settingsSelector';
+import GenerateMenu from '../pages/common/components/GenerateMenu';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -55,15 +51,6 @@ const TopBar = (props: TopBarProps) => {
     const dispatch = useDispatch();
     const theme = useSelector(makeThemeSelector());
     const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
-    const [generateAnchorElement, setGenerateAnchorElement] = useState(null);
-
-    const handleGenerateButtonClick = (event: React.MouseEvent<any>) => {
-        setGenerateAnchorElement(event.currentTarget);
-    };
-
-    const closeGenerateMenu = () => {
-        setGenerateAnchorElement(null);
-    };
 
     const handleRefresh = () => {
         dispatch(fetchSystemSchema({}));
@@ -86,9 +73,7 @@ const TopBar = (props: TopBarProps) => {
             <MuiToolbar>
                 <Typography variant={'h1'} className={classes.headerText}>Event Engine UI</Typography>
                 <div className={classes.flexGrow} />
-                <IconButton className={classes.icon} title={'Generate ...'} onClick={handleGenerateButtonClick}>
-                    <CodeIcon />
-                </IconButton>
+                <GenerateMenu className={classes.icon} />
                 <IconButton className={classes.icon} title={'Refresh Schema'} onClick={handleRefresh}>
                     <UpdateIcon />
                 </IconButton>
@@ -104,22 +89,6 @@ const TopBar = (props: TopBarProps) => {
                     </IconButton>
                 </Hidden>
                 {settingsOpen && <SettingsDialog open={settingsOpen} onClose={closeSettingsDialog} />}
-
-                <Menu
-                    anchorEl={generateAnchorElement}
-                    keepMounted={true}
-                    open={Boolean(generateAnchorElement)}
-                    onClose={closeGenerateMenu}
-                    style={{ top: '40px' }}
-                >
-                    <MenuItem
-                        onClick={() => {
-                            window.setTimeout(() => copyToClipboard(uuidv4()), 200);
-                            closeGenerateMenu();
-                        }}
-                        children={'UUID v4'}
-                    />
-                </Menu>
             </MuiToolbar>
         </AppBar>
     );
