@@ -26,15 +26,15 @@ jobs:
 
     - name: "Login github package registry"
       env:
-        DOCKER_USERNAME: ${{ github.actor }}
-        DOCKER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: docker login docker.pkg.github.com -u $DOCKER_USERNAME -p "$DOCKER_TOKEN"
+        DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USER }}
+        DOCKER_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+      run: docker login -u $DOCKER_USERNAME -p "$DOCKER_TOKEN"
 
     - name: "Tag image"
       run: "docker tag $(docker images | grep -E '^cockpit_event-engine-cockpit.*latest' | awk -e '{print $3}') docker.pkg.github.com/event-engine/cockpit/event-engine-cockpit:$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
 
     - name: "Push image"
-      run: "docker push docker.pkg.github.com/event-engine/cockpit/event-engine-cockpit:$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+      run: "docker push proophsoftware/event-engine-cockpit:$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
 
     - name: "Cleanup"
       run: rm /home/runner/.docker/config.json
