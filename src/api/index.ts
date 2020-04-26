@@ -44,7 +44,7 @@ export const sendApiRequest = async (
 };
 
 export const getSystemSchema = async (): Promise<SystemSchema> => {
-    const response: AxiosResponse = await sendApiRequest({ url: eeUiConfig().env.schemaUrl });
+    const response: AxiosResponse = await sendApiRequest({ url: `${eeUiConfig().env.schemaUrl}/schema` });
     return response.data as SystemSchema;
 };
 
