@@ -24,17 +24,20 @@ jobs:
     - name: "Build image"
       run: docker-compose build event-engine-cockpit
 
-    - name: "Login github package registry"
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USER }}
-        DOCKER_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
-      run: docker login -u $DOCKER_USERNAME -p "$DOCKER_TOKEN"
+    - name: "Login Docker Hub"
+      run: echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
 
     - name: "Tag image"
-      run: "docker tag $(docker images | grep -E '^cockpit_event-engine-cockpit.*latest' | awk -e '{print $3}') docker.pkg.github.com/event-engine/cockpit/event-engine-cockpit:$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+      run: "docker tag $(docker images | grep -E '^cockpit_event-engine-cockpit.*latest' | awk -e '{print $3}') proophsoftware/event-engine-cockpit:$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+
+    - name: "Tag as latest"
+      run: "docker tag $(docker images | grep -E '^cockpit_event-engine-cockpit.*latest' | awk -e '{print $3}') proophsoftware/event-engine-cockpit:latest"
 
     - name: "Push image"
       run: "docker push proophsoftware/event-engine-cockpit:$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+
+    - name: "Push latest image"
+      run: "docker push proophsoftware/event-engine-cockpit:latest"
 
     - name: "Cleanup"
       run: rm /home/runner/.docker/config.json
