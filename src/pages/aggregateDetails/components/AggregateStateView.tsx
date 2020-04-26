@@ -3,7 +3,7 @@ import {
     CardContent, CardHeader, Divider,
 } from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
-import {makeRawAggregateTypeSelector} from '../../../selector/systemSchemaSelector';
+import {makeRawAggregateTypeSelector, normalizeAggregateType} from '../../../selector/systemSchemaSelector';
 import {makeAggregateStateSelector} from '../../../selector/aggregateDataSelector';
 import JsonTree from '../../aggregates/components/JsonTree';
 import {fetchAggregateState} from '../../../action/aggregateDataCommands';
@@ -42,7 +42,9 @@ const AggregateStateView = (props: AggregateStateViewProps) => {
 
         Object.keys(aggregateTypeConfig).forEach((propKey: string) => {
             propertyClickActions![propKey] = (value: any) => {
-                history.push(makeAggregateDetailsUrl(aggregateTypeConfig[propKey], String(value)));
+                history.push(
+                    makeAggregateDetailsUrl(normalizeAggregateType(aggregateTypeConfig[propKey]), String(value))
+                );
             };
         });
     }
