@@ -1,16 +1,20 @@
 import { call, fork, put, take } from 'redux-saga/effects';
 import {Action} from 'redux-actions';
 import {Api} from '../api';
-import {onEnqueueErrorSnackbar} from './enqueueSnackbarFlow';
+import {onEnqueueErrorSnackbar, onEnqueueSuccessSnackbar} from './enqueueSnackbarFlow';
 import {ExecuteCommandPayload, executeCommand} from '../action/aggregateDataCommands';
-import {commandExecuted, commandExecutionBegan, commandExecutionFailed} from '../action/aggregateDataEvents';
+import {commandExecutionBegan, commandExecutionFailed} from '../action/aggregateDataEvents';
 
 export const onExecuteCommand = function*(commandName: string, payload: any) {
     try {
         yield put(commandExecutionBegan({}));
 
-        const response = yield call(Api.executeCommand, commandName, payload);
-        yield put(commandExecuted({ response }));
+        yield call(Api.executeCommand, commandName, payload);
+        yield call(
+            onEnqueueSuccessSnackbar,
+            `Command ${commandName} was executed successfully.`,
+            6000,
+        );
     } catch (e) {
         yield put(commandExecutionFailed({ error: e, response: e.response || undefined }));
         yield call(

@@ -24,10 +24,6 @@ export interface AggregateEventsFetchedPayload {
 export interface CommandExecutionBeganPayload {
 }
 
-export interface CommandExecutedPayload {
-    response: AxiosResponse;
-}
-
 export interface CommandExecutionFailedPayload {
     error: Error;
     response?: AxiosResponse;
@@ -38,5 +34,4 @@ export const aggregateStateFetched = createAction<AggregateStateFetchedPayload>(
 export const aggregateStateCleared = createAction<AggregateStateClearedPayload>('AGGREGATE_STATE_CLEARED');
 export const aggregateEventsFetched = createAction<AggregateEventsFetchedPayload>('AGGREGATE_EVENTS_FETCHED');
 export const commandExecutionBegan = createAction<CommandExecutionBeganPayload>('COMMAND_EXECUTION_BEGAN');
-export const commandExecuted = createAction<CommandExecutedPayload>('COMMAND_EXECUTED');
 export const commandExecutionFailed = createAction<CommandExecutionFailedPayload>('COMMAND_EXECUTION_FAILED');
