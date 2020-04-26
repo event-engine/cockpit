@@ -18,11 +18,11 @@ jobs:
     - name: "Install dependencies"
       run: docker-compose run --rm yarn yarn install
 
-    - name: "Build event-engine-ui"
+    - name: "Build event-engine-cockpit"
       run: docker-compose run --rm yarn yarn build
 
     - name: "Build image"
-      run: docker-compose build event-engine-ui
+      run: docker-compose build event-engine-cockpit
 
     - name: "Login github package registry"
       env:
@@ -31,10 +31,10 @@ jobs:
       run: docker login docker.pkg.github.com -u $DOCKER_USERNAME -p "$DOCKER_TOKEN"
 
     - name: "Tag image"
-      run: "docker tag $(docker images | grep -E '^event-engine-ui_event-engine-ui.*latest' | awk -e '{print $3}') docker.pkg.github.com/martin-schilling/event-engine-ui/event-engine-ui:$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+      run: "docker tag $(docker images | grep -E '^cockpit_event-engine-cockpit.*latest' | awk -e '{print $3}') docker.pkg.github.com/event-engine/cockpit/event-engine-cockpit:$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
 
     - name: "Push image"
-      run: "docker push docker.pkg.github.com/martin-schilling/event-engine-ui/event-engine-ui:$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+      run: "docker push docker.pkg.github.com/event-engine/cockpit/event-engine-cockpit:$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
 
     - name: "Cleanup"
       run: rm /home/runner/.docker/config.json

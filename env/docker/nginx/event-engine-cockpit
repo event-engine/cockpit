@@ -4,7 +4,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 
 COPY ./env/docker/nginx/conf/* /etc/nginx/conf.d
 
-COPY ./env/docker/nginx/dev_certificates/* /etc/certificates/event-engine-ui/
+COPY ./env/docker/nginx/dev_certificates/* /etc/certificates/event-engine-cockpit/
 
 COPY ./build /var/www
 

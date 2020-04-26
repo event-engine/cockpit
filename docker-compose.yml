@@ -9,9 +9,9 @@ services:
     volumes:
     - .:/app
 
-  event-engine-ui:
+  event-engine-cockpit:
     build:
       context: .
-      dockerfile: env/docker/nginx/event-engine-ui
+      dockerfile: env/docker/nginx/event-engine-cockpit
     ports:
       - "3001:443"

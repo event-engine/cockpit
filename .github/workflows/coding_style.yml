@@ -17,7 +17,7 @@ jobs:
       - name: "Install dependencies"
         run: docker-compose run --rm yarn yarn install
 
-      - name: "Run tslint"
+      - name: "Run eslint"
         run: docker-compose run --rm yarn yarn lint
 
       - name: "Build project"

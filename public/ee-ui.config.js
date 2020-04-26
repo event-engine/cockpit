@@ -1,5 +1,5 @@
 /**
- * This is the configuration file for the event-engine-ui.
+ * This is the configuration file for the event-engine-cockpit.
  *
  * Through altering this file you can add some custom behavior and default configuration. Since this file is
  * included during run-time, rebuilds will not be necessary.
@@ -52,7 +52,7 @@
      * @returns {Promise<*>}
      */
     async function authenticateOAuth2Password(authServer, clientId, username, password) {
-        const staticData = authenticateOAuth2ClientCredentials;
+        const staticData = authenticateOAuth2Password;
 
         const in10Seconds = new Date((new Date()).getTime() + 10000);
         if (staticData.token && in10Seconds < staticData.validUntil) {
@@ -77,68 +77,30 @@
     }
 
     /**
-     * Default configuration for the event-engine UI. Some of the properties defined below can also be overridden in the
+     * Default configuration for the event-engine-cockpit. Some of the properties defined below can also be overridden in the
      * settings dialog for individual per-browser configuration. Additionally the entire environment can be overridden
      * through the usage of certain hooks.
      */
     exports.eeUiConfig = {
         env: {
-            schemaUrl: 'https://ee.local/inspectio-board/api/v1/messagebox-schema2',
-            messageBoxUrl: 'https://ee.local/inspectio-board/api/v1/messagebox',
+            schemaUrl: '',
+            messageBoxUrl: '',
             aggregateList: {
                 filterLimit: 500,
                 batchSize: 30,
             },
             aggregateConfig: {
-                'InspectIO.Board': {
-                    'snapshot': 'InspectIO.BoardSnapshot',
-                    'latestPatch': 'InspectIO.BoardPatch',
-                    'lastSnapshotVersion.userId': 'InspectIO.User',
-                },
-                'InspectIO.User': {
-                    'ownBoards': 'InspectIO.Board',
-                    'sharedBoards': 'InspectIO.Board'
-                }
             },
             context: {
-                authUrl: 'https://ee.local/auth/realms/demo/protocol/openid-connect/token',
-                authClientId: 'inspectio',
-                authUsername: 'almier',
-                authPassword: 'almier'
             },
         },
 
-        /* Adjust the hooks below to alter the behavior of the event-engine-ui */
+        /* Adjust the hooks below to alter the behavior of the event-engine-cockpit */
         hooks: {
             /* This hook is called before each request to the event engine backend */
-            preRequestHook: async (request, env) => {
-                const token = await authenticateOAuth2Password(
-                    env.context.authUrl,
-                    env.context.authClientId,
-                    env.context.authUsername,
-                    env.context.authPassword
-                );
-
-                request.headers = {...request.headers, Authorization: `Bearer ${token}`};
-                return request;
-            },
+            preRequestHook: undefined,
             /* This hook is called after each successful request to the event engine backend */
-            postRequestHook: (response, env, updateEnv) => {
-                if (response.config.url !== env.schemaUrl) {
-                    return response;
-                }
-
-                const schema = response.data;
-                /*updateEnv({
-                    aggregateConfig: {
-                        'InspectIO.Board': {
-                            'snapshot': 'InspectIO.BoardSnapshot'
-                        }
-                    }
-                });*/
-
-                return response;
-            }
+            postRequestHook: undefined,
         }
     };
 })(window);

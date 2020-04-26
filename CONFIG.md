@@ -1,4 +1,4 @@
-# event-engine-ui Config
+# event-engine-cockpit Config
 
 ## env
 The entire environment may be overridden at run-time using certain hooks. These overrides are temporary and will be 
