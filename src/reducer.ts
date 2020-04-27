@@ -24,6 +24,11 @@ import {
     initialState as queryInitialState,
     reducer as queryReducer,
 } from './reducer/queryReducer';
+import {
+    CommandState,
+    initialState as commandInitialState,
+    reducer as commandReducer,
+} from './reducer/commandReducer';
 import storage from 'redux-persist/lib/storage';
 import {persistReducer} from 'redux-persist';
 
@@ -45,6 +50,7 @@ export interface ReduxState {
     snackbar: SnackbarState;
     settings: SettingsState;
     query: QueryState;
+    command: CommandState;
 }
 
 export const initialState: ReduxState = {
@@ -53,6 +59,7 @@ export const initialState: ReduxState = {
     snackbar: snackbarInitialState,
     settings: settingsInitialState,
     query: queryInitialState,
+    command: commandInitialState,
 };
 
 const rootReducer = combineReducers({
@@ -61,6 +68,7 @@ const rootReducer = combineReducers({
     snackbar: snackbarReducer,
     settings: persistReducer(settingsPersistConfig, settingsReducer),
     query: queryReducer,
+    command: commandReducer,
 });
 
 export const reducer = persistReducer(

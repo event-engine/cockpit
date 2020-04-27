@@ -15,12 +15,6 @@ export interface FetchAggregateEventsPayload {
     aggregateId: string;
 }
 
-export interface ExecuteCommandPayload {
-    commandName: string;
-    payload: any;
-}
-
 export const fetchAggregateList = createAction<FetchAggregateListPayload>('FETCH_AGGREGATE_LIST');
 export const fetchAggregateState = createAction<FetchAggregateStatePayload>('FETCH_AGGREGATE_STATE');
 export const fetchAggregateEvents = createAction<FetchAggregateEventsPayload>('FETCH_AGGREGATE_EVENTS');
-export const executeCommand = createAction<ExecuteCommandPayload>('EXECUTE_COMMAND');

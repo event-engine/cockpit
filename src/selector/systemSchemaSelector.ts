@@ -104,3 +104,9 @@ export const makeQueryListSelector = () => {
          return rawSchema ? rawSchema.queries : [];
     });
 };
+
+export const makeCommandListSelector = () => {
+    return createSelector([systemSchemaSelector], rawSchema => {
+        return rawSchema ? rawSchema.commands : [];
+    });
+};

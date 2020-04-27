@@ -2,6 +2,7 @@
 export interface SystemSchema {
     aggregates: Aggregate[];
     queries: Query[];
+    commands: Command[];
     definitions: Record<string, any>;
 }
 
@@ -30,6 +31,7 @@ export interface Query {
 
 export interface Command {
     commandName: string;
+    aggregateType: string|null;
     createAggregate: boolean;
     schema: JSONSchema;
 }
