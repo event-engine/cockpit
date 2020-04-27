@@ -14,8 +14,8 @@ import SendIcon from '@material-ui/icons/Send';
 import CommandForm from './CommandForm';
 import React, {useRef} from 'react';
 import {Command} from '../../../api/types';
-import {executeCommand} from '../../../action/aggregateDataCommands';
 import {useDispatch} from 'react-redux';
+import {executeCommand} from '../../../action/commandCommands';
 
 const useStyles = makeStyles(theme => ({
     closeButton: {

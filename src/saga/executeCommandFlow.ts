@@ -2,8 +2,8 @@ import { call, fork, put, take } from 'redux-saga/effects';
 import {Action} from 'redux-actions';
 import {Api} from '../api';
 import {onEnqueueErrorSnackbar, onEnqueueSuccessSnackbar} from './enqueueSnackbarFlow';
-import {ExecuteCommandPayload, executeCommand} from '../action/aggregateDataCommands';
-import {commandExecutionBegan, commandExecutionFailed} from '../action/aggregateDataEvents';
+import {ExecuteCommandPayload, executeCommand} from '../action/commandCommands';
+import {commandExecutionBegan, commandExecutionFailed} from '../action/commandEvents';
 
 export const onExecuteCommand = function*(commandName: string, payload: any) {
     try {
