@@ -15,10 +15,10 @@ instructions below.
 $ docker run --rm -it -p 3001:443 docker.pkg.github.com/event-engine/cockpit/event-engine-cockpit:0.1.0
 ```
 This project aims to be really easy to set up and use while also offering a lot of customization points. To customize 
-the project to your own needs simply copy the default [ee-ui.config.js](public/ee-ui.config.js) file, adjust it to 
+the project to your own needs simply copy the default [ee-cockpit.config.js](public/ee-cockpit.config.js) file, adjust it to 
 your needs and map it into the container. Take a look at the [CONFIG.md](CONFIG.md) file for detailed information.
 ```
-$ docker run --rm -it -p 3001:443 -v $(pwd)/ee-ui.config.js:/var/www/ee-ui.config.js docker.pkg.github.com/event-engine/cockpit/event-engine-cockpit:0.1.0
+$ docker run --rm -it -p 3001:443 -v $(pwd)/ee-cockpit.config.js:/var/www/ee-cockpit.config.js docker.pkg.github.com/event-engine/cockpit/event-engine-cockpit:0.1.0
 ```
 
 ## Installation

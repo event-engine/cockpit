@@ -146,8 +146,8 @@ const SettingsDialog = (props: SettingsDialogProps) => {
                 <Alert severity={'info'}>
                     <span>
                         Adjusting the following settings will override the default configuration you provided in your
-                        ee-ui.config.js file. The settings will be persisted in your browser storage and any updates to
-                        the ee-ui.config.js file will not take effect unless you clear your browser storage. To reset
+                        ee-cockpit.config.js file. The settings will be persisted in your browser storage and any updates to
+                        the ee-cockpit.config.js file will not take effect unless you clear your browser storage. To reset
                         the settings now click <Link
                             href={'#'}
                             onClick={(e: React.MouseEvent) => {
