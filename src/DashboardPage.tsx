@@ -18,7 +18,7 @@ const DashboardPage = () => {
                     next and we would also appreciate feedback from you! Therefore, if you feel like something is missing or not working as
                     nicely as you would expect it to, please open an
                     <a href="https://github.com/event-engine/cockpit/issues" target="_blank" rel="noopener noreferrer">issue</a>  or create a
-                    <a href="" target="_blank" rel="noopener noreferrer">pull request</a>.
+                    <a href="https://github.com/event-engine/cockpit/pulls" target="_blank" rel="noopener noreferrer">pull request</a>.
                 </div>
             </Grid>
         </Grid>
