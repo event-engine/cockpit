@@ -71,7 +71,7 @@ const TopBar = (props: TopBarProps) => {
     return (
         <AppBar position={'fixed'} color={'default'} className={classes.root}>
             <MuiToolbar>
-                <Typography variant={'h1'} className={classes.headerText}>Event Engine UI</Typography>
+                <Typography variant={'h1'} className={classes.headerText}>Event Engine Cockpit</Typography>
                 <div className={classes.flexGrow} />
                 <GenerateMenu className={classes.icon} />
                 <IconButton className={classes.icon} title={'Refresh Schema'} onClick={handleRefresh}>
