@@ -15,6 +15,7 @@ import {makeAggregateDetailsUrl} from '../../../routes';
 interface AggregateStateViewProps {
     aggregateType: string;
     aggregateId: string;
+    commandsExecuted: number;
     version?: number|undefined;
 }
 
@@ -31,7 +32,7 @@ const AggregateStateView = (props: AggregateStateViewProps) => {
             dispatch(fetchAggregateState({ rawAggregateType, aggregateId: props.aggregateId, version: props.version}));
         }
         /* eslint-disable-next-line react-hooks/exhaustive-deps */
-    }, [rawAggregateType, props.aggregateId, props.version]);
+    }, [rawAggregateType, props.aggregateId, props.version, props.commandsExecuted]);
 
     const subheader = props.version ? `Aggregate state at version ${props.version}` : 'Latest aggregate state';
 

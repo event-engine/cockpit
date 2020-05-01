@@ -14,6 +14,7 @@ import {fetchAggregateEvents} from '../../../action/aggregateDataCommands';
 interface AggregateDetailsEventsWidgetProps {
     aggregateType: string;
     aggregateId: string;
+    commandsExecuted: number;
 }
 
 const AggregateDetailsEventsWidget = (props: AggregateDetailsEventsWidgetProps) => {
@@ -28,7 +29,7 @@ const AggregateDetailsEventsWidget = (props: AggregateDetailsEventsWidgetProps) 
             dispatch(fetchAggregateEvents({ rawAggregateType, aggregateId: props.aggregateId }));
         }
         /* eslint-disable-next-line react-hooks/exhaustive-deps */
-    }, [rawAggregateType, props.aggregateId]);
+    }, [rawAggregateType, props.aggregateId, props.commandsExecuted]);
 
     if (null === events) {
         return null;

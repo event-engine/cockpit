@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Grid} from '@material-ui/core';
 import AggregateDetailsEventsWidget from './pages/aggregateDetails/components/AggregateDetailsEventsWidget';
 import {RouteComponentProps} from 'react-router';
@@ -15,6 +15,11 @@ const AggregateDetailsPage = (props: AggregateDetailsPageProps) => {
     const aggregateType = (props.match.params as any).aggregateType;
     const aggregateId = (props.match.params as any).aggregateId;
     const version = (props.match.params as any).version || undefined;
+    const [commandsExecuted, setCommandsExecuted] = useState(0);
+
+    const handleCommandExecuted = () => {
+        setCommandsExecuted(commandsExecuted + 1);
+    };
 
     return (
         <Grid container={true} spacing={3}>
@@ -24,15 +29,24 @@ const AggregateDetailsPage = (props: AggregateDetailsPageProps) => {
             <Grid item={true} md={6}>
                 <Grid container={true} spacing={3}>
                     <Grid item={true} md={12}>
-                        <AggregateStateView aggregateType={aggregateType} aggregateId={aggregateId} version={version} />
+                        <AggregateStateView aggregateType={aggregateType}
+                                            aggregateId={aggregateId}
+                                            version={version}
+                                            commandsExecuted={commandsExecuted}
+                        />
                     </Grid>
                     <Grid item={true} md={12}>
-                        <AggregateCommandsWidget aggregateType={aggregateType} />
+                        <AggregateCommandsWidget aggregateType={aggregateType}
+                                                 onCommandExecuted={handleCommandExecuted}
+                        />
                     </Grid>
                 </Grid>
             </Grid>
             <Grid item={true} md={6}>
-                <AggregateDetailsEventsWidget aggregateType={aggregateType} aggregateId={aggregateId} />
+                <AggregateDetailsEventsWidget aggregateType={aggregateType} 
+                                              aggregateId={aggregateId}
+                                              commandsExecuted={commandsExecuted}
+                />
             </Grid>
         </Grid>
     );
