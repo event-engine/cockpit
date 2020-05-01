@@ -42,9 +42,13 @@ const AggregateListWidget = (props: AggregateListProps) => {
             return;
         }
 
+        if (commandDialogOpen) {
+            return;
+        }
+
         dispatch(fetchAggregateList({ rawAggregateType }));
         /* eslint-disable-next-line react-hooks/exhaustive-deps */
-    }, [props.aggregateType, rawAggregateType]);
+    }, [props.aggregateType, rawAggregateType, commandDialogOpen]);
 
     const openDialogForCommand = (command: Command) => {
         setCommandDialogCommand(command);

@@ -9,6 +9,7 @@ import CommandDialog from '../../common/components/CommandDialog';
 
 interface AggregateCommandsWidgetProps {
     aggregateType: string;
+    onCommandExecuted?: () => void;
 }
 
 const AggregateCommandsWidget = (props: AggregateCommandsWidgetProps) => {
@@ -18,6 +19,11 @@ const AggregateCommandsWidget = (props: AggregateCommandsWidgetProps) => {
     if (!commands) {
         return null;
     }
+
+    const handleCommandDialogClosed = () => {
+        setCommandDialogCommand(null);
+        props.onCommandExecuted && props.onCommandExecuted();
+    };
 
     return (
         <Card>
@@ -44,7 +50,7 @@ const AggregateCommandsWidget = (props: AggregateCommandsWidgetProps) => {
             {commandDialogCommand !== null && (
                 <CommandDialog
                     open={commandDialogCommand !== null}
-                    onClose={() => setCommandDialogCommand(null)}
+                    onClose={handleCommandDialogClosed}
                     commandDialogCommand={commandDialogCommand}
                 />
             )}
