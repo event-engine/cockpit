@@ -12,13 +12,13 @@ To make the setup as simple as possible, we offer prebuilt Docker containers tha
 commands. If you do not want to use Docker or you prefer to build your own container, take a look at the installation
 instructions below.
 ```
-$ docker run --rm -it -p 3001:443 docker.pkg.github.com/event-engine/cockpit/event-engine-cockpit:0.1.0
+$ docker run --rm -it -p 3001:443 proophsoftware/event-engine-cockpit:latest
 ```
 This project aims to be really easy to set up and use while also offering a lot of customization points. To customize 
 the project to your own needs simply copy the default [ee-cockpit.config.js](public/ee-cockpit.config.js) file, adjust it to 
 your needs and map it into the container. Take a look at the [CONFIG.md](CONFIG.md) file for detailed information.
 ```
-$ docker run --rm -it -p 3001:443 -v $(pwd)/ee-cockpit.config.js:/var/www/ee-cockpit.config.js docker.pkg.github.com/event-engine/cockpit/event-engine-cockpit:0.1.0
+$ docker run --rm -it -p 3001:443 -v $(pwd)/ee-cockpit.config.js:/var/www/ee-cockpit.config.js proophsoftware/event-engine-cockpit:latest
 ```
 
 ## Installation
