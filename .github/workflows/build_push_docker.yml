@@ -1,7 +1,6 @@
 on:
-  push:
-    branches:
-    - master
+  release:
+    types: [published]
 
 name: "Build And Push Docker"
 
@@ -28,13 +27,13 @@ jobs:
       run: echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
 
     - name: "Tag image"
-      run: "docker tag $(docker images | grep -E '^cockpit_event-engine-cockpit.*latest' | awk -e '{print $3}') proophsoftware/event-engine-cockpit:$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+      run: "docker tag $(docker images | grep -E '^cockpit_event-engine-cockpit.*latest' | awk -e '{print $3}') proophsoftware/event-engine-cockpit:$(echo ${GITHUB_REF##*/} | sed -e 's/v//')"
 
     - name: "Tag as latest"
       run: "docker tag $(docker images | grep -E '^cockpit_event-engine-cockpit.*latest' | awk -e '{print $3}') proophsoftware/event-engine-cockpit:latest"
 
     - name: "Push image"
-      run: "docker push proophsoftware/event-engine-cockpit:$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]')"
+      run: "docker push proophsoftware/event-engine-cockpit:$(echo ${GITHUB_REF##*/} | sed -e 's/v//')"
 
     - name: "Push latest image"
       run: "docker push proophsoftware/event-engine-cockpit:latest"
