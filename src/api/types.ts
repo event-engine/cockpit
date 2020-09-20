@@ -14,6 +14,8 @@ export enum MultiStoreMode {
     State = 'mode_s',
 }
 
+export type AggregateRelations = {[prop: string]: string};
+
 export interface Aggregate {
     aggregateType: string;
     aggregateIdentifier: string;
@@ -22,6 +24,7 @@ export interface Aggregate {
     multiStoreMode: MultiStoreMode;
     commands: Command[];
     events: Event[];
+    relations?: AggregateRelations;
 }
 
 export interface Query {
