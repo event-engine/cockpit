@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Command, JSONSchema} from '../../../api/types';
 import {makeThemeSelector} from '../../../selector/settingsSelector';
 import {makeJsonSchemaDefinitionsSelector} from '../../../selector/systemSchemaSelector';
-import {executeCommand} from '../../../action/commandCommands';
+import {clearCommand, executeCommand} from '../../../action/commandCommands';
 import {makeCommandErrorSelector, makeCommandResponseSelector} from '../../../selector/commandSelector';
 import AxiosResponseViewer from '../../common/components/AxiosResponseViewer';
 import {Alert, AlertTitle} from '@material-ui/lab';
@@ -33,6 +33,7 @@ const CommandForm = (props: CommandPayloadFormProps) => {
             return;
         }
 
+        dispatch(clearCommand({}));
         updateEditorModel();
         /* eslint-disable-next-line react-hooks/exhaustive-deps */
     }, [props.command]);

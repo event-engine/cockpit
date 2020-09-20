@@ -5,7 +5,7 @@ import React, {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {makeJsonSchemaDefinitionsSelector} from '../../selector/systemSchemaSelector';
 import {makeThemeSelector} from '../../selector/settingsSelector';
-import {executeQuery} from '../../action/queryCommands';
+import {clearQuery, executeQuery} from '../../action/queryCommands';
 import {makeQueryErrorSelector, makeQueryResultSelector} from '../../selector/querySelector';
 import AxiosResponseViewer from '../common/components/AxiosResponseViewer';
 import {Alert, AlertTitle} from '@material-ui/lab';
@@ -33,6 +33,7 @@ const QueryPayloadForm = (props: QueryPayloadFormProps) => {
             return;
         }
 
+        dispatch(clearQuery({}));
         updateEditorModel();
         /* eslint-disable-next-line react-hooks/exhaustive-deps */
     }, [props.query]);
