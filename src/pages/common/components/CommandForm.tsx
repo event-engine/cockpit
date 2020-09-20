@@ -10,7 +10,7 @@ import {AggregateIdentifier} from './CommandDialog';
 import {makeCommandErrorSelector, makeCommandResponseSelector} from '../../../selector/commandSelector';
 import AxiosResponseViewer from './AxiosResponseViewer';
 import {Alert, AlertTitle} from '@material-ui/lab';
-import {clearCommand} from "../../../action/commandCommands";
+import {clearCommand} from '../../../action/commandCommands';
 
 interface CommandFormProps {
     command: Command;

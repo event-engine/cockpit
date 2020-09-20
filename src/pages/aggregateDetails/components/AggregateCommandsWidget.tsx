@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {
     makeAggregateIdentifierSelector,
-    makeAggregateNonCreationCommandsSelector
+    makeAggregateNonCreationCommandsSelector,
 } from '../../../selector/systemSchemaSelector';
 import CommandButton from '../../common/components/CommandButton';
 import {Alert, AlertTitle} from '@material-ui/lab';
