@@ -5,10 +5,12 @@ import {Grid} from '@material-ui/core';
 import {useSelector} from 'react-redux';
 import {makeJsonSchemaDefinitionsSelector} from '../../../selector/systemSchemaSelector';
 import {makeThemeSelector} from '../../../selector/settingsSelector';
-import {convertJsonSchemaToEditorValue} from "../../../util/convertJsonSchemaToEditorValue";
+import {convertJsonSchemaToEditorValue} from '../../../util/convertJsonSchemaToEditorValue';
+import {AggregateIdentifier} from './CommandDialog';
 
 interface CommandFormProps {
     command: Command;
+    aggregateIdentifier?: AggregateIdentifier;
 }
 
 let monacoInstance: any = null;
@@ -28,6 +30,11 @@ const CommandForm = (props: CommandFormProps, ref: any) => {
     }));
 
     const defaultEditorValue: Record<string, any> = convertJsonSchemaToEditorValue(props.command.schema, jsonSchemaDefinitions || {});
+
+    // eslint-disable-next-line no-prototype-builtins
+    if(props.aggregateIdentifier && defaultEditorValue.hasOwnProperty(props.aggregateIdentifier.identifier)) {
+        defaultEditorValue[props.aggregateIdentifier.identifier] = props.aggregateIdentifier.value;
+    }
 
     const handleEditorDidMount = (valueGetter: any, editor: any) => {
         valueGetterRef.current = valueGetter;

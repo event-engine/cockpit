@@ -32,10 +32,16 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+export interface AggregateIdentifier {
+    identifier: string;
+    value: string;
+}
+
 interface CommandDialogProps {
     open: boolean;
     onClose: () => void;
     commandDialogCommand: Command;
+    aggregateIdentifier?: AggregateIdentifier;
 }
 
 const CommandDialog = (props: CommandDialogProps) => {
@@ -62,6 +68,7 @@ const CommandDialog = (props: CommandDialogProps) => {
             <DialogContent style={{ padding: '24px 24px' }}>
                 <CommandForm
                     command={props.commandDialogCommand}
+                    aggregateIdentifier={props.aggregateIdentifier}
                     ref={commandFormRef}
                 />
             </DialogContent>

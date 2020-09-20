@@ -16,7 +16,7 @@ interface AggregateStateViewProps {
     aggregateType: string;
     aggregateId: string;
     commandsExecuted: number;
-    version?: number|undefined;
+    version?: string|undefined;
 }
 
 const AggregateStateView = (props: AggregateStateViewProps) => {
@@ -29,7 +29,8 @@ const AggregateStateView = (props: AggregateStateViewProps) => {
 
     useEffect(() => {
         if (rawAggregateType) {
-            dispatch(fetchAggregateState({ rawAggregateType, aggregateId: props.aggregateId, version: props.version}));
+            const version = props.version? parseInt(props.version) : undefined;
+            dispatch(fetchAggregateState({ rawAggregateType, aggregateId: props.aggregateId, version}));
         }
         /* eslint-disable-next-line react-hooks/exhaustive-deps */
     }, [rawAggregateType, props.aggregateId, props.version, props.commandsExecuted]);

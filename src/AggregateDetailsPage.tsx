@@ -6,15 +6,21 @@ import AggregateStateView from './pages/aggregateDetails/components/AggregateSta
 import AggregateCommandsWidget from './pages/aggregateDetails/components/AggregateCommandsWidget';
 import AggregateSearchBar from './pages/common/components/AggregateSearchBar';
 
-interface AggregateDetailsPageProps extends RouteComponentProps {
+interface AggregateRouteParams {
+    aggregateType: string;
+    aggregateId: string;
+    version?: string;
+}
+
+interface AggregateDetailsPageProps extends RouteComponentProps<AggregateRouteParams> {
 
 }
 
 const AggregateDetailsPage = (props: AggregateDetailsPageProps) => {
 
-    const aggregateType = (props.match.params as any).aggregateType;
-    const aggregateId = (props.match.params as any).aggregateId;
-    const version = (props.match.params as any).version || undefined;
+    const aggregateType = props.match.params.aggregateType;
+    const aggregateId = props.match.params.aggregateId;
+    const version = props.match.params.version || undefined;
     const [commandsExecuted, setCommandsExecuted] = useState(0);
 
     const handleCommandExecuted = () => {
@@ -37,6 +43,7 @@ const AggregateDetailsPage = (props: AggregateDetailsPageProps) => {
                     </Grid>
                     <Grid item={true} md={12}>
                         <AggregateCommandsWidget aggregateType={aggregateType}
+                                                 aggregateId={aggregateId}
                                                  onCommandExecuted={handleCommandExecuted}
                         />
                     </Grid>
