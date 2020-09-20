@@ -1,10 +1,11 @@
 import React, {useImperativeHandle, useRef} from 'react';
-import {Command} from '../../../api/types';
+import {Command, JSONSchema} from '../../../api/types';
 import Editor, {monaco} from '@monaco-editor/react';
 import {Grid} from '@material-ui/core';
 import {useSelector} from 'react-redux';
 import {makeJsonSchemaDefinitionsSelector} from '../../../selector/systemSchemaSelector';
 import {makeThemeSelector} from '../../../selector/settingsSelector';
+import {convertJsonSchemaToEditorValue} from "../../../util/convertJsonSchemaToEditorValue";
 
 interface CommandFormProps {
     command: Command;
@@ -15,7 +16,7 @@ monaco.init().then(instance => monacoInstance = instance);
 
 const CommandForm = (props: CommandFormProps, ref: any) => {
 
-    const jsonSchemaDefinitions = useSelector(makeJsonSchemaDefinitionsSelector());
+    const jsonSchemaDefinitions: Record<string, JSONSchema> | null = useSelector(makeJsonSchemaDefinitionsSelector());
     const theme = useSelector(makeThemeSelector());
     const editorRef = useRef();
     const valueGetterRef = useRef();
@@ -26,19 +27,7 @@ const CommandForm = (props: CommandFormProps, ref: any) => {
         },
     }));
 
-    const propertySchema = props.command.schema.properties;
-
-    const defaultEditorValue: Record<string, any> = {};
-    Object.keys(propertySchema).forEach((propertyName: string) => {
-        if (Array.isArray(propertySchema[propertyName].type)) {
-            defaultEditorValue[propertyName] = propertySchema[propertyName].type.join('|');
-        } else {
-            switch (propertySchema[propertyName].type) {
-                case 'object': defaultEditorValue[propertyName] = {}; break;
-                default: defaultEditorValue[propertyName] = propertySchema[propertyName].type;
-            }
-        }
-    });
+    const defaultEditorValue: Record<string, any> = convertJsonSchemaToEditorValue(props.command.schema, jsonSchemaDefinitions || {});
 
     const handleEditorDidMount = (valueGetter: any, editor: any) => {
         valueGetterRef.current = valueGetter;
@@ -78,6 +67,7 @@ const CommandForm = (props: CommandFormProps, ref: any) => {
                                 enabled: false,
                             },
                             formatOnPaste: true,
+                            scrollBeyondLastLine: false,
                             hover: {
                                 delay: 500,
                             },

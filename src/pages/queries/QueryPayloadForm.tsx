@@ -1,4 +1,4 @@
-import {Query} from '../../api/types';
+import {JSONSchema, Query} from '../../api/types';
 import {Button, Card, CardContent, Container, Divider, Typography} from '@material-ui/core';
 import Editor, {monaco} from '@monaco-editor/react';
 import React, {useEffect, useRef} from 'react';
@@ -9,6 +9,7 @@ import {executeQuery} from '../../action/queryCommands';
 import {makeQueryErrorSelector, makeQueryResultSelector} from '../../selector/querySelector';
 import AxiosResponseViewer from '../common/components/AxiosResponseViewer';
 import {Alert, AlertTitle} from '@material-ui/lab';
+import {convertJsonSchemaToEditorValue} from '../../util/convertJsonSchemaToEditorValue';
 
 interface QueryPayloadFormProps {
     query: Query;
@@ -21,13 +22,11 @@ const QueryPayloadForm = (props: QueryPayloadFormProps) => {
 
     const dispatch = useDispatch();
     const theme = useSelector(makeThemeSelector());
-    const jsonSchemaDefinitions = useSelector(makeJsonSchemaDefinitionsSelector());
+    const jsonSchemaDefinitions: Record<string, JSONSchema> | null = useSelector(makeJsonSchemaDefinitionsSelector());
     const result = useSelector(makeQueryResultSelector());
     const error = useSelector(makeQueryErrorSelector());
     const valueGetterRef = useRef();
     const editorRef = useRef();
-
-    const propertySchema = props.query.schema.properties || {};
 
     useEffect(() => {
         if (!editorRef.current) {
@@ -46,17 +45,7 @@ const QueryPayloadForm = (props: QueryPayloadFormProps) => {
     };
 
     const updateEditorModel = () => {
-        const defaultEditorValue: Record<string, any> = {};
-        Object.keys(propertySchema).forEach((propertyName: string) => {
-            if (Array.isArray(propertySchema[propertyName].type)) {
-                defaultEditorValue[propertyName] = propertySchema[propertyName].type.join('|');
-            } else {
-                switch (propertySchema[propertyName].type) {
-                    case 'object': defaultEditorValue[propertyName] = {}; break;
-                    default: defaultEditorValue[propertyName] = propertySchema[propertyName].type;
-                }
-            }
-        });
+        const defaultEditorValue: Record<string, any> = convertJsonSchemaToEditorValue(props.query.schema, jsonSchemaDefinitions || {});
 
         const jsonCode = JSON.stringify(defaultEditorValue, null, 2);
         const modelUri = monacoInstance.Uri.parse(`query_${props.query.queryName}.json`);
