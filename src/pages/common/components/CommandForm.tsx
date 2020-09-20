@@ -1,13 +1,20 @@
 import React, {useImperativeHandle, useRef} from 'react';
-import {Command} from '../../../api/types';
+import {Command, JSONSchema} from '../../../api/types';
 import Editor, {monaco} from '@monaco-editor/react';
-import {Grid} from '@material-ui/core';
-import {useSelector} from 'react-redux';
+import {Container, Grid} from '@material-ui/core';
+import {useDispatch, useSelector} from 'react-redux';
 import {makeJsonSchemaDefinitionsSelector} from '../../../selector/systemSchemaSelector';
 import {makeThemeSelector} from '../../../selector/settingsSelector';
+import {convertJsonSchemaToEditorValue} from '../../../util/convertJsonSchemaToEditorValue';
+import {AggregateIdentifier} from './CommandDialog';
+import {makeCommandErrorSelector, makeCommandResponseSelector} from '../../../selector/commandSelector';
+import AxiosResponseViewer from './AxiosResponseViewer';
+import {Alert, AlertTitle} from '@material-ui/lab';
+import {clearCommand} from '../../../action/commandCommands';
 
 interface CommandFormProps {
     command: Command;
+    aggregateIdentifier?: AggregateIdentifier;
 }
 
 let monacoInstance: any = null;
@@ -15,8 +22,11 @@ monaco.init().then(instance => monacoInstance = instance);
 
 const CommandForm = (props: CommandFormProps, ref: any) => {
 
-    const jsonSchemaDefinitions = useSelector(makeJsonSchemaDefinitionsSelector());
+    const dispatch = useDispatch();
+    const jsonSchemaDefinitions: Record<string, JSONSchema> | null = useSelector(makeJsonSchemaDefinitionsSelector());
     const theme = useSelector(makeThemeSelector());
+    const response = useSelector(makeCommandResponseSelector());
+    const error = useSelector(makeCommandErrorSelector());
     const editorRef = useRef();
     const valueGetterRef = useRef();
 
@@ -26,19 +36,12 @@ const CommandForm = (props: CommandFormProps, ref: any) => {
         },
     }));
 
-    const propertySchema = props.command.schema.properties;
+    const defaultEditorValue: Record<string, any> = convertJsonSchemaToEditorValue(props.command.schema, jsonSchemaDefinitions || {});
 
-    const defaultEditorValue: Record<string, any> = {};
-    Object.keys(propertySchema).forEach((propertyName: string) => {
-        if (Array.isArray(propertySchema[propertyName].type)) {
-            defaultEditorValue[propertyName] = propertySchema[propertyName].type.join('|');
-        } else {
-            switch (propertySchema[propertyName].type) {
-                case 'object': defaultEditorValue[propertyName] = {}; break;
-                default: defaultEditorValue[propertyName] = propertySchema[propertyName].type;
-            }
-        }
-    });
+    // eslint-disable-next-line no-prototype-builtins
+    if(props.aggregateIdentifier && defaultEditorValue.hasOwnProperty(props.aggregateIdentifier.identifier)) {
+        defaultEditorValue[props.aggregateIdentifier.identifier] = props.aggregateIdentifier.value;
+    }
 
     const handleEditorDidMount = (valueGetter: any, editor: any) => {
         valueGetterRef.current = valueGetter;
@@ -54,6 +57,8 @@ const CommandForm = (props: CommandFormProps, ref: any) => {
             model.setValue(jsonCode);
         }
 
+        dispatch(clearCommand({}));
+
         monacoInstance.languages.json.jsonDefaults.setDiagnosticsOptions({
             validate: true,
             schemas: [{
@@ -67,7 +72,7 @@ const CommandForm = (props: CommandFormProps, ref: any) => {
     return (
         <div>
             <Grid container={true} spacing={3}>
-                <Grid item={true} md={12}>
+                <Grid item={true} md={6}>
                     <Editor
                         height={'500px'}
                         language={'json'}
@@ -78,11 +83,25 @@ const CommandForm = (props: CommandFormProps, ref: any) => {
                                 enabled: false,
                             },
                             formatOnPaste: true,
+                            scrollBeyondLastLine: false,
                             hover: {
                                 delay: 500,
                             },
                         }}
                     />
+                </Grid>
+                <Grid item={true} md={6}>
+                    <div>
+                        {response && <AxiosResponseViewer response={response} />}
+                        {!response && error && (
+                            <Container disableGutters={true}>
+                                <Alert severity={'error'}>
+                                    <AlertTitle>{error.name}</AlertTitle>
+                                    {error.message}
+                                </Alert>
+                            </Container>
+                        )}
+                    </div>
                 </Grid>
             </Grid>
         </div>

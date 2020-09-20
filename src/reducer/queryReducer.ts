@@ -1,9 +1,9 @@
 import {Action, handleActions} from 'redux-actions';
 import {
-    QueryExecutedPayload, QueryExecutionBeganPayload,
+    QueryClearedPaylod, QueryExecutedPayload,
+    QueryExecutionBeganPayload,
     QueryExecutionFailedPayload,
-    queryExecuted,
-    queryExecutionBegan, queryExecutionFailed,
+    queryCleared, queryExecuted, queryExecutionBegan, queryExecutionFailed,
 } from '../action/queryEvents';
 
 export interface QueryState {
@@ -38,6 +38,7 @@ export const reducer = handleActions<QueryState, any>(
             return {
                 ...state,
                 result: action.payload.result,
+                error: null,
             };
         },
         [queryExecutionFailed.toString()]: (state = initialState, action: Action<QueryExecutionFailedPayload>) => {
@@ -47,7 +48,19 @@ export const reducer = handleActions<QueryState, any>(
 
             return {
                 ...state,
+                result: null,
                 error: action.payload.error,
+            };
+        },
+        [queryCleared.toString()]: (state = initialState, action: Action<QueryClearedPaylod>) => {
+            if(!state) {
+                return state;
+            }
+
+            return {
+                ...state,
+                result: null,
+                error: null,
             };
         },
     },

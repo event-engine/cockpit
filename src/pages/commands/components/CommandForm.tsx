@@ -2,13 +2,14 @@ import {Button, Card, CardContent, Container, Divider, Typography} from '@materi
 import Editor, {monaco} from '@monaco-editor/react';
 import React, {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Command} from '../../../api/types';
+import {Command, JSONSchema} from '../../../api/types';
 import {makeThemeSelector} from '../../../selector/settingsSelector';
 import {makeJsonSchemaDefinitionsSelector} from '../../../selector/systemSchemaSelector';
-import {executeCommand} from '../../../action/commandCommands';
+import {clearCommand, executeCommand} from '../../../action/commandCommands';
 import {makeCommandErrorSelector, makeCommandResponseSelector} from '../../../selector/commandSelector';
 import AxiosResponseViewer from '../../common/components/AxiosResponseViewer';
 import {Alert, AlertTitle} from '@material-ui/lab';
+import {convertJsonSchemaToEditorValue} from '../../../util/convertJsonSchemaToEditorValue';
 
 interface CommandPayloadFormProps {
     command: Command;
@@ -21,19 +22,18 @@ const CommandForm = (props: CommandPayloadFormProps) => {
 
     const dispatch = useDispatch();
     const theme = useSelector(makeThemeSelector());
-    const jsonSchemaDefinitions = useSelector(makeJsonSchemaDefinitionsSelector());
+    const jsonSchemaDefinitions: Record<string, JSONSchema> | null = useSelector(makeJsonSchemaDefinitionsSelector());
     const response = useSelector(makeCommandResponseSelector());
     const error = useSelector(makeCommandErrorSelector());
     const valueGetterRef = useRef();
     const editorRef = useRef();
-
-    const propertySchema = props.command.schema.properties || {};
 
     useEffect(() => {
         if (!editorRef.current) {
             return;
         }
 
+        dispatch(clearCommand({}));
         updateEditorModel();
         /* eslint-disable-next-line react-hooks/exhaustive-deps */
     }, [props.command]);
@@ -46,17 +46,7 @@ const CommandForm = (props: CommandPayloadFormProps) => {
     };
 
     const updateEditorModel = () => {
-        const defaultEditorValue: Record<string, any> = {};
-        Object.keys(propertySchema).forEach((propertyName: string) => {
-            if (Array.isArray(propertySchema[propertyName].type)) {
-                defaultEditorValue[propertyName] = propertySchema[propertyName].type.join('|');
-            } else {
-                switch (propertySchema[propertyName].type) {
-                    case 'object': defaultEditorValue[propertyName] = {}; break;
-                    default: defaultEditorValue[propertyName] = propertySchema[propertyName].type;
-                }
-            }
-        });
+        const defaultEditorValue: Record<string, any> = convertJsonSchemaToEditorValue(props.command.schema, jsonSchemaDefinitions || {});
 
         const jsonCode = JSON.stringify(defaultEditorValue, null, 2);
         const modelUri = monacoInstance.Uri.parse(`command_${props.command.commandName}.json`);

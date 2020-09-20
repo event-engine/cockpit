@@ -5,4 +5,8 @@ export interface ExecuteCommandPayload {
     payload: any;
 }
 
+export interface ClearCommandPayload {
+}
+
 export const executeCommand = createAction<ExecuteCommandPayload>('EXECUTE_COMMAND');
+export const clearCommand = createAction<ClearCommandPayload>('CLEAR_COMMAND');
