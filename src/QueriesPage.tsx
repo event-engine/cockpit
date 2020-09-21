@@ -4,9 +4,9 @@ import {
     CardContent,
     CardHeader,
     Divider,
-    Grid,
+    Grid, IconButton,
     List,
-    ListItem,
+    ListItem, ListItemSecondaryAction,
     ListItemText,
     makeStyles,
 } from '@material-ui/core';
@@ -14,6 +14,7 @@ import {useSelector} from 'react-redux';
 import {makeQueryListSelector} from './selector/systemSchemaSelector';
 import {Query} from './api/types';
 import QueryPayloadForm from './pages/queries/QueryPayloadForm';
+import MapIcon from "@material-ui/icons/Map";
 
 const useStyles = makeStyles(() => ({
     selectedQuery: {
@@ -40,8 +41,16 @@ const QueriesPage = () => {
                                     button={true}
                                     className={index === selectedQuery ? classes.selectedQuery : ''}
                                     onClick={() => setSelectedQuery(index)}
-                                    children={<ListItemText primary={query.queryName} />}
-                                />
+                                >
+                                    <ListItemText primary={query.queryName} />
+                                    {query.eventMapLink && <ListItemSecondaryAction>
+                                        <a href={query.eventMapLink} target="_blank" rel="noopener noreferrer" title="show on event map">
+                                            <IconButton>
+                                                <MapIcon />
+                                            </IconButton>
+                                        </a>
+                                    </ListItemSecondaryAction>}
+                                </ListItem>
                             ))}
                         </List>
                     </CardContent>
