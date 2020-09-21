@@ -39,9 +39,6 @@ const AggregateListWidget = (props: AggregateListProps) => {
     const [commandDialogOpen, setCommandDialogOpen] = useState<boolean>(false);
     const [commandDialogCommand, setCommandDialogCommand] = useState<Command|null>(null);
 
-    // eslint-disable-next-line no-console
-    console.log('event map link', eventMapLink);
-
     useEffect(() => {
         if (!rawAggregateType || multiStoreMode === MultiStoreMode.Event) {
             return;
