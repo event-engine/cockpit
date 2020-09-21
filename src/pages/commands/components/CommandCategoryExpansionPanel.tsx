@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import {Command} from '../../../api/types';
 import React from 'react';
-import MapIcon from "@material-ui/icons/Map";
+import MapIcon from '@material-ui/icons/Map';
 
 const useStyles = makeStyles(() => ({
     selectedCommand: {

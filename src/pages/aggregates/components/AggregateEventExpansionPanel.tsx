@@ -13,7 +13,7 @@ interface AggregateEventExpansionPanelProps {
 const useStyles = makeStyles(() => ({
     eventNameText: {
         flex: 1,
-    }
+    },
 }));
 
 const AggregateEventExpansionPanel = (props: AggregateEventExpansionPanelProps) => {

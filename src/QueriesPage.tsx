@@ -14,7 +14,7 @@ import {useSelector} from 'react-redux';
 import {makeQueryListSelector} from './selector/systemSchemaSelector';
 import {Query} from './api/types';
 import QueryPayloadForm from './pages/queries/QueryPayloadForm';
-import MapIcon from "@material-ui/icons/Map";
+import MapIcon from '@material-ui/icons/Map';
 
 const useStyles = makeStyles(() => ({
     selectedQuery: {
