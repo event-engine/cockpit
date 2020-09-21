@@ -1,13 +1,15 @@
 import {
     ExpansionPanel,
     ExpansionPanelDetails,
-    ExpansionPanelSummary,
+    ExpansionPanelSummary, IconButton,
     List,
     ListItem,
-    ListItemText, makeStyles,
+    ListItemSecondaryAction, ListItemText,
+    makeStyles,
 } from '@material-ui/core';
 import {Command} from '../../../api/types';
 import React from 'react';
+import MapIcon from '@material-ui/icons/Map';
 
 const useStyles = makeStyles(() => ({
     selectedCommand: {
@@ -41,8 +43,16 @@ const CommandCategoryExpansionPanel = (props: CommandCategoryExpansionPanelProps
                             button={true}
                             className={command.commandName === props.selectedCommand ? classes.selectedCommand : ''}
                             onClick={() => props.onChangeSelectedCommand(command.commandName)}
-                            children={<ListItemText primary={command.commandName} />}
-                        />
+                        >
+                            <ListItemText primary={command.commandName} />
+                            {command.eventMapLink && <ListItemSecondaryAction>
+                                <a href={command.eventMapLink} target="_blank" rel="noopener noreferrer" title="show on event map">
+                                    <IconButton>
+                                        <MapIcon />
+                                    </IconButton>
+                                </a>
+                            </ListItemSecondaryAction>}
+                        </ListItem>
                     ))}
                 </List>
             </ExpansionPanelDetails>

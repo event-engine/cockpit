@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-    makeAggregateCreationCommandsSelector,
+    makeAggregateCreationCommandsSelector, makeAggregateEventMapLinkSelector,
     makeAggregateIdentifierSelector, makeAggregateMultiStoreModeSelector, makeRawAggregateTypeSelector,
 } from '../../../selector/systemSchemaSelector';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -21,6 +21,7 @@ import CommandButton from '../../common/components/CommandButton';
 import {fetchAggregateList} from '../../../action/aggregateDataCommands';
 import {defaultEeUiConfig} from '../../../defaultEeUIConfig';
 import CommandDialog from '../../common/components/CommandDialog';
+import MapIcon from '@material-ui/icons/Map';
 
 interface AggregateListProps {
     aggregateType: string;
@@ -33,6 +34,7 @@ const AggregateListWidget = (props: AggregateListProps) => {
     const aggregateIdentifier = useSelector(makeAggregateIdentifierSelector(props.aggregateType));
     const rawAggregateType = useSelector(makeRawAggregateTypeSelector(props.aggregateType));
     const multiStoreMode = useSelector(makeAggregateMultiStoreModeSelector(props.aggregateType));
+    const eventMapLink = useSelector(makeAggregateEventMapLinkSelector(props.aggregateType));
     const [shownAggregateCount, setShownAggregateCount] = useState<number>(defaultEeUiConfig.env.aggregateList.batchSize);
     const [commandDialogOpen, setCommandDialogOpen] = useState<boolean>(false);
     const [commandDialogCommand, setCommandDialogCommand] = useState<Command|null>(null);
@@ -57,7 +59,15 @@ const AggregateListWidget = (props: AggregateListProps) => {
 
     return (
         <Card>
-            <CardHeader title={'Aggregates'} />
+            <CardHeader title={`${rawAggregateType} List`}
+                        action={eventMapLink &&
+                            <a href={eventMapLink} target="_blank" rel="noopener noreferrer" title="show on event map">
+                                <IconButton>
+                                    <MapIcon />
+                                </IconButton>
+                            </a>
+                        }
+            />
             <Divider />
             <CardContent>
                 {aggregateList && aggregateIdentifier && aggregateList

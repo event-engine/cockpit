@@ -25,11 +25,13 @@ export interface Aggregate {
     commands: Command[];
     events: Event[];
     relations?: AggregateRelations;
+    eventMapLink?: string;
 }
 
 export interface Query {
     queryName: string;
     schema: JSONSchema;
+    eventMapLink?: string;
 }
 
 export interface Command {
@@ -37,11 +39,13 @@ export interface Command {
     aggregateType: string|null;
     createAggregate: boolean;
     schema: JSONSchema;
+    eventMapLink?: string;
 }
 
 export interface Event {
     eventName: string;
     schema: JSONSchema;
+    eventMapLink?: string;
 }
 
 export interface PersistedAggregateState {

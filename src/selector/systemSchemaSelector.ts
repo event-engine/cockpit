@@ -87,6 +87,18 @@ export const makeAggregateMultiStoreModeSelector = (aggregateType: string) => {
     });
 };
 
+export const makeAggregateEventMapLinkSelector = (aggregateType: string) => {
+    return createSelector([systemSchemaSelector], rawSchema => {
+        if (!rawSchema) {
+            return null;
+        }
+
+        return rawSchema.aggregates.find(
+            aggregate => normalizeAggregateType(aggregate.aggregateType) === normalizeAggregateType(aggregateType),
+        )!.eventMapLink;
+    });
+};
+
 export const makeRawAggregateTypeSelector = (aggregateType: string) => {
     return createSelector([systemSchemaSelector], rawSchema => {
         if (!rawSchema) {
