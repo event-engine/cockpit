@@ -6,7 +6,7 @@ import AggregateStateView from './pages/aggregateDetails/components/AggregateSta
 import AggregateCommandsWidget from './pages/aggregateDetails/components/AggregateCommandsWidget';
 import AggregateSearchBar from './pages/common/components/AggregateSearchBar';
 import {useDispatch, useSelector} from 'react-redux';
-import {makeAggregateIdentifierSelector} from './selector/systemSchemaSelector';
+import {makeAggregateIdentifierSelector, makeAggregateTypeListSelector} from './selector/systemSchemaSelector';
 import {enqueueErrorSnackbar} from './action/snackbarCommands';
 
 interface AggregateRouteParams {
@@ -25,10 +25,11 @@ const AggregateDetailsPage = (props: AggregateDetailsPageProps) => {
     const aggregateId = props.match.params.aggregateId;
     const version = props.match.params.version || undefined;
     const aggregateIdentifier = useSelector(makeAggregateIdentifierSelector(props.match.params.aggregateType));
+    const aggregateTypes = useSelector(makeAggregateTypeListSelector());
     const [commandsExecuted, setCommandsExecuted] = useState(0);
     const dispatch = useDispatch();
 
-    if(!aggregateIdentifier) {
+    if(aggregateTypes && !aggregateIdentifier) {
         dispatch(enqueueErrorSnackbar({
             message: `Missing aggregate information for type: ${aggregateType}!`,
         }));
