@@ -22,6 +22,7 @@ import {fetchAggregateList} from '../../../action/aggregateDataCommands';
 import {defaultEeUiConfig} from '../../../defaultEeUIConfig';
 import CommandDialog from '../../common/components/CommandDialog';
 import MapIcon from '@material-ui/icons/Map';
+import {enqueueErrorSnackbar} from '../../../action/snackbarCommands';
 
 interface AggregateListProps {
     aggregateType: string;
@@ -51,6 +52,13 @@ const AggregateListWidget = (props: AggregateListProps) => {
         dispatch(fetchAggregateList({ rawAggregateType }));
         /* eslint-disable-next-line react-hooks/exhaustive-deps */
     }, [props.aggregateType, rawAggregateType, commandDialogOpen]);
+
+    if(!aggregateIdentifier) {
+        dispatch(enqueueErrorSnackbar({
+            message: `Missing aggregate information for type: ${rawAggregateType}!`,
+        }));
+        return null;
+    }
 
     const openDialogForCommand = (command: Command) => {
         setCommandDialogCommand(command);

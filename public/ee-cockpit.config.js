@@ -64,7 +64,7 @@
             mode: 'cors',
             cache: 'no-cache',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: `grant_type=password&client_id=${clientId}&username=${username}&password=${password}`
         });
@@ -101,6 +101,6 @@
             preRequestHook: undefined,
             /* This hook is called after each successful request to the event engine backend */
             postRequestHook: undefined,
-        }
+        },
     };
 })(window);
