@@ -30,8 +30,10 @@ interface CommandCategoryExpansionPanelProps {
 const CommandCategoryExpansionPanel = (props: CommandCategoryExpansionPanelProps) => {
     const classes = useStyles();
 
+    const containsSelectedCommand = props.commandList.find(cmd => cmd.commandName === props.selectedCommand);
+
     return (
-        <ExpansionPanel>
+        <ExpansionPanel defaultExpanded={!!containsSelectedCommand}>
             <ExpansionPanelSummary>
                 {props.category}
             </ExpansionPanelSummary>
