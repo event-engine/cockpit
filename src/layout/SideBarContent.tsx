@@ -6,10 +6,11 @@ import {NavLink} from 'react-router-dom';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LocationSearchingIcon from '@material-ui/icons/LocationSearching';
 import MemoryIcon from '@material-ui/icons/Memory';
-import BuildIcon from '@material-ui/icons/Build';
+import BuildIcon from '@material-ui/icons/BuildOutlined';
+import MailIcon from '@material-ui/icons/MailOutline';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {commandsPath, dashboardPath, makeAggregateUrl, queriesPath} from '../routes';
+import {commandsPath, dashboardPath, eventsPath, makeAggregateUrl, queriesPath} from '../routes';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -89,6 +90,20 @@ const SideBarContent = () => {
                         <>
                             <div className={classes.icon}><BuildIcon /></div>
                             Commands
+                        </>
+                    )}
+                />
+            </ListItem>
+            <ListItem className={classes.item} disableGutters={true}>
+                <Button
+                    activeClassName={classes.active}
+                    className={classes.button}
+                    component={NavLink}
+                    to={eventsPath}
+                    children={(
+                        <>
+                            <div className={classes.icon}><MailIcon /></div>
+                            Events
                         </>
                     )}
                 />

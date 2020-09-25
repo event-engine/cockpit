@@ -32,7 +32,7 @@ interface MainLayoutProps {
 const MainLayout = (props: MainLayoutProps) => {
 
     const classes = useStyles();
-    const [sideBarOpen, setSideBarOpen] = useState<boolean>(true);
+    const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
 
     const pushContent = useMediaQuery(muiTheme.breakpoints.up('lg'), {
         defaultMatches: true,

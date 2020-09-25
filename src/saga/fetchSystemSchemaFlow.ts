@@ -1,13 +1,17 @@
-import { call, fork, put, take } from 'redux-saga/effects';
+import { call, delay, fork, put, take } from 'redux-saga/effects';
 import {fetchSystemSchema} from '../action/systemSchemaCommands';
 import {AggregateRelations, SystemSchema} from '../api/types';
 import {systemSchemaFetched} from '../action/systemSchemaEvents';
 import {getSystemSchema} from '../api';
-import {onEnqueueErrorSnackbar} from './enqueueSnackbarFlow';
+import {onEnqueueErrorSnackbar, onEnqueueSuccessSnackbar, onEnqueueWarningSnackbar} from './enqueueSnackbarFlow';
 import {eeUiConfig, updateEeUiConfigEnv} from '../config';
 import * as _ from 'lodash';
 
-export const onFetchSystemSchema = function*() {
+export const onFetchSystemSchema = function*(retries?: number): any {
+    if(!retries) {
+        retries = 0;
+    }
+
     try {
         const systemSchema: SystemSchema = yield call(getSystemSchema);
         yield put(systemSchemaFetched({ systemSchema }));
@@ -22,8 +26,25 @@ export const onFetchSystemSchema = function*() {
         }
         updateEeUiConfigEnv({aggregateConfig});
 
+        if(retries > 0) {
+            yield call(onEnqueueSuccessSnackbar, 'Connection is back. Successfully refreshed system schema', 3000);
+        }
     } catch (e) {
-        yield call(onEnqueueErrorSnackbar, 'Loading the system schema failed');
+
+
+        // Warning Snackbar is shown for 6 sec, retries are performed for ~5secs
+        if(retries < 10) {
+            if(retries === 1) {
+                // First retry without warning, if it fails warning is shown and a few more retries are performed
+                yield call(onEnqueueWarningSnackbar, 'Loading the system schema failed. Retrying ...');
+            }
+
+            retries++;
+            yield delay(500 * retries);
+            yield call(onFetchSystemSchema, retries);
+        } else {
+            yield call(onEnqueueErrorSnackbar, 'Loading the system schema failed');
+        }
     }
 };
 

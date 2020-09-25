@@ -158,3 +158,9 @@ export const makeCommandListSelector = () => {
         return rawSchema ? rawSchema.commands : [];
     });
 };
+
+export const makeEventListSelector = () => {
+    return createSelector([systemSchemaSelector], rawSchema => {
+        return rawSchema ? rawSchema.events : [];
+    });
+};
