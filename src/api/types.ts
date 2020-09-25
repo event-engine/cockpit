@@ -3,6 +3,7 @@ export interface SystemSchema {
     aggregates: Aggregate[];
     queries: Query[];
     commands: Command[];
+    events?: Event[];
     definitions: Record<string, any>;
 }
 
@@ -45,6 +46,7 @@ export interface Command {
 export interface Event {
     eventName: string;
     schema: JSONSchema;
+    aggregateType?: string;
     eventMapLink?: string;
 }
 

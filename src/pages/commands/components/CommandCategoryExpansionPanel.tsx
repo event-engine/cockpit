@@ -8,10 +8,17 @@ import {
     makeStyles,
 } from '@material-ui/core';
 import {Command} from '../../../api/types';
-import React from 'react';
+import React, {SyntheticEvent} from 'react';
 import MapIcon from '@material-ui/icons/Map';
 
 const useStyles = makeStyles(() => ({
+    commandText: {
+        wordWrap: 'break-word',
+    },
+    commandTextWithMapLink: {
+        wordWrap: 'break-word',
+        paddingRight: '50px',
+    },
     selectedCommand: {
         backgroundColor: 'rgba(0, 0, 0, 0.1) !important',
     },
@@ -32,6 +39,12 @@ const CommandCategoryExpansionPanel = (props: CommandCategoryExpansionPanelProps
 
     const containsSelectedCommand = props.commandList.find(cmd => cmd.commandName === props.selectedCommand);
 
+    const handleEventMapClick = (e: SyntheticEvent, command: Command) => {
+        e.preventDefault();
+
+        window.open(command.eventMapLink, 'IIOEventMap');
+    };
+
     return (
         <ExpansionPanel defaultExpanded={!!containsSelectedCommand}>
             <ExpansionPanelSummary>
@@ -46,13 +59,13 @@ const CommandCategoryExpansionPanel = (props: CommandCategoryExpansionPanelProps
                             className={command.commandName === props.selectedCommand ? classes.selectedCommand : ''}
                             onClick={() => props.onChangeSelectedCommand(command.commandName)}
                         >
-                            <ListItemText primary={command.commandName} />
+                            <ListItemText
+                                primary={command.commandName}
+                                className={(command.eventMapLink? classes.commandTextWithMapLink : classes.commandText)} />
                             {command.eventMapLink && <ListItemSecondaryAction>
-                                <a href={command.eventMapLink} target="_blank" rel="noopener noreferrer" title="show on event map">
-                                    <IconButton>
-                                        <MapIcon />
-                                    </IconButton>
-                                </a>
+                                <IconButton onClick={e => handleEventMapClick(e, command)} title="show on event map">
+                                    <MapIcon />
+                                </IconButton>
                             </ListItemSecondaryAction>}
                         </ListItem>
                     ))}
