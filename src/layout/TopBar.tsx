@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     AppBar,
     Hidden,
@@ -51,6 +51,14 @@ const TopBar = (props: TopBarProps) => {
     const dispatch = useDispatch();
     const theme = useSelector(makeThemeSelector());
     const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+        window.addEventListener('focus', handleRefresh);
+
+        return () => {
+            window.removeEventListener('focus', handleRefresh);
+        };
+    });
 
     const handleRefresh = () => {
         dispatch(fetchSystemSchema({}));

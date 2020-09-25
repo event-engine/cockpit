@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {SyntheticEvent, useState} from 'react';
 import {
     Card,
     CardContent,
@@ -25,6 +25,13 @@ interface QueriesPageParams {
 interface QueriesPageProps extends RouteComponentProps<QueriesPageParams> {}
 
 const useStyles = makeStyles(() => ({
+    queryText: {
+        wordWrap: 'break-word',
+    },
+    queryTextWithMapLink: {
+        wordWrap: 'break-word',
+        paddingRight: '50px',
+    },
     selectedQuery: {
         backgroundColor: 'rgba(0, 0, 0, 0.1) !important',
     },
@@ -41,6 +48,12 @@ const QueriesPage = (props: QueriesPageProps) => {
     const handleChangeSelectedQuery = (queryName: string) => {
         setSelectedQuery(queryName);
         setShouldRedirect(true);
+    };
+
+    const handleEventMapClick = (e: SyntheticEvent, query: Query) => {
+        e.preventDefault();
+
+        window.open(query.eventMapLink, 'IIOEventMap');
     };
 
     if(shouldRedirect && props.match.params.query === selectedQuery) {
@@ -64,13 +77,13 @@ const QueriesPage = (props: QueriesPageProps) => {
                                         className={query.queryName === selectedQuery ? classes.selectedQuery : ''}
                                         onClick={() => handleChangeSelectedQuery(query.queryName)}
                                     >
-                                        <ListItemText primary={query.queryName} />
+                                        <ListItemText
+                                            primary={query.queryName}
+                                            className={(query.eventMapLink? classes.queryTextWithMapLink : classes.queryText)} />
                                         {query.eventMapLink && <ListItemSecondaryAction>
-                                            <a href={query.eventMapLink} target="_blank" rel="noopener noreferrer" title="show on event map">
-                                                <IconButton>
-                                                    <MapIcon />
-                                                </IconButton>
-                                            </a>
+                                            <IconButton onClick={e => handleEventMapClick(e, query)} title="show on event map">
+                                                <MapIcon />
+                                            </IconButton>
                                         </ListItemSecondaryAction>}
                                     </ListItem>
                                 ))}

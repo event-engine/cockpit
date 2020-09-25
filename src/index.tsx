@@ -11,7 +11,7 @@ import {
     aggregateDetailsPath,
     aggregatePath,
     commandsPath,
-    dashboardPath, executeCommandPath,
+    dashboardPath, eventsPath, executeCommandPath, executeEventPath,
     executeQueryPath,
     queriesPath,
 } from './routes';
@@ -23,6 +23,7 @@ import { persistor, store } from './store';
 import QueriesPage from './QueriesPage';
 import ThemeProvider from './material-ui/ThemeProvider';
 import CommandsPage from './CommandsPage';
+import EventsPage from './EventsPage';
 
 const history = createHashHistory();
 
@@ -33,6 +34,8 @@ const Main = () => (
         <Route path={executeQueryPath} exact={true} component={QueriesPage} />
         <Route path={commandsPath} exact={true} component={CommandsPage} />
         <Route path={executeCommandPath} exact={true} component={CommandsPage} />
+        <Route path={eventsPath} exact={true} component={EventsPage} />
+        <Route path={executeEventPath} exact={true} component={EventsPage} />
         <Route path={aggregatePath} exact={true} component={AggregatesPage} />
         <Route path={aggregateDetailsPath} exact={true} component={AggregateDetailsPage} />
         <Redirect from={'/'} to={dashboardPath} />
