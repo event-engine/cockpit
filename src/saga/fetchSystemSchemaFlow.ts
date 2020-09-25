@@ -40,7 +40,7 @@ export const onFetchSystemSchema = function*(retries?: number): any {
             }
 
             retries++;
-            yield delay(500 * retries);
+            yield delay(500);
             yield call(onFetchSystemSchema, retries);
         } else {
             yield call(onEnqueueErrorSnackbar, 'Loading the system schema failed');
