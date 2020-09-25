@@ -58,7 +58,7 @@ const TopBar = (props: TopBarProps) => {
         return () => {
             window.removeEventListener('focus', handleRefresh);
         };
-    }, []);
+    });
 
     const handleRefresh = () => {
         dispatch(fetchSystemSchema({}));
