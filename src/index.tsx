@@ -7,7 +7,14 @@ import {Provider} from 'react-redux';
 import {Redirect, Route, Router, Switch} from 'react-router';
 import DashboardPage from './DashboardPage';
 import AggregatesPage from './AggregatesPage';
-import {aggregateDetailsPath, aggregatePath, commandsPath, dashboardPath, queriesPath} from './routes';
+import {
+    aggregateDetailsPath,
+    aggregatePath,
+    commandsPath,
+    dashboardPath, executeCommandPath,
+    executeQueryPath,
+    queriesPath,
+} from './routes';
 import MainLayout from './layout/MainLayout';
 import AggregateDetailsPage from './AggregateDetailsPage';
 import SnackbarStack from './SnackbarStack';
@@ -23,7 +30,9 @@ const Main = () => (
     <Switch>
         <Route path={dashboardPath} exact={true} component={DashboardPage} />
         <Route path={queriesPath} exact={true} component={QueriesPage} />
+        <Route path={executeQueryPath} exact={true} component={QueriesPage} />
         <Route path={commandsPath} exact={true} component={CommandsPage} />
+        <Route path={executeCommandPath} exact={true} component={CommandsPage} />
         <Route path={aggregatePath} exact={true} component={AggregatesPage} />
         <Route path={aggregateDetailsPath} exact={true} component={AggregateDetailsPage} />
         <Redirect from={'/'} to={dashboardPath} />

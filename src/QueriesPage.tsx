@@ -15,6 +15,14 @@ import {makeQueryListSelector} from './selector/systemSchemaSelector';
 import {Query} from './api/types';
 import QueryPayloadForm from './pages/queries/QueryPayloadForm';
 import MapIcon from '@material-ui/icons/Map';
+import {Redirect, RouteComponentProps, withRouter} from 'react-router';
+import * as Route from './routes';
+
+interface QueriesPageParams {
+    query?: string;
+}
+
+interface QueriesPageProps extends RouteComponentProps<QueriesPageParams> {}
 
 const useStyles = makeStyles(() => ({
     selectedQuery: {
@@ -22,47 +30,62 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const QueriesPage = () => {
+const QueriesPage = (props: QueriesPageProps) => {
     const classes = useStyles();
     const queries = useSelector(makeQueryListSelector());
-    const [selectedQuery, setSelectedQuery] = useState<number|undefined>(undefined);
+    const [selectedQuery, setSelectedQuery] = useState<string|undefined>(props.match.params.query);
+    const [shouldRedirect, setShouldRedirect] = useState(false);
+
+    const selectedQueryObject = queries.find(query => query.queryName === selectedQuery);
+
+    const handleChangeSelectedQuery = (queryName: string) => {
+        setSelectedQuery(queryName);
+        setShouldRedirect(true);
+    };
+
+    if(shouldRedirect && props.match.params.query === selectedQuery) {
+        setShouldRedirect(false);
+    }
 
     return (
-        <Grid container={true} spacing={3}>
-            <Grid item={true} md={3}>
-                <Card>
-                    <CardHeader title={'Queries'} />
-                    <Divider />
-                    <CardContent>
-                        <List>
-                            {queries.map((query: Query, index: number) => (
-                                <ListItem
-                                    key={query.queryName}
-                                    button={true}
-                                    className={index === selectedQuery ? classes.selectedQuery : ''}
-                                    onClick={() => setSelectedQuery(index)}
-                                >
-                                    <ListItemText primary={query.queryName} />
-                                    {query.eventMapLink && <ListItemSecondaryAction>
-                                        <a href={query.eventMapLink} target="_blank" rel="noopener noreferrer" title="show on event map">
-                                            <IconButton>
-                                                <MapIcon />
-                                            </IconButton>
-                                        </a>
-                                    </ListItemSecondaryAction>}
-                                </ListItem>
-                            ))}
-                        </List>
-                    </CardContent>
-                </Card>
+        <>
+            {shouldRedirect && <Redirect to={Route.makeExecuteQueryPath(selectedQuery as string)} />}
+            <Grid container={true} spacing={3}>
+                <Grid item={true} md={3}>
+                    <Card>
+                        <CardHeader title={'Queries'} />
+                        <Divider />
+                        <CardContent>
+                            <List>
+                                {queries.map((query: Query) => (
+                                    <ListItem
+                                        key={query.queryName}
+                                        button={true}
+                                        className={query.queryName === selectedQuery ? classes.selectedQuery : ''}
+                                        onClick={() => handleChangeSelectedQuery(query.queryName)}
+                                    >
+                                        <ListItemText primary={query.queryName} />
+                                        {query.eventMapLink && <ListItemSecondaryAction>
+                                            <a href={query.eventMapLink} target="_blank" rel="noopener noreferrer" title="show on event map">
+                                                <IconButton>
+                                                    <MapIcon />
+                                                </IconButton>
+                                            </a>
+                                        </ListItemSecondaryAction>}
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item={true} md={9}>
+                    {selectedQueryObject !== undefined && (
+                        <QueryPayloadForm query={selectedQueryObject} />
+                    )}
+                </Grid>
             </Grid>
-            <Grid item={true} md={9}>
-                {selectedQuery !== undefined && (
-                    <QueryPayloadForm query={queries[selectedQuery]} />
-                )}
-            </Grid>
-        </Grid>
+        </>
     );
 };
 
-export default QueriesPage;
+export default withRouter(QueriesPage);
