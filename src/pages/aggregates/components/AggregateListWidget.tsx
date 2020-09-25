@@ -9,8 +9,12 @@ import {
 } from '@material-ui/core';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-    makeAggregateCreationCommandsSelector, makeAggregateEventMapLinkSelector,
-    makeAggregateIdentifierSelector, makeAggregateMultiStoreModeSelector, makeRawAggregateTypeSelector,
+    makeAggregateCreationCommandsSelector,
+    makeAggregateEventMapLinkSelector,
+    makeAggregateIdentifierSelector,
+    makeAggregateMultiStoreModeSelector,
+    makeAggregateTypeListSelector,
+    makeRawAggregateTypeSelector,
 } from '../../../selector/systemSchemaSelector';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {makeAggregateListSelector} from '../../../selector/aggregateDataSelector';
@@ -22,6 +26,7 @@ import {fetchAggregateList} from '../../../action/aggregateDataCommands';
 import {defaultEeUiConfig} from '../../../defaultEeUIConfig';
 import CommandDialog from '../../common/components/CommandDialog';
 import MapIcon from '@material-ui/icons/Map';
+import {enqueueErrorSnackbar} from '../../../action/snackbarCommands';
 
 interface AggregateListProps {
     aggregateType: string;
@@ -29,6 +34,7 @@ interface AggregateListProps {
 
 const AggregateListWidget = (props: AggregateListProps) => {
     const dispatch = useDispatch();
+    const aggregateTypes = useSelector(makeAggregateTypeListSelector());
     const commands = useSelector(makeAggregateCreationCommandsSelector(props.aggregateType));
     const aggregateList = useSelector(makeAggregateListSelector(props.aggregateType));
     const aggregateIdentifier = useSelector(makeAggregateIdentifierSelector(props.aggregateType));
@@ -51,6 +57,13 @@ const AggregateListWidget = (props: AggregateListProps) => {
         dispatch(fetchAggregateList({ rawAggregateType }));
         /* eslint-disable-next-line react-hooks/exhaustive-deps */
     }, [props.aggregateType, rawAggregateType, commandDialogOpen]);
+
+    if(aggregateTypes && !aggregateIdentifier) {
+        dispatch(enqueueErrorSnackbar({
+            message: `Missing aggregate information for type: ${rawAggregateType}!`,
+        }));
+        return null;
+    }
 
     const openDialogForCommand = (command: Command) => {
         setCommandDialogCommand(command);

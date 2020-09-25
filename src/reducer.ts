@@ -29,6 +29,11 @@ import {
     initialState as commandInitialState,
     reducer as commandReducer,
 } from './reducer/commandReducer';
+import {
+    EventState,
+    initialState as eventInitialState,
+    reducer as eventReducer,
+} from './reducer/eventReducer';
 import storage from 'redux-persist/lib/storage';
 import {persistReducer} from 'redux-persist';
 
@@ -51,6 +56,7 @@ export interface ReduxState {
     settings: SettingsState;
     query: QueryState;
     command: CommandState;
+    event: EventState;
 }
 
 export const initialState: ReduxState = {
@@ -60,6 +66,7 @@ export const initialState: ReduxState = {
     settings: settingsInitialState,
     query: queryInitialState,
     command: commandInitialState,
+    event: eventInitialState,
 };
 
 const rootReducer = combineReducers({
@@ -69,6 +76,7 @@ const rootReducer = combineReducers({
     settings: persistReducer(settingsPersistConfig, settingsReducer),
     query: queryReducer,
     command: commandReducer,
+    event: eventReducer,
 });
 
 export const reducer = persistReducer(

@@ -25,9 +25,15 @@ export const makeAggregateEventsSelector = (aggregateType: string) => {
             return null;
         }
 
-        return rawSchema.aggregates.find(
+        const aggregate = rawSchema.aggregates.find(
             aggregate => normalizeAggregateType(aggregate.aggregateType) === normalizeAggregateType(aggregateType),
-        )!.events;
+        );
+
+        if(!aggregate) {
+            return null;
+        }
+
+        return aggregate.events;
     });
 };
 
@@ -37,9 +43,15 @@ export const makeAggregateCommandsSelector = (aggregateType: string) => {
             return null;
         }
 
-        return rawSchema.aggregates.find(
+        const aggregate = rawSchema.aggregates.find(
             aggregate => normalizeAggregateType(aggregate.aggregateType) === normalizeAggregateType(aggregateType),
-        )!.commands;
+        );
+
+        if(!aggregate) {
+            return null;
+        }
+
+        return aggregate.commands;
     });
 };
 
@@ -69,9 +81,15 @@ export const makeAggregateIdentifierSelector = (aggregateType: string) => {
             return null;
         }
 
-        return rawSchema.aggregates.find(
+        const aggregate = rawSchema.aggregates.find(
             aggregate => normalizeAggregateType(aggregate.aggregateType) === normalizeAggregateType(aggregateType),
-        )!.aggregateIdentifier;
+        );
+
+        if(!aggregate) {
+            return null;
+        }
+
+        return aggregate.aggregateIdentifier;
     });
 };
 
@@ -81,9 +99,15 @@ export const makeAggregateMultiStoreModeSelector = (aggregateType: string) => {
             return null;
         }
 
-        return rawSchema.aggregates.find(
+        const aggregate = rawSchema.aggregates.find(
             aggregate => normalizeAggregateType(aggregate.aggregateType) === normalizeAggregateType(aggregateType),
-        )!.multiStoreMode;
+        );
+
+        if(!aggregate) {
+            return null;
+        }
+
+        return aggregate.multiStoreMode;
     });
 };
 
@@ -93,9 +117,15 @@ export const makeAggregateEventMapLinkSelector = (aggregateType: string) => {
             return null;
         }
 
-        return rawSchema.aggregates.find(
+        const aggregate = rawSchema.aggregates.find(
             aggregate => normalizeAggregateType(aggregate.aggregateType) === normalizeAggregateType(aggregateType),
-        )!.eventMapLink;
+        );
+
+        if(!aggregate) {
+            return null;
+        }
+
+        return aggregate.eventMapLink;
     });
 };
 
@@ -105,9 +135,15 @@ export const makeRawAggregateTypeSelector = (aggregateType: string) => {
             return null;
         }
 
-        return rawSchema.aggregates.find(
+        const aggregate = rawSchema.aggregates.find(
             aggregate => normalizeAggregateType(aggregate.aggregateType) === normalizeAggregateType(aggregateType),
-        )!.aggregateType;
+        );
+
+        if(!aggregate) {
+            return null;
+        }
+
+        return aggregate.aggregateType;
     });
 };
 

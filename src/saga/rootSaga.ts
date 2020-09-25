@@ -9,6 +9,8 @@ import {executeQueryFlow} from './executeQueryFlow';
 import {executeCommandFlow} from './executeCommandFlow';
 import {clearQueryFlow} from './clearQueryFlow';
 import {clearCommandFlow} from './clearCommandFlow';
+import {executeEventFlow} from './executeEventFlow';
+import {clearEventFlow} from './clearEventFlow';
 
 /**
  * Prevents the root saga from terminating entirely due to some error in another saga
@@ -41,6 +43,8 @@ const rootSagas: any = [
     clearQueryFlow,
     executeCommandFlow,
     clearCommandFlow,
+    executeEventFlow,
+    clearEventFlow,
 ].map(makeRestartable);
 
 export default function* rootSaga() {

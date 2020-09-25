@@ -87,6 +87,17 @@ const executeCommand = async (commandName: string, payload: any): Promise<AxiosR
     });
 };
 
+const executeEvent = async (eventName: string, payload: any): Promise<AxiosResponse> => {
+    return await sendApiRequest({
+        url: `${eeUiConfig().env.messageBoxUrl}/${eventName}`,
+        method: 'post',
+        data: payload,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+};
+
 const executeQuery = async (queryName: string, payload: any): Promise<AxiosResponse> => {
     return await sendApiRequest({
         url: `${eeUiConfig().env.messageBoxUrl}/${queryName}`,
@@ -105,4 +116,5 @@ export const Api = {
     loadAggregateEvents,
     executeCommand,
     executeQuery,
+    executeEvent,
 };
