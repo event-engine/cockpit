@@ -49,7 +49,7 @@ const EventForm = (props: EventPayloadFormProps) => {
         const defaultEditorValue: Record<string, any> = convertJsonSchemaToEditorValue(props.event.schema, jsonSchemaDefinitions || {});
 
         const jsonCode = JSON.stringify(defaultEditorValue, null, 2);
-        const modelUri = monacoInstance.Uri.parse(`command_${props.event.eventName}.json`);
+        const modelUri = monacoInstance.Uri.parse(`event_${props.event.eventName}.json`);
         let model = monacoInstance.editor.getModel(modelUri);
 
         if (null === model) {
