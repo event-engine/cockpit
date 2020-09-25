@@ -3,7 +3,7 @@ export interface SystemSchema {
     aggregates: Aggregate[];
     queries: Query[];
     commands: Command[];
-    events: Event[];
+    events?: Event[];
     definitions: Record<string, any>;
 }
 

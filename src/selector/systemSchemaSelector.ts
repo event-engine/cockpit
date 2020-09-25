@@ -161,6 +161,6 @@ export const makeCommandListSelector = () => {
 
 export const makeEventListSelector = () => {
     return createSelector([systemSchemaSelector], rawSchema => {
-        return rawSchema ? rawSchema.events : [];
+        return rawSchema && rawSchema.events ? rawSchema.events : [];
     });
 };
